@@ -1,0 +1,12 @@
+@import "bootstrap";
+
+.footer {
+  //make-row()
+  font-size: 0.8em
+  
+  p {
+    //make-lg-column-offset(4)
+    //make-lg-column(4)
+    text-align: center
+  }
+}
