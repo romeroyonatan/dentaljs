@@ -20,7 +20,7 @@ log = (message, color, explanation) ->
 
 # Compiles app.coffee and src directory to the .app directory
 build = (callback) ->
-  options = ['-c','-b', '-o', '.app', '.']
+  options = ['-c','-b', '-o', '.app', 'src']
   cmd = which.sync 'coffee'
   coffee = spawn cmd, options
   coffee.stdout.pipe process.stdout
@@ -40,7 +40,7 @@ test = (callback) ->
     '--require'
     'should'
     '--require'
-    './server'
+    './bin/www'
   ]
   try
     cmd = which.sync 'mocha'
@@ -53,7 +53,7 @@ test = (callback) ->
     log 'Mocha is not installed - try npm install mocha -g', red
 
 task 'docs', 'Generate annotated source code with Docco', ->
-  files = wrench.readdirSyncRecursive(".")
+  files = wrench.readdirSyncRecursive("src")
   files = ("./#{file}" for file in files when /\.coffee$/.test file)
   log files
   try
@@ -78,7 +78,7 @@ task 'test', 'Run Mocha tests', ->
 
 task 'dev', 'start dev env', ->
   # watch_coffee
-  options = ['-c', '-b', '-w', '-o', '.app', '.']
+  options = ['-c', '-b', '-w', '-o', '.app', 'src']
   cmd = which.sync 'coffee'
   coffee = spawn cmd, options
   coffee.stdout.pipe process.stdout
@@ -99,7 +99,7 @@ task 'dev', 'start dev env', ->
 
 task 'debug', 'start debug env', ->
   # watch_coffee
-  options = ['-c', '-b', '-w', '-o', '.app', '.']
+  options = ['-c', '-b', '-w', '-o', '.app', 'src']
   cmd = which.sync 'coffee'
   coffee = spawn cmd, options
   coffee.stdout.pipe process.stdout
@@ -121,12 +121,3 @@ task 'debug', 'start debug env', ->
   chrome.stdout.pipe process.stdout
   chrome.stderr.pipe process.stderr
   log 'Debugging server', green
-
-option '-n', '--name [NAME]', 'name of model to `scaffold`'
-task 'scaffold', 'scaffold model/controller/test', (options) ->
-  if not options.name?
-    log "Please specify model name", red
-    process.exit(1)
-  log "Scaffolding `#{options.name}`", green
-  scaffold = require './scaffold'
-  scaffold options.name
