@@ -6,6 +6,9 @@ mongoose = require('mongoose')
 cookieParser = require('cookie-parser')
 bodyParser = require('body-parser')
 routes = require('./routes/index')
+connectAssets = require 'connect-assets'
+
+# Bootstrap models
 
 app = express()
 
@@ -20,7 +23,7 @@ config.setEnvironment env
 
 # db_config
 if env != 'production'
-  mongoose.connect 'mongodb://localhost/example'
+  mongoose.connect 'mongodb://localhost/dentaljs'
 else
   console.log('If you are running in production, you may want to modify the
                mongoose connect path')
@@ -35,7 +38,7 @@ app.use bodyParser.json()
 app.use bodyParser.urlencoded(extended: false)
 app.use cookieParser()
 app.use express.static(process.cwd() + '/public')
-app.use(require("connect-assets")())
+app.use(connectAssets())
 app.use '/', routes
 
 # catch 404 and forward to error handler

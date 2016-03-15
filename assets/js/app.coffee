@@ -1,9 +1,11 @@
 #= require directives
 #= require filters
+#= require services
 #= require patients/patients
 angular.module 'myApp', [
   'ngRoute',
-  'myApp.patients',
+  'personServices',
+  'dentaljs.patients',
 ]
 
 .config ['$routeProvider', ($routeProvider) ->
