@@ -7,10 +7,6 @@ router = express.Router()
 router.get '/', (req, res, next) ->
   res.render 'index', title: ''
 
-# Serve partials jade
-router.get '/partials/:view/:name', (req, res) ->
-   res.render "partials/#{req.params.view}/#{req.params.name}"
-
 # Call person routes
 router.use '/persons', person_routes
 

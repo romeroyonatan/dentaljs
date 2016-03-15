@@ -2,23 +2,23 @@ angular.module('dentaljs.patients', ['ngRoute'])
 
 .config ['$routeProvider', ($routeProvider) ->
   $routeProvider.when '/patients',
-    templateUrl: '/partials/patient/all'
+    templateUrl: '/assets/patients/all.jade'
     controller: 'PatientListCtrl'
   
   $routeProvider.when '/patients/create',
-    templateUrl: '/partials/patient/form'
+    templateUrl: '/assets/patients/form.jade'
     controller: 'PatientCreateCtrl'
 
   $routeProvider.when '/patients/:id/delete',
-    templateUrl: '/partials/patient/delete'
+    templateUrl: '/assets/patients/delete.jade'
     controller: 'PatientDeleteCtrl'
 
   $routeProvider.when '/patients/:id/update',
-    templateUrl: '/partials/patient/form'
+    templateUrl: '/assets/patients/form.jade'
     controller: 'PatientUpdateCtrl'
 
   $routeProvider.when '/patients/:id',
-    templateUrl: '/partials/patient/detail'
+    templateUrl: '/assets/patients/detail.jade'
     controller: 'PatientDetailCtrl'
 ]
 

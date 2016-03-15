@@ -38,7 +38,8 @@ app.use bodyParser.json()
 app.use bodyParser.urlencoded(extended: false)
 app.use cookieParser()
 app.use express.static(process.cwd() + '/public')
-app.use(connectAssets())
+app.use connectAssets()
+
 app.use '/', routes
 
 # catch 404 and forward to error handler
