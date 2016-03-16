@@ -1,12 +1,47 @@
-h1 {{ patient.first_name }} {{ patient.last_name }}
+h1 Details of {{ patient.first_name }} {{ patient.last_name }}
 
 dl
-  dt ID
-  dd {{ patient._id }}
   dt Name
   dd {{ patient.first_name }} {{ patient.last_name }}
   dt Phone
   dd {{ patient.phone }}
+
+h2 Accounting summary
+
+form(novalidate name="form")
+  table.table.table-hover
+    thead
+      tr
+        th Date
+        th Description
+        th Amount
+      tr.active
+        td Right now
+        td
+           input.form-control(
+             ng-model="accounting.description" name="description" 
+             placeholder="Medical check" required
+           )
+        td
+          input.form-control(
+            ng-model="accounting.amount" name="amount" type="number"
+            placeholder="$ 100" required
+          )
+        td
+          button.btn(ng-click="new_account()" ng-disabled="!form.$valid") Save
+    tbody
+      tr(ng-repeat="account in accounting|orderBy:'-date'|limitTo:5")
+        td {{ account.date|date:'short' }}
+        td {{ account.description }}
+        td {{ account.amount|currency }}
+        td
+          button.btn.btn-success(ng-click="payed(account)") Payed
+          button.btn.btn-danger(ng-click="invalidate(account)") Invalidate
+    tfoot
+      tr.active(ng-class="{'danger': total < 0, 'success': total > 0}")
+        td(colspan=2): strong Total
+        td {{ total|currency }}
+        td
 
 a.btn.btn-default(href="#/patients")
     i.fa.fa-arrow-left  Back

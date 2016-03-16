@@ -13,7 +13,7 @@ angular.module('dentaljs.patient_update', ['ngRoute'])
     # Save button
       $scope.save = () ->
         $scope.patient.$update ->
-          $location.path "/patients"
+          $location.path "/patients/#{$scope.patient._id}"
 
     # Cancel button
     $scope.cancel = () ->

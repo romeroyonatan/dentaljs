@@ -7,6 +7,41 @@ angular.module('dentaljs.patient_detail', ['ngRoute'])
 ]
 
 .controller 'PatientDetailCtrl', ["$scope", "$routeParams", "Person",
-  ($scope, $routeParams, Person) ->
-    $scope.patient = Person.get id: $routeParams.id
+  "Accounting", ($scope, $routeParams, Person, Accounting) ->
+    
+    id = $routeParams.id
+    getAccounting = ->
+      $scope.accounting = Accounting.query person: id, ->
+        $scope.total = 0
+        $scope.total += a.amount for a in $scope.accounting
+
+    $scope.patient = Person.get id: id
+    getAccounting()
+
+    $scope.new_account = ->
+      accounting = new Accounting $scope.accounting
+      accounting.person = id
+      accounting.date = new Date
+      accounting.$save()
+      getAccounting()
+
+    $scope.invalidate = (account) ->
+      accounting = new Accounting
+        person: id
+        date: new Date
+        description: "Invalidate #{account.description} from #{account.date}"
+        amount: -1 * account.amount
+      accounting.$save()
+      getAccounting()
+
+    $scope.payed = (account) ->
+      accounting = new Accounting
+        person: id
+        date: new Date
+        description: "Pay #{account.description} from #{account.date}"
+        amount: -1 * account.amount
+      accounting.$save()
+      getAccounting()
+
 ]
+

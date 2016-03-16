@@ -38,7 +38,7 @@ app.use bodyParser.json()
 app.use bodyParser.urlencoded(extended: false)
 app.use cookieParser()
 app.use express.static(process.cwd() + '/public')
-app.use connectAssets()
+app.use connectAssets(compress:on)
 
 app.use '/', routes
 

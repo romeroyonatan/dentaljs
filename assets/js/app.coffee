@@ -10,7 +10,7 @@
 
 angular.module 'dentaljs', [
   'ngRoute',
-  'personServices',
+  'dentaljs.services',
   'dentaljs.patient_list',
   'dentaljs.patient_create',
   'dentaljs.patient_delete',
