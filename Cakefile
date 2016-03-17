@@ -30,27 +30,23 @@ build = (callback) ->
 # mocha test
 test = (callback) ->
   options = [
-    '--globals'
-    'hasCert,res'
-    '--reporter'
-    'spec'
-    '--compilers'
-    'coffee:coffee-script/register'
-    '--colors'
-    '--require'
-    'should'
-    '--require'
-    './bin/www'
+    'start'
+    'karma.conf.js'
+    '--single-run'
   ]
   try
-    cmd = which.sync 'mocha'
+    cmd = 'node_modules/karma/bin/karma'
     spec = spawn cmd, options
     spec.stdout.pipe process.stdout
     spec.stderr.pipe process.stderr
-    spec.on 'exit', (status) -> callback?() if status is 0
+    spec.on 'exit', (status) ->
+      if status is 0
+        callback?()
+      else
+        process.exit status
   catch err
     log err.message, red
-    log 'Mocha is not installed - try npm install mocha -g', red
+    log 'Karma is not installed - try npm install', red
 
 task 'docs', 'Generate annotated source code with Docco', ->
   files = wrench.readdirSyncRecursive("src")
