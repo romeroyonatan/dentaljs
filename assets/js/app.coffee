@@ -7,7 +7,6 @@
 #= require patient_detail/patient_detail
 #= require patient_update/patient_update
 
-
 angular.module 'dentaljs', [
   'ngRoute',
   'dentaljs.services',

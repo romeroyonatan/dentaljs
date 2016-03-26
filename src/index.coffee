@@ -22,11 +22,7 @@ config = require "./config"
 config.setEnvironment env
 
 # db_config
-if env != 'production'
-  mongoose.connect 'mongodb://localhost/dentaljs'
-else
-  console.log('If you are running in production, you may want to modify the
-               mongoose connect path')
+mongoose.connect config.MONGO_DB
 
 # view engine setup
 #app.set 'views', path.join(__dirname, 'views')

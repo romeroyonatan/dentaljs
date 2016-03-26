@@ -1,14 +1,14 @@
-h1 Patients
+h1 Pacientes
 
-input.col-xs-12(ng-model="search" placeholder="Type to search")
+input.col-xs-12(ng-model="search" placeholder="Teclee para buscar")
 
 table.table.table-striped
   thead
     tr
-      th Name
-      th Phone
+      th Nombre
+      th Teléfono
       th: a.btn.btn-default(href="#/patients/create")
-        i.fa.fa-plus  New pacient
+        i.fa.fa-plus  Nuevo paciente
   tbody
     tr(ng-repeat="patient in patients|filter:search")
       td
@@ -18,6 +18,6 @@ table.table.table-striped
       td
         .btn-group
           a.btn.btn-default(href="#/patients/{{ patient._id }}/update")
-            i.fa.fa-pencil  Edit
+            i.fa.fa-pencil  Editar
           a.btn.btn-danger(href="#/patients/{{ patient._id }}/delete")
-            i.fa.fa-remove  Delete
+            i.fa.fa-remove  Borrar

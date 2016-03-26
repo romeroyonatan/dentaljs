@@ -10,6 +10,7 @@ angular.module('dentaljs.patient_detail', ['ngRoute'])
   "Accounting", ($scope, $routeParams, Person, Accounting) ->
     
     id = $routeParams.id
+
     getAccounting = ->
       $scope.accounting = Accounting.query person: id, ->
         $scope.total = 0
@@ -29,19 +30,20 @@ angular.module('dentaljs.patient_detail', ['ngRoute'])
       accounting = new Accounting
         person: id
         date: new Date
-        description: "Invalidate #{account.description} from #{account.date}"
-        amount: -1 * account.amount
+        description: "Invalida #{account.description} de #{account.date}"
+        amount: -account.amount
+        invalid: account
       accounting.$save()
       getAccounting()
 
     $scope.payed = (account) ->
+      day = moment(account.date).format('L')
       accounting = new Accounting
         person: id
         date: new Date
-        description: "Pay #{account.description} from #{account.date}"
-        amount: -1 * account.amount
+        description: "Paga #{account.description} de #{day}"
+        amount: -account.amount
+        pay: account
       accounting.$save()
       getAccounting()
-
 ]
-

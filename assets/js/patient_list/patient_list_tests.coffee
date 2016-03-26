@@ -12,4 +12,4 @@ describe 'dentaljs.patient_list module', ->
     it 'should show a list of patients', inject ($controller) ->
       $scope = {}
       controller = $controller 'PatientListCtrl', $scope: $scope
-      expect(view1Ctrl).toBeDefined()
+      expect(controller).toBeDefined()

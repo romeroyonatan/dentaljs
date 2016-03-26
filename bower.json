@@ -14,6 +14,10 @@
     "html5-boilerplate": "~5.2.0",
     "jquery": "^2.2.1",
     "font-awesome": "fontawesome#^4.5.0",
-    "bootstrap": "^3.3.6"
+    "bootstrap": "^3.3.6",
+    "moment": "^2.12.0"
+  },
+  "resolutions": {
+    "angular": "1.5.1"
   }
 }

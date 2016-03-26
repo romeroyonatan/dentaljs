@@ -1,26 +1,26 @@
-h1 Details of {{ patient.first_name }} {{ patient.last_name }}
+h1 Detalles de {{ patient.first_name }} {{ patient.last_name }}
 
 dl
-  dt Name
+  dt Nombre
   dd {{ patient.first_name }} {{ patient.last_name }}
-  dt Phone
+  dt Telefono
   dd {{ patient.phone }}
 
-h2 Accounting summary
+h2 Contabilidad
 
 form(novalidate name="form")
   table.table.table-hover
     thead
       tr
-        th Date
-        th Description
-        th Amount
+        th Fecha
+        th Descripción
+        th Monto
       tr.active
-        td Right now
+        td Ahora mismo
         td
            input.form-control(
              ng-model="accounting.description" name="description" 
-             placeholder="Medical check" required
+             placeholder="Chequeo médico" required
            )
         td
           input.form-control(
@@ -28,15 +28,17 @@ form(novalidate name="form")
             placeholder="$ 100" required
           )
         td
-          button.btn(ng-click="new_account()" ng-disabled="!form.$valid") Save
+          button.btn(ng-click="new_account()" ng-disabled="!form.$valid") Guardar
     tbody
-      tr(ng-repeat="account in accounting|orderBy:'-date'|limitTo:5")
+      tr(ng-repeat="account in accounting|orderBy:'-date'")
         td {{ account.date|date:'short' }}
         td {{ account.description }}
         td {{ account.amount|currency }}
         td
-          button.btn.btn-success(ng-click="payed(account)") Payed
-          button.btn.btn-danger(ng-click="invalidate(account)") Invalidate
+          button.btn.btn-success(
+            ng-click="payed(account)" 
+            ng-hide="account.invalid||account.pay") Pagar
+          button.btn.btn-danger(ng-click="invalidate(account)") Invalidar
     tfoot
       tr.active(ng-class="{'danger': total < 0, 'success': total > 0}")
         td(colspan=2): strong Total
@@ -44,4 +46,4 @@ form(novalidate name="form")
         td
 
 a.btn.btn-default(href="#/patients")
-    i.fa.fa-arrow-left  Back
+    i.fa.fa-arrow-left  Atrás

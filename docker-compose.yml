@@ -1,0 +1,13 @@
+version: '2'
+services:
+  web:
+    build: .
+    ports:
+      - "3000:80"
+    depends_on:
+      - db
+    links:
+      - db
+
+  db:
+    image: "mongodb:latest"
