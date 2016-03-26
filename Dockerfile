@@ -15,11 +15,11 @@ ADD package.json .
 RUN npm install
 
 # add application's source to container
-ADD src/ .
-ADD bin/ .
-ADD assets/ .
-ADD public/ .
-ADD views/ .
+ADD src ./src
+ADD bin ./bin
+ADD assets ./assets
+ADD public ./public
+ADD views ./views
 ADD bower.json .
 ADD .bowerrc .
 ADD Cakefile .
@@ -28,7 +28,8 @@ ADD Cakefile .
 #RUN bower install
 
 # build app
-RUN node_modules/coffee-script/bin/cake build
+RUN npm install -g coffee-script
+RUN cake build
 
 # expose port
 EXPOSE 3000
