@@ -8,6 +8,8 @@ services:
       - db
     links:
       - db
+    restart: always
 
   db:
-    image: "mongodb:latest"
+    image: "mongo:latest"
+    restart: always
