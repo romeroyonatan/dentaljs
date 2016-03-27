@@ -9,7 +9,6 @@ routes = require('./routes/index')
 connectAssets = require 'connect-assets'
 
 # Bootstrap models
-
 app = express()
 
 # Define Port & Environment
@@ -25,7 +24,6 @@ config.setEnvironment env
 mongoose.connect config.MONGO_DB
 
 # view engine setup
-#app.set 'views', path.join(__dirname, 'views')
 app.set 'view engine', 'jade'
 
 #app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -34,7 +32,7 @@ app.use bodyParser.json()
 app.use bodyParser.urlencoded(extended: false)
 app.use cookieParser()
 app.use express.static(process.cwd() + '/public')
-app.use connectAssets(compress:on)
+app.use connectAssets()
 
 app.use '/', routes
 
