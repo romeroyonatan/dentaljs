@@ -12,7 +12,6 @@ angular.module('dentaljs.patient_update', ['ngRoute'])
 
     # Save button
     $scope.save = (patient) ->
-      console.log patient
       patient.$update ->
         $location.path "/patients/" + patient.slug
 
