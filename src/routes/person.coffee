@@ -8,8 +8,8 @@ router = express.Router()
 ###
 router.get '/', controller.list
 router.post '/', controller.create
-router.get '/:id', controller.detail
-router.put '/:id', controller.update
-router.delete '/:id', controller.delete
+router.get '/:slug', controller.detail
+router.put '/:slug', controller.update
+router.delete '/:slug', controller.delete
 
 module.exports = router

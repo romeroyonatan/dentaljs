@@ -1,6 +1,6 @@
 angular.module 'dentaljs.services', ['ngResource']
 .factory 'Person', ['$resource', ($resource) ->
-  return $resource 'persons/:id', {id: "@_id"},
+  return $resource 'persons/:slug', {slug: "@slug"},
     update:
       method: 'PUT'
 ]

@@ -12,12 +12,12 @@ table.table.table-striped
   tbody
     tr(ng-repeat="patient in patients|filter:search")
       td
-        a(href="#/patients/{{patient._id}}") 
+        a(href="#/patients/{{patient.slug}}") 
           {{ patient.first_name }} {{ patient.last_name }}
       td {{ patient.phone }}
       td
         .btn-group
-          a.btn.btn-default(href="#/patients/{{ patient._id }}/update")
+          a.btn.btn-default(href="#/patients/{{ patient.slug }}/update")
             i.fa.fa-pencil  Editar
-          a.btn.btn-danger(href="#/patients/{{ patient._id }}/delete")
+          a.btn.btn-danger(href="#/patients/{{ patient.slug }}/delete")
             i.fa.fa-remove  Borrar

@@ -13,7 +13,7 @@ angular.module('dentaljs.patient_create', ['ngRoute'])
     $scope.save = () ->
       person = new Person $scope.patient
       person.$save ->
-        $location.path "/patients/#{person._id}"
+        $location.path "/patients/#{person.slug}"
 
     # Cancel button
     $scope.cancel = () ->
