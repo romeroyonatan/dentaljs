@@ -3,6 +3,9 @@ from fabric.api import local
 
 def deploy():
     local('git pull origin master')
+    local('npm install')
+    local('bower install')
+    local('cake build')
     local('docker-compose build')
     local('docker-compose up -d')
 
