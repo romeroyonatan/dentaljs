@@ -14,4 +14,7 @@ services:
     image: "mongo:latest"
     restart: always
     volumes:
-      - "${HOME}/.dentaljs/db:/data/db"
+      # Si el SELinux no permite leer el directorio, habilitar con este
+      # comando
+      # sudo chcon -Rt svirt_sandbox_file_t ~/.dentaljs/data/db/
+      - "${HOME}/.dentaljs/data/db:/data/db"
