@@ -2,7 +2,7 @@ angular.module('dentaljs.patient_detail', ['ngRoute'])
 
 .config ['$routeProvider', ($routeProvider) ->
   $routeProvider.when '/patients/:id',
-    templateUrl: '/assets/patient_detail/patient_detail.jade'
+    templateUrl: '/partials/patient_detail.html'
     controller: 'PatientDetailCtrl'
 ]
 

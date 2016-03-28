@@ -2,7 +2,7 @@ angular.module('dentaljs.patient_update', ['ngRoute'])
 
 .config ['$routeProvider', ($routeProvider) ->
   $routeProvider.when '/patients/:id/update',
-    templateUrl: '/assets/patient_update/patient_update.jade'
+    templateUrl: '/partials/patient_update.html'
     controller: 'PatientUpdateCtrl'
 ]
 

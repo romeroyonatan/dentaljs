@@ -20,12 +20,17 @@ log = (message, color, explanation) ->
 
 # Compiles app.coffee and src directory to the .app directory
 build = (callback) ->
-  options = ['-c','-b', '-o', '.app', 'src']
-  cmd = which.sync 'coffee'
-  coffee = spawn cmd, options
-  coffee.stdout.pipe process.stdout
-  coffee.stderr.pipe process.stderr
-  coffee.on 'exit', (status) -> callback?() if status is 0
+  options = ['-o', 'public/partials', 'assets/js']
+  cmd = 'node_modules/jade/bin/jade.js'
+  jade = spawn cmd, options
+  jade.on 'exit', (status) ->
+    if status is 0
+      options = ['-c','-b', '-o', '.app', 'src']
+      cmd = which.sync 'coffee'
+      coffee = spawn cmd, options
+      coffee.stdout.pipe process.stdout
+      coffee.stderr.pipe process.stderr
+      coffee.on 'exit', (status) -> callback?() if status is 0
 
 # mocha test
 test = (callback) ->
