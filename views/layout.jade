@@ -5,19 +5,19 @@ doctype html
 // [if (gte IE 9)|!(IE)]><!--><html lang="en" ng-app="dentaljs" class="no-js"><!--<![endif]
 head
   meta(charset='utf-8')
-  title Node Turnos
+  title Dental
   meta(name='description', content='')
   meta(name='author', content='')
   // Mobile Specific
   meta(name="viewport", content="width=device-width, initial-scale=1.0")
 
   // CSS
-  link(href='/bower_components/html5-boilerplate/dist/css/normalize.css', rel="stylesheet")
-  link(href='/bower_components/html5-boilerplate/dist/css/main.css', rel="stylesheet")
-  link(href='/bower_components/font-awesome/css/font-awesome.min.css', rel="stylesheet")
+  link(href='/html5-boilerplate/dist/css/normalize.css', rel="stylesheet")
+  link(href='/html5-boilerplate/dist/css/main.css', rel="stylesheet")
+  link(href='/font-awesome/css/font-awesome.min.css', rel="stylesheet")
   != css('app')
   //JS
-  script(src='/bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js')
+  script(src='/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js')
 
 body
   //[if lt IE 7]> <p class="browsehappy">You are using an
@@ -27,14 +27,14 @@ body
 
   block content
 
-  script(src='/bower_components/moment/min/moment-with-locales.min.js')
+  script(src='/moment/min/moment-with-locales.min.js')
   script moment.locale("es");
 
-  script(src='/bower_components/angular/angular.js')
-  script(src='/bower_components/angular-route/angular-route.js')
-  script(src='/bower_components/angular-resource/angular-resource.js')
-  script(src="/bower_components/jquery/dist/jquery.js")
-  script(src="/bower_components/bootstrap/dist/js/bootstrap.min.js")
+  script(src='/angular/angular.js')
+  script(src='/angular-route/angular-route.js')
+  script(src='/angular-resource/angular-resource.js')
+  script(src="/jquery/dist/jquery.js")
+  script(src="/bootstrap/dist/js/bootstrap.min.js")
   != js('app')
 
 | </html>

@@ -32,6 +32,7 @@ app.use bodyParser.json()
 app.use bodyParser.urlencoded(extended: false)
 app.use cookieParser()
 app.use express.static(process.cwd() + '/public')
+app.use express.static(process.cwd() + '/bower_components')
 app.use connectAssets()
 
 app.use '/', routes

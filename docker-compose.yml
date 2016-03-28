@@ -13,3 +13,5 @@ services:
   db:
     image: "mongo:latest"
     restart: always
+    volumes:
+      - "${HOME}/.dentaljs/db:/data/db"

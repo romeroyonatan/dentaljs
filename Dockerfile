@@ -11,11 +11,12 @@ RUN yum install -y nodejs git
 RUN mkdir /app
 WORKDIR /app
 
-# install app's dependencies
+# install servers's dependencies
 ADD package.json .
 RUN npm install
+
+# install client's dependencies
 ADD bower.json .
-RUN mkdir -p public/bower_components
 RUN node_modules/bower/bin/bower install --allow-root
 
 # add application's source to container
@@ -24,7 +25,6 @@ ADD bin ./bin
 ADD assets ./assets
 ADD public ./public
 ADD views ./views
-ADD .bowerrc .
 ADD Cakefile .
 
 # build app
