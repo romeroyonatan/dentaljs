@@ -40,7 +40,7 @@ form(novalidate name="form")
             ng-hide="account.invalid||account.pay") Pagar
           button.btn.btn-danger(ng-click="invalidate(account)") Invalidar
     tfoot
-      tr.active(ng-class="{'danger': total < 0, 'success': total > 0}")
+      tr.active(ng-class="{'danger': total > 0, 'success': total < 0}")
         td(colspan=2): strong Total
         td {{ total|currency }}
         td
