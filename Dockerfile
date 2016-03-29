@@ -1,4 +1,4 @@
-FROM mhart/alpine-node:5
+FROM mhart/alpine-node:base
 
 ENV NODE_ENV "production" 
 ENV PORT 8080
@@ -17,7 +17,7 @@ ADD assets ./assets
 ADD .app ./.app
 
 # expose port
-EXPOSE 8080
+EXPOSE $PORT
 
 # run server
-CMD ["node", "bin/www"]
+CMD ["bin/www"]
