@@ -6,7 +6,6 @@ def deploy():
     local('npm install')
     local('bower install')
     local('cake build')
-    local('node_modules/connect-assets/bin/connect-assets -s assets -gz -o public/assets')
     local('docker-compose build')
     local('docker-compose up -d')
 

@@ -7,15 +7,14 @@ ENV PORT 8080
 WORKDIR /src
 
 # add application's source to container
-ADD .app ./.app
+ADD package.json .
 ADD bin ./bin
-ADD assets ./assets
-ADD public ./public
-ADD views ./views
 ADD bower_components ./bower_components
 ADD node_modules ./node_modules
-ADD Cakefile .
-ADD package.json .
+ADD public ./public
+ADD views ./views
+ADD assets ./assets
+ADD .app ./.app
 
 # expose port
 EXPOSE 8080
