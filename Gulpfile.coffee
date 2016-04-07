@@ -71,9 +71,12 @@ gulp.task 'watch', ->
 
 # Generate docs
 gulp.task 'docs', ->
-  gulp.src ['assets/js/**/*.coffee', 'src/**/*.coffee']
+  gulp.src 'src/**/*.coffee'
     .pipe docco()
-    .pipe gulp.dest 'docs/'
+    .pipe gulp.dest 'docs/server'
+  gulp.src 'assets/js/**/*.coffee'
+    .pipe docco()
+    .pipe gulp.dest 'docs/client'
 
 # Default task run a development server
 gulp.task 'default', ['run-server', 'watch']
