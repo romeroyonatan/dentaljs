@@ -1,14 +1,13 @@
 rewire = require 'rewire'
 controller = rewire '../../.app/controllers/person'
 
-xdescribe 'Person´s controller tests', ->
+describe 'Person´s controller tests', ->
   req = {}
   res = send: (msg)->
 
   beforeAll ->
     controller.__set__ "Person",
       find: (cb) ->
-        console.log "Find called!"
         cb null, ['a', 'list']
     spyOn(res, 'send')
 

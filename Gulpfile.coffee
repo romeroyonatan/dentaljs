@@ -11,7 +11,7 @@ coffedoc = require 'gulp-coffeedoc'
 # Build server's source code
 gulp.task 'build-src', ->
   gulp.src 'src/**/*.coffee'
-    .pipe coffee().on 'error', gutil.log
+    .pipe coffee(bare: true).on 'error', gutil.log
     .pipe gulp.dest '.app/'
 
 # Build jade templates
@@ -75,7 +75,6 @@ gulp.task 'docs', ->
   gulp.src ['assets/js/**/*.coffee', 'src/**/*.coffee']
     .pipe coffedoc()
     .pipe gulp.dest 'docs/'
-
 
 # Default task run a development server
 gulp.task 'default', ['run-server', 'watch']
