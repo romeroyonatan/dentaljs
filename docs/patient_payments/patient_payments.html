@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>patient_payments.coffee</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="../../dentaljs/docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>patient_payments.coffee</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>angular.<span class="hljs-built_in">module</span>(<span class="hljs-string">'dentaljs.patient_payments'</span>, [<span class="hljs-string">'ngRoute'</span>])
+
+.config [<span class="hljs-string">'$routeProvider'</span>, <span class="hljs-function"><span class="hljs-params">($routeProvider)</span> -&gt;</span>
+  $routeProvider.<span class="hljs-keyword">when</span> <span class="hljs-string">'/patients/:slug/payments'</span>,
+    templateUrl: <span class="hljs-string">'/partials/patient_payments.html'</span>
+    controller: <span class="hljs-string">'PatientPaymentsCtrl'</span>
+]
+
+.controller <span class="hljs-string">'PatientPaymentsCtrl'</span>, [
+  <span class="hljs-string">"$scope"</span>, <span class="hljs-string">"$routeParams"</span>, <span class="hljs-string">"Person"</span>, <span class="hljs-string">"Accounting"</span>,
+  <span class="hljs-function"><span class="hljs-params">($scope, $routeParams, Person, Accounting)</span> -&gt;</span>
+<span class="hljs-function">    
+    <span class="hljs-title">getAccounting</span> = -&gt;</span>
+      $scope.accounting = Accounting.query person: $scope.patient._id, <span class="hljs-function">-&gt;</span>
+        $scope.balance = <span class="hljs-number">0</span>
+        $scope.balance += a.balance <span class="hljs-keyword">for</span> a <span class="hljs-keyword">in</span> $scope.accounting
+
+    $scope.patient = Person.get slug: $routeParams.slug, <span class="hljs-function">-&gt;</span> getAccounting()
+
+    $scope.new_account = <span class="hljs-function">-&gt;</span>
+      accounting = <span class="hljs-keyword">new</span> Accounting $scope.account
+      accounting.person = $scope.patient._id
+      accounting.assets = <span class="hljs-number">0</span> <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> $scope.account.assets?
+      accounting.debit = <span class="hljs-number">0</span> <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> $scope.account.debit?
+      accounting.$save()
+      $scope.account = <span class="hljs-keyword">new</span> Accounting
+      getAccounting()
+
+    $scope.<span class="hljs-keyword">delete</span> = <span class="hljs-function"><span class="hljs-params">(account)</span> -&gt;</span> account.$<span class="hljs-keyword">delete</span> -&gt; getAccounting()
+]</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

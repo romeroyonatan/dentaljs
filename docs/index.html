@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>index.coffee</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>index.coffee</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>express = <span class="hljs-built_in">require</span>(<span class="hljs-string">'express'</span>)
+path = <span class="hljs-built_in">require</span>(<span class="hljs-string">'path'</span>)
+favicon = <span class="hljs-built_in">require</span>(<span class="hljs-string">'serve-favicon'</span>)
+logger = <span class="hljs-built_in">require</span>(<span class="hljs-string">'morgan'</span>)
+mongoose = <span class="hljs-built_in">require</span>(<span class="hljs-string">'mongoose'</span>)
+cookieParser = <span class="hljs-built_in">require</span>(<span class="hljs-string">'cookie-parser'</span>)
+bodyParser = <span class="hljs-built_in">require</span>(<span class="hljs-string">'body-parser'</span>)
+routes = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./routes/index'</span>)
+connectAssets = <span class="hljs-built_in">require</span> <span class="hljs-string">'connect-assets'</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>Bootstrap models</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>app = express()</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>Define Port &amp; Environment</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>app.port = process.env.PORT <span class="hljs-keyword">or</span> process.env.VMC_APP_PORT <span class="hljs-keyword">or</span> <span class="hljs-number">3000</span>
+env = process.env.NODE_ENV <span class="hljs-keyword">or</span> <span class="hljs-string">"development"</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>Config module exports has <code>setEnvironment</code> function that sets app settings
+depending on environment.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>config = <span class="hljs-built_in">require</span> <span class="hljs-string">"./config"</span>
+config.setEnvironment env</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>db_config</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>mongoose.connect config.MONGO_DB</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>view engine setup</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>app.set <span class="hljs-string">'view engine'</span>, <span class="hljs-string">'jade'</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>app.use(favicon(path.join(__dirname, ‘public’, ‘favicon.ico’)));</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>app.use logger(<span class="hljs-string">'dev'</span>)
+app.use bodyParser.json()
+app.use bodyParser.urlencoded(extended: <span class="hljs-literal">false</span>)
+app.use cookieParser()
+app.use express.static(process.cwd() + <span class="hljs-string">'/public'</span>)
+app.use express.static(process.cwd() + <span class="hljs-string">'/bower_components'</span>)
+app.use connectAssets()
+
+app.use <span class="hljs-string">'/'</span>, routes</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>catch 404 and forward to error handler</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>app.use (req, res, next) -&gt;
+  err = <span class="hljs-keyword">new</span> Error(<span class="hljs-string">'Not Found'</span>)
+  err.status = <span class="hljs-number">404</span>
+  next err
+  <span class="hljs-keyword">return</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>error handlers
+development error handler
+will print stacktrace</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">if</span> app.get(<span class="hljs-string">'env'</span>) == <span class="hljs-string">'development'</span>
+  app.use (err, req, res, next) -&gt;
+    res.status err.status <span class="hljs-keyword">or</span> <span class="hljs-number">500</span>
+    res.render <span class="hljs-string">'error'</span>,
+      message: err.message
+      error: err</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>production error handler
+no stacktraces leaked to user</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>app.use (err, req, res, next) -&gt;
+  res.status err.status <span class="hljs-keyword">or</span> <span class="hljs-number">500</span>
+  res.render <span class="hljs-string">'error'</span>,
+    message: err.message
+    error: {}
+
+<span class="hljs-built_in">module</span>.exports = app</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

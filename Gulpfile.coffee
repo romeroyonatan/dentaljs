@@ -5,7 +5,8 @@ karma = require 'karma'
 jasmine = require 'gulp-jasmine'
 jade = require 'gulp-jade'
 server = require 'gulp-express'
-coffedoc = require 'gulp-coffeedoc'
+print = require 'gulp-print'
+docco = require "gulp-docco"
 {protractor, webdriver_update} = require('gulp-protractor')
 
 # Build server's source code
@@ -37,9 +38,7 @@ gulp.task 'test-client', (done)->
 # Run server-side tests
 gulp.task 'test-server', ['build-spec'], ->
   gulp.src('.spec/**/*[sS]pec.js')
-    .pipe jasmine
-      verbose: on
-      includeStackTrace: on
+    .pipe jasmine()
 
 # Downloads the selenium webdriver
 gulp.task 'webdriver-update', webdriver_update
@@ -73,7 +72,7 @@ gulp.task 'watch', ->
 # Generate docs
 gulp.task 'docs', ->
   gulp.src ['assets/js/**/*.coffee', 'src/**/*.coffee']
-    .pipe coffedoc()
+    .pipe docco()
     .pipe gulp.dest 'docs/'
 
 # Default task run a development server
