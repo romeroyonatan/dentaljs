@@ -32,6 +32,32 @@ build = (callback) ->
       coffee.stderr.pipe process.stderr
       coffee.on 'exit', (status) -> callback?() if status is 0
 
+
+build_tests = (callback) ->
+  options = ['-c','-b', '-o', '.spec', 'spec']
+  cmd = which.sync 'coffee'
+  coffee = spawn cmd, options
+  coffee.stdout.pipe process.stdout
+  coffee.stderr.pipe process.stderr
+  coffee.on 'exit', (status) -> callback?() if status is 0
+
+jasmine_tests = (callback) ->
+  options = []
+  try
+    cmd = 'node_modules/jasmine/bin/jasmine.js'
+    spec = spawn cmd, options
+    spec.stdout.pipe process.stdout
+    spec.stderr.pipe process.stderr
+    spec.on 'exit', (status) ->
+      if status is 0
+        callback?()
+      else
+        process.exit status
+  catch err
+    log err.message, red
+    log 'Jasmine is not installed - try npm install', red
+
+
 # mocha test
 test = (callback) ->
   options = [
@@ -76,6 +102,9 @@ task 'spec', 'Run Mocha tests', ->
 
 task 'test', 'Run Mocha tests', ->
   build -> test -> log ":)", green
+
+task 'jasmine', 'Run Jasmine tests', ->
+  build -> build_tests -> jasmine_tests -> log ":)", green
 
 task 'dev', 'start dev env', ->
   # watch_coffee
