@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>app.coffee</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>app.coffee</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              <p>= require directives
+= require filters
+= require services
+= require patient_list/patient_list
+= require patient_create/patient_create
+= require patient_delete/patient_delete
+= require patient_update/patient_update
+= require patient_detail/patient_detail
+= require patient_history/patient_history
+= require patient_treatment/patient_treatment
+= require patient_payments/patient_payments</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+angular.<span class="hljs-built_in">module</span> <span class="hljs-string">'dentaljs'</span>, [
+  <span class="hljs-string">'ngRoute'</span>,
+  <span class="hljs-string">'dentaljs.services'</span>,
+  <span class="hljs-string">'dentaljs.patient_list'</span>,
+  <span class="hljs-string">'dentaljs.patient_create'</span>,
+  <span class="hljs-string">'dentaljs.patient_delete'</span>,
+  <span class="hljs-string">'dentaljs.patient_update'</span>,
+  <span class="hljs-string">'dentaljs.patient_detail'</span>,
+  <span class="hljs-string">'dentaljs.patient_history'</span>,
+  <span class="hljs-string">'dentaljs.patient_treatment'</span>,
+  <span class="hljs-string">'dentaljs.patient_payments'</span>,
+]
+
+.config [<span class="hljs-string">'$routeProvider'</span>, <span class="hljs-function"><span class="hljs-params">($routeProvider)</span> -&gt;</span>
+  $routeProvider.otherwise {redirectTo: <span class="hljs-string">'/patients'</span>}
+]</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

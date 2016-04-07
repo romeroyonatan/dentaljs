@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "gulp-coffeedoc": "^0.1.0",
+    "gulp-docco": "0.0.4",
     "gulp-express": "^0.3.5",
     "gulp-jasmine": "^2.3.0",
     "gulp-protractor": "^2.3.0",
