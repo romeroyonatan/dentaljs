@@ -1,49 +1,13 @@
-h1 Detalles de {{ patient.first_name }} {{ patient.last_name }}
+ol.breadcrumb
+  li: a(href="#/patients") Lista de pacientes
+  li.active: {{ patient.first_name }} {{ patient.last_name }}
 
+h1 {{ patient.first_name }} {{ patient.last_name }}
+ng-include(src="'partials/nav_patient.html'" onload="section='detail'")
+
+h2 Datos del paciente
 dl
   dt Nombre
   dd {{ patient.first_name }} {{ patient.last_name }}
   dt Telefono
   dd {{ patient.phone }}
-
-h2 Contabilidad
-
-form(novalidate name="form")
-  table.table.table-hover
-    thead
-      tr
-        th Fecha
-        th Descripción
-        th Monto
-      tr.active
-        td Ahora mismo
-        td
-           input.form-control(
-             ng-model="accounting.description" name="description" 
-             placeholder="Chequeo médico" required
-           )
-        td
-          input.form-control(
-            ng-model="accounting.amount" name="amount" type="number"
-            placeholder="$ 100" required
-          )
-        td
-          button.btn(ng-click="new_account()" ng-disabled="!form.$valid") Guardar
-    tbody
-      tr(ng-repeat="account in accounting|orderBy:'-date'")
-        td {{ account.date|date:'short' }}
-        td {{ account.description }}
-        td {{ account.amount|currency }}
-        td
-          button.btn.btn-success(
-            ng-click="payed(account)" 
-            ng-hide="account.invalid||account.pay") Pagar
-          button.btn.btn-danger(ng-click="invalidate(account)") Invalidar
-    tfoot
-      tr.active(ng-class="{'danger': total > 0, 'success': total < 0}")
-        td(colspan=2): strong Total
-        td {{ total|currency }}
-        td
-
-a.btn.btn-default(href="#/patients")
-    i.fa.fa-arrow-left  Atrás

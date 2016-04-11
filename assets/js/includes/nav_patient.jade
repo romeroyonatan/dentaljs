@@ -1,0 +1,9 @@
+ul.nav.nav-tabs
+  li(role="presentation" ng-class="{'active':section == 'detail'}")
+    a(href="#/patients/{{patient.slug}}") Datos del paciente
+  li(role="presentation" ng-class="{'active':section == 'history'}")
+    a(href="#/patients/{{patient.slug}}/history") Historia Clínica
+  li(role="presentation" ng-class="{'active':section == 'treatment'}")
+    a(href="#/patients/{{patient.slug}}/treatment") Plan de tratamiento
+  li(role="presentation" ng-class="{'active':section == 'payments'}")
+    a(href="#/patients/{{patient.slug}}/payments") Planilla de pago

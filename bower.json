@@ -1,7 +1,7 @@
 {
   "name": "node-turnos",
   "description": "A starter project for AngularJS",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "homepage": "https://github.com/angular/angular-seed",
   "license": "MIT",
   "private": true,
@@ -15,7 +15,8 @@
     "jquery": "^2.2.1",
     "font-awesome": "fontawesome#^4.5.0",
     "bootstrap": "^3.3.6",
-    "moment": "^2.12.0"
+    "moment": "^2.12.0",
+    "angular-i18n": "^1.5.3"
   },
   "resolutions": {
     "angular": "1.5.1"
