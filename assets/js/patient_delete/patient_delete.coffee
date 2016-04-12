@@ -2,7 +2,7 @@ angular.module('dentaljs.patient_delete', ['ngRoute'])
 
 .config ['$routeProvider', ($routeProvider) ->
   $routeProvider.when '/patients/:slug/delete',
-    templateUrl: '/partials/patient_delete.html'
+    templateUrl: '/partials/patient_delete/patient_delete.html'
     controller: 'PatientDeleteCtrl'
 ]
 

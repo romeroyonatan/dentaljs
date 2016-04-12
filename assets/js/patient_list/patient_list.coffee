@@ -2,7 +2,7 @@ angular.module('dentaljs.patient_list', ['ngRoute'])
 
 .config ['$routeProvider', ($routeProvider) ->
   $routeProvider.when '/patients',
-    templateUrl: '/partials/patient_list.html'
+    templateUrl: '/partials/patient_list/patient_list.html'
     controller: 'PatientListCtrl'
 ]
 
