@@ -13,7 +13,7 @@ table.table.table-striped
     tr(ng-repeat="patient in patients|filter:search")
       td
         a(href="#/patients/{{patient.slug}}")
-          {{ patient.first_name }} {{ patient.last_name }}
+          | {{ patient.first_name }} {{ patient.last_name }}
       td {{ patient.phone }}
       td
         .btn-group

@@ -3,7 +3,7 @@ h1 Borrar paciente "{{ patient.first_name }} {{ patient.last_name }}"
 .row
   .col-md-12
     p ¿Está seguro que quiere borrar el paciente {{ patient.first_name }}
-      {{ patient.last_name }}?
+      | {{ patient.last_name }}?
 
   .col-md-12
     .btn-group(role="group" aria-label="...")

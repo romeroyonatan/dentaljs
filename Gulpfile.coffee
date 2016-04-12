@@ -4,10 +4,12 @@ gutil = require 'gulp-util'
 karma = require 'karma'
 jasmine = require 'gulp-jasmine'
 jade = require 'gulp-jade'
-server = require 'gulp-express'
+gls = require 'gulp-live-server'
 print = require 'gulp-print'
 docco = require "gulp-docco"
 {protractor, webdriver_update} = require('gulp-protractor')
+execSync = require('child_process').execSync
+fs = require 'fs'
 
 # Build server's source code
 gulp.task 'build-src', ->
@@ -57,17 +59,20 @@ gulp.task 'build', ['build-src', 'build-jade'], ->
 gulp.task 'test', ['test-server', 'test-client'], ->
 
 # Run development server
+server = gls.new 'bin/www'
 gulp.task 'run-server', ->
-  server.run ['bin/www']
+  server.start()
+  console.log "Server started"
 
 # Reload development server
 gulp.task 'reload', ->
-  server.notify()
+  server.start.bind(server)()
+  console.log "Server reloaded"
 
 # Watch for changes in source code
 gulp.task 'watch', ->
   gulp.watch 'src/**/*.coffee', ['build-src', ['reload']]
-  gulp.watch 'assets/js/**/*.jade', ['build-jade', ['reload']]
+  gulp.watch 'assets/js/**/*.jade', ['build-jade']
 
 # Generate docs
 gulp.task 'docs', ->
@@ -77,6 +82,25 @@ gulp.task 'docs', ->
   gulp.src 'assets/js/**/*.coffee'
     .pipe docco()
     .pipe gulp.dest 'docs/client'
+
+# Deploy application into docker container
+gulp.task 'deploy', ['build'], ->
+  execSync 'git pull origin master'
+  execSync 'npm install --production'
+  execSync 'bower install --production'
+  execSync 'docker-compose build'
+  execSync 'docker-compose up -d'
+
+# Backup application's data from mongo docker container
+gulp.task 'backup', ['build'], ->
+  ip = execSync 'docker inspect --format "{{ .NetworkSettings.Networks.
+                 dentaljs_default.IPAddress }}" dentaljs_db_1',
+  if ip
+    today = new Date
+    path = "backup/#{today.getYear()}/#{today.getMonth()}/#{today.getDate()}"
+    fs.mkdir path, ->
+      execSync "mongodump -o #{path} -h #{ip}"
+      console.log("Backup successful")
 
 # Default task run a development server
 gulp.task 'default', ['run-server', 'watch']
