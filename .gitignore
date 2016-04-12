@@ -7,3 +7,4 @@ public/partials
 backup/
 *.sw[po]
 *.pyc
+*.orig
