@@ -2,6 +2,12 @@
 // Espera como argumento una lista de  objetos que deben contener el atributo
 // name y href. El ultimo elemento no lleva href porque es el activo
 mixin breadcrumb(...items)
+  - var length = items.length;
+  - var i = 0;
   ol.breadcrumb
-    li: a(href="#/patients") Lista de pacientes
-    li.active {{ patient.first_name }} {{ patient.last_name }}
+    each item in items
+      - i++;
+      if i < length
+        li a(href=item.href)=item.name
+      else
+        li.active=item.name

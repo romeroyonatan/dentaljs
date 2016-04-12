@@ -1,11 +1,9 @@
-include ../includes/nav_patient.jade
 ol.breadcrumb
   li: a(href="#/patients") Lista de pacientes
   li.active {{ patient.first_name }} {{ patient.last_name }}
 
 h1 {{ patient.first_name }} {{ patient.last_name }}
 
-+nav_patient('history')
 
 h2 Historia Clínica
 

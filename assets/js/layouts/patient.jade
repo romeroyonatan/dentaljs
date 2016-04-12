@@ -1,4 +1,6 @@
 include ../mixins/nav.jade
+include ../mixins/breadcrumb.jade
+
 ol.breadcrumb
   li: a(href="#/patients") Lista de pacientes
   li.active {{ patient.first_name }} {{ patient.last_name }}

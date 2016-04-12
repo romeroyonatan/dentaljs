@@ -1,14 +1,3 @@
 mixin nav_item(name, href, active)
   li(role="presentation" class=active ? 'active' : '')
     a(href=href)= name
-    
-mixin nav_patient(section)
-  ul.nav.nav-tabs
-    li(role="presentation" class=section == 'detail' ? 'active' : '')
-      a(href="#/patients/{{patient.slug}}") Datos del paciente
-    li(role="presentation" class=section == 'history' ? 'active' : '')
-      a(href="#/patients/{{patient.slug}}/history") Historia Clínica
-    li(role="presentation" class=section == 'treatment' ? 'active' : '')
-      a(href="#/patients/{{patient.slug}}/treatment") Plan de tratamiento
-    li(role="presentation" class=section == 'payments' ? 'active' : '')
-      a(href="#/patients/{{patient.slug}}/payments") Planilla de pago

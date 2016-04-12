@@ -19,7 +19,7 @@ gulp.task 'build-src', ->
 
 # Build jade templates
 gulp.task 'build-jade', ->
-  gulp.src ['assets/js/**/*.jade', !'assets/js/mixins', !'assets/js/layouts']
+  gulp.src ['assets/js/**/*.jade', '!assets/js/mixins', '!assets/js/layouts']
     .pipe jade()
     .pipe gulp.dest 'public/partials'
 
