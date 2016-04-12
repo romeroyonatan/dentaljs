@@ -13,14 +13,14 @@ form(novalidate name="form")
       tr
         th Fecha
         th Descripción
-        th Haber
         th Debe
+        th Haber
         th Saldo
       tr.active
         td Ahora mismo
         td
            input.form-control(
-             ng-model="account.description" name="description" 
+             ng-model="account.description" name="description"
              placeholder="Chequeo médico" required
            )
         td
@@ -41,8 +41,8 @@ form(novalidate name="form")
       tr(ng-repeat="account in accounting|orderBy:'-date'")
         td {{ account.date|date }}
         td {{ account.description }}
-        td {{ account.assets|currency }}
         td {{ account.debit|currency }}
+        td {{ account.assets|currency }}
         td {{ account.balance|currency }}
         td
           button.btn.btn-danger(ng-click="delete(account)"): i.fa.fa-trash
