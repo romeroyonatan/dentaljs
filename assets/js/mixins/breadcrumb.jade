@@ -1,0 +1,7 @@
+// Este mixin permite crear breadcrumb. 
+// Espera como argumento una lista de  objetos que deben contener el atributo
+// name y href. El ultimo elemento no lleva href porque es el activo
+mixin breadcrumb(...items)
+  ol.breadcrumb
+    li: a(href="#/patients") Lista de pacientes
+    li.active {{ patient.first_name }} {{ patient.last_name }}
