@@ -103,4 +103,4 @@ gulp.task 'backup', ['build'], ->
       console.log("Backup successful")
 
 # Default task run a development server
-gulp.task 'default', ['run-server', 'watch']
+gulp.task 'default', ['build', 'run-server', 'watch']

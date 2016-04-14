@@ -1,53 +1,51 @@
-ol.breadcrumb
-  li: a(href="#/patients") Lista de pacientes
-  li.active {{ patient.first_name }} {{ patient.last_name }}
+extends ../layouts/patient.jade
+prepend nav
+  -var section = 'payments'
 
-h1 {{ patient.first_name }} {{ patient.last_name }}
+block content
+  h2 Planilla de pagos
 
+  form(novalidate name="form")
+    table.table.table-hover
+      thead
+        tr
+          th Fecha
+          th Descripción
+          th Debe
+          th Haber
+          th Saldo
+        tr.active
+          td Ahora mismo
+          td
+             input.form-control(
+               ng-model="account.description" name="description"
+               placeholder="Chequeo médico" required
+             )
+          td
+            input.form-control(
+              ng-model="account.assets" name="amount" type="number"
+              placeholder="$ 100"
+            )
+          td
+            input.form-control(
+              ng-model="account.debit" name="amount" type="number"
+              placeholder="$ 100"
+            )
+          td
+          td
+            button.btn(ng-click="new_account()" ng-disabled="!form.$valid") Guardar
 
-h2 Planilla de pagos
-
-form(novalidate name="form")
-  table.table.table-hover
-    thead
-      tr
-        th Fecha
-        th Descripción
-        th Debe
-        th Haber
-        th Saldo
-      tr.active
-        td Ahora mismo
-        td
-           input.form-control(
-             ng-model="account.description" name="description"
-             placeholder="Chequeo médico" required
-           )
-        td
-          input.form-control(
-            ng-model="account.assets" name="amount" type="number"
-            placeholder="$ 100"
-          )
-        td
-          input.form-control(
-            ng-model="account.debit" name="amount" type="number"
-            placeholder="$ 100"
-          )
-        td
-        td
-          button.btn(ng-click="new_account()" ng-disabled="!form.$valid") Guardar
-
-    tbody
-      tr(ng-repeat="account in accounting|orderBy:'-date'")
-        td {{ account.date|date }}
-        td {{ account.description }}
-        td {{ account.debit|currency }}
-        td {{ account.assets|currency }}
-        td {{ account.balance|currency }}
-        td
-          button.btn.btn-danger(ng-click="delete(account)"): i.fa.fa-trash
-    tfoot
-      tr.active(ng-class="{'success': balance > 0, 'danger': balance < 0}")
-        td(colspan=4): strong Balance
-        td {{ balance|currency }}
-        td
+      tbody
+        tr(ng-repeat="account in accounting|orderBy:'-date'")
+          td {{ account.date|date }}
+          td {{ account.description }}
+          td {{ account.debit|currency }}
+          td {{ account.assets|currency }}
+          td {{ account.balance|currency }}
+          td
+            button.btn.btn-danger(ng-click="delete(account)"): i.fa.fa-trash
+      tfoot
+        tr.active(ng-class="{'success': balance > 0, 'danger': balance < 0}")
+          td(colspan=4): strong Balance
+          td {{ balance|currency }}
+          td

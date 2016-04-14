@@ -1,14 +1,21 @@
 include ../mixins/nav.jade
 include ../mixins/breadcrumb.jade
 
-ol.breadcrumb
-  li: a(href="#/patients") Lista de pacientes
-  li.active {{ patient.first_name }} {{ patient.last_name }}
++breadcrumb(
+  {href:"#/patients", name:"Lista de pacientes"},
+  {href:"#/patients", name:"{{ patient.first_name }} {{ patient.last_name }}"}
+)
 
 h1 {{ patient.first_name }} {{ patient.last_name }}
 
-ul.nav.nav-tabs
-  +nav_item('Datos del paciente', "#/patients/{{patient.slug}}")
-  +nav_item('Historia Clínica', "#/patients/{{patient.slug}}/history")
-  +nav_item('Plan de tratamiento', "#/patients/{{patient.slug}}/treatment")
-  +nav_item('Planilla de pago', "#/patients/{{patient.slug}}/payments")
+block nav
+  ul.nav.nav-tabs
+    +nav_item('Datos del paciente', "#/patients/{{patient.slug}}",
+              section == 'detail')
+    +nav_item('Historia Clínica', "#/patients/{{patient.slug}}/history",
+              section == 'history')
+    +nav_item('Plan de tratamiento', "#/patients/{{patient.slug}}/treatment",
+              section == 'treatment')
+    +nav_item('Planilla de pago', "#/patients/{{patient.slug}}/payments",
+              section == 'payments')
+block content
