@@ -1,1 +1,9 @@
+$body-bg = #f9f9f9;
+
 @import "bootstrap"
+
+.required
+  label
+    &:after
+      content: "*"
+      color: $brand-danger
