@@ -24,7 +24,7 @@ h1 Nuevo paciente
       legend Contacto
       +form-input("Calle", "patient.address.street", "Balcarce")
       +form-input("Número", "patient.address.number", "50")(type="number")
-      +form-input("Barrio", "patient.address.district", "50")
+      +form-input("Barrio", "patient.address.district", "San Nicolás")
       +form-input("Teléfono particular", "patient.phone.home", "4277 0906")
       +form-input("Teléfono celular", "patient.phone.cellphone", "11 6211 1423")
       +form-input("Teléfono laboral", "patient.phone.work", "4123 4444")
@@ -34,8 +34,8 @@ h1 Nuevo paciente
     formset.col-md-5
       legend Datos laborales
       +form-input("Direccion laboral", "patient.work.place", "4123 4444")
-      +form-input("Horario laboral", "patient.work.from_hour", "09:00")
-      +form-input("Horario laboral", "patient.work.to_hour", "18:00")
+      +form-input("Inicio horario laboral", "patient.work.from_hour", "09:00")
+      +form-input("Fin horario laboral", "patient.work.to_hour", "18:00")
     
 .row
   .pull-right
