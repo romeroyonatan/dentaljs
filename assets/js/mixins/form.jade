@@ -1,3 +1,4 @@
+//- Creates a form's input
 mixin form-input(label, model, placeholder, required)
   - var id = label.replace(/\s/,"-").toLowerCase()
   .form-group(ng-class="{'has-error':form.$submitted && form.#{model}.$error}")
@@ -10,3 +11,29 @@ mixin form-input(label, model, placeholder, required)
       placeholder=placeholder
       required=required
     )&attributes(attributes)
+    
+//- Creates a form's textarea
+mixin form-textarea(label, model, placeholder, required)
+  - var id = label.replace(/\s/,"-").toLowerCase()
+  .form-group(ng-class="{'has-error':form.$submitted && form.#{model}.$error}")
+    label(for="id_" + id)=label
+    textarea.form-control(
+      id="id_" + id
+      name=model
+      ng-model=model
+      placeholder=placeholder
+      required=required
+    )&attributes(attributes)
+
+mixin form-select(label, model, items)
+  - var id = label.replace(/\s/,"-").toLowerCase()
+  .form-group(ng-class="{'has-error':form.$submitted && form.#{model}.$error}")
+    label(for="id_" + id)=label
+    select.form-control(
+      id="id_" + id
+      name=model
+      ng-model=model
+      required=required
+    )&attributes(attributes)
+      for item in items
+        option(value=item.value)=item.label

@@ -2,9 +2,43 @@ include ../mixins/form.jade
 h1 Nuevo paciente
 
 form(novalidate name="form")
-  +form-input("Nombre", "patient.first_name", "Pedro")
-  +form-input("Apellido", "patient.last_name", "Gonzalez")
+  formset
+    legend Datos personales
+    +form-input("Nombre", "patient.first_name", "Pedro")(required)
+    +form-input("Apellido", "patient.last_name", "Gonzalez")(required)
+    +form-input("Fecha de nacimiento", "patient.born.date")
+    +form-select("Estado civil", "patient.civil_status", [
+      {value:1, label:"Soltera/o"},
+      {value:2, label:"Casada/o"},
+      {value:3, label:"Divorciada/o"},
+      {value:4, label:"Viuda/o"},
+      ])
+    +form-input("Ciudad de nacimiento", "patient.born.city", "La Rioja")
+    +form-input("País de nacimiento", "patient.born.country", "Argentina")
+    +form-input("DNI", "patient.identification", "11223445")
+    +form-textarea("Motivo de la consulta", "patient.consultation_reason", 
+                   "Escribir lo que desea cambiar de su boca")
+    
+  formset
+    legend Dirección
+    +form-input("Calle", "patient.address.street", "Balcarce")
+    +form-input("Número", "patient.address.number", "50")(type="number")
+    +form-input("Barrio", "patient.address.district", "50")
   
+  formset
+    legend Contacto
+    +form-input("Particular", "patient.phone.home", "4277 0906")
+    +form-input("Celular", "patient.phone.cellphone", "11 6211 1423")
+    +form-input("Trabajo", "patient.phone.work", "4123 4444")
+    +form-input("Email", "patient.email", "4123 4444")
+  
+  
+  formset
+    legend Datos laborales
+    +form-input("Direccion laboral", "patient.work.place", "4123 4444")
+    +form-input("Horario laboral", "patient.work.from_hour", "09:00")
+    +form-input("Horario laboral", "patient.work.to_hour", "18:00")
+    
   .row
     .pull-right
       .btn-group(role="group" aria-label="...")
