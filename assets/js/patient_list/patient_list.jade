@@ -8,7 +8,8 @@ table.table.table-striped
       th Nombre
       th Teléfono
       th: a.btn.btn-default(href="#/patients/create")
-        i.fa.fa-plus  Nuevo paciente
+        i.fa.fa-plus
+        |  Nuevo paciente
   tbody
     tr(ng-repeat="patient in patients|filter:search")
       td
@@ -18,6 +19,8 @@ table.table.table-striped
       td
         .btn-group
           a.btn.btn-default(href="#/patients/{{ patient.slug }}/update")
-            i.fa.fa-pencil  Editar
+            i.fa.fa-pencil
+            |  Editar
           a.btn.btn-danger(href="#/patients/{{ patient.slug }}/delete")
-            i.fa.fa-remove  Borrar
+            i.fa.fa-remove
+            |  Borrar
