@@ -39,3 +39,23 @@ mixin form-select(label, model, items)
     )&attributes(attributes)
       for item in items
         option(value=item.value)=item.label
+
+//- creates a datepicker
+mixin form-date(label, model, required)
+  - var id = label.replace(/\s/,"-").toLowerCase()
+  .form-group(ng-class="{'has-error':form.$submitted && form.#{model}.$error}")
+    label(for="id_" + id)=label
+    uib-datepicker(
+      ng-model=model
+      class="well well-sm"
+    )&attributes(attributes)
+    
+//- creates a datepicker
+mixin form-time(label, model, required)
+  - var id = label.replace(/\s/,"-").toLowerCase()
+  .form-group(ng-class="{'has-error':form.$submitted && form.#{model}.$error}")
+    label(for="id_" + id)=label
+    uib-timepicker(
+      ng-model=model
+      class="well well-sm"
+    )&attributes(attributes)

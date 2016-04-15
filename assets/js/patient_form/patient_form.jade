@@ -7,16 +7,16 @@ h1 Nuevo paciente
       legend Datos personales
       +form-input("Nombre", "patient.first_name", "Pedro", "required")
       +form-input("Apellido", "patient.last_name", "Gonzalez", "required")
-      +form-input("Fecha de nacimiento", "patient.born.date")
+      +form-input("DNI", "patient.identification", "11223445")
+      +form-date("Fecha de nacimiento", "patient.born.date")
+      +form-input("Ciudad de nacimiento", "patient.born.city", "La Rioja")
+      +form-input("País de nacimiento", "patient.born.country", "Argentina")
       +form-select("Estado civil", "patient.civil_status", [
         {value:1, label:"Soltera/o"},
         {value:2, label:"Casada/o"},
         {value:3, label:"Divorciada/o"},
         {value:4, label:"Viuda/o"},
         ])
-      +form-input("Ciudad de nacimiento", "patient.born.city", "La Rioja")
-      +form-input("País de nacimiento", "patient.born.country", "Argentina")
-      +form-input("DNI", "patient.identification", "11223445")
       +form-textarea("Motivo de la consulta", "patient.consultation_reason", 
                      "Escribir lo que desea cambiar de su boca")
       
@@ -33,9 +33,8 @@ h1 Nuevo paciente
     
     formset.col-md-5
       legend Datos laborales
-      +form-input("Direccion laboral", "patient.work.place", "4123 4444")
-      +form-input("Inicio horario laboral", "patient.work.from_hour", "09:00")
-      +form-input("Fin horario laboral", "patient.work.to_hour", "18:00")
+      +form-input("Direccion laboral", "patient.work.place", "Claypole")
+      +form-input("Horario laboral", "patient.work.hour", "9 a 18")
     
 .row
   .pull-right

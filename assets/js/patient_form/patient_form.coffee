@@ -1,4 +1,4 @@
-angular.module('dentaljs.patient_form', ['ngRoute'])
+angular.module('dentaljs.patient_form', ['ngRoute', 'ui.bootstrap'])
 
 .config ['$routeProvider', ($routeProvider) ->
   $routeProvider.when '/patients/create',
@@ -14,10 +14,12 @@ angular.module('dentaljs.patient_form', ['ngRoute'])
 
     # Load person
     if $routeParams.slug
-      $scope.patient = Person.get slug: $routeParams.slug
+      $scope.patient = Person.get slug: $routeParams.slug, ->
+        $scope.patient.civil_status = "" + $scope.patient.civil_status
 
     # Save button
     $scope.save = (patient) ->
+      patient.civil_status = parseInt patient.civil_status
       person = new Person patient
       if not $routeParams.slug
         person.$save ->
