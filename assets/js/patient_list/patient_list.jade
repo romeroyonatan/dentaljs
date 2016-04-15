@@ -15,7 +15,8 @@ table.table.table-striped
       td
         a(href="#/patients/{{patient.slug}}")
           | {{ patient.first_name }} {{ patient.last_name }}
-      td {{ patient.phone }}
+      td
+        ul: li(ng-repeat="(name, phone) in patient.phones") {{ phone }}
       td
         .btn-group
           a.btn.btn-default(href="#/patients/{{ patient.slug }}/update")

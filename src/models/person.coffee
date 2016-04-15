@@ -17,7 +17,7 @@ Person = new mongoose.Schema
     number: Number
     district: String
     city: String
-  phone:
+  phones:
     home: String
     cellphone: String
     work: String
