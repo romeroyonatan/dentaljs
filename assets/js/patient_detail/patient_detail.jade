@@ -48,13 +48,15 @@ block content
         .panel-body
           .row
             .col-md-4: strong Telefóno particular
-            .col-md-8  {{ patient.phone.home }}
+            .col-md-8  {{ patient.phones.home }}
+             //- TODO Se puede eliminar cuando se migren los telefonos viejos
+                    |  {{ patient.phone }}
           .row
             .col-md-4: strong Telefóno Celular
-            .col-md-8  {{ patient.phone.cellphone }}
+            .col-md-8  {{ patient.phones.cellphone }}
           .row
             .col-md-4: strong Telefóno Laboral
-            .col-md-8  {{ patient.phone.work }}
+            .col-md-8  {{ patient.phones.work }}
           .row
             .col-md-4: strong Email
             .col-md-8  {{ patient.email }}

@@ -16,7 +16,13 @@ table.table.table-striped
         a(href="#/patients/{{patient.slug}}")
           | {{ patient.first_name }} {{ patient.last_name }}
       td
-        ul: li(ng-repeat="(name, phone) in patient.phones") {{ phone }}
+        ul.unstyled
+          //- FIXME Se puede eliminar cuando se migren los telefonos viejos
+          li.style.phone(ng-if='patient.phone') {{ patient.phone }}
+          //- --------------------------------------------------------------
+          li.style.phone(ng-if='patient.phones.home') {{ patient.phones.home }}
+          li.style.cellphone(ng-if='patient.phones.cellphone') {{ patient.phones.cellphone }}
+          li.style.work(ng-if='patient.phones.work') {{ patient.phones.work }}
       td
         .btn-group
           a.btn.btn-danger(href="#/patients/{{ patient.slug }}/delete")

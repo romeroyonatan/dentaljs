@@ -13,3 +13,26 @@ body
 
 .container
   background-color: #fff
+
+ul.unstyled
+  list-style: none
+  margin: 0
+  padding: 0
+
+  li.style
+    &:before
+      font-family: FontAwesome
+      width: 20px;
+      display: inline-block;
+
+  li.phone
+    &:before
+      content: "\f095"
+
+  li.cellphone
+    &:before
+      content: "\f10b"
+
+  li.work
+    &:before
+      content: "\f0b1"
