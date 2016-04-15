@@ -4,9 +4,68 @@ prepend nav
   -var section = 'detail'
 
 block content
-  h2 Datos del paciente
-  dl
-    dt Nombre
-    dd {{ patient.first_name }} {{ patient.last_name }}
-    dt Telefono
-    dd {{ patient.phone }}
+  .row
+    .col-md-12
+      a.btn.btn-warning(href="#/patients/{{ patient.slug }}/update")
+        i.fa.fa-pencil
+        |  Editar
+  .row
+    .col-md-7
+      .panel.panel-default
+        .panel-heading Datos personales
+        .panel-body
+          .row
+            .col-md-4: strong Nombre
+            .col-md-8 {{ patient.first_name }} {{ patient.last_name }}
+          .row
+            .col-md-4: strong Fecha de nacimiento
+            .col-md-8 {{ patient.born.date|date }}
+          .row
+            .col-md-4: strong DNI
+            .col-md-8 {{ patient.identification }}
+          .row
+            .col-md-4: strong Lugar de nacimiento
+            .col-md-8 {{ patient.born.city }}
+          .row
+            .col-md-4: strong País de nacimiento
+            .col-md-8 {{ patient.born.country }}
+          .row
+            .col-md-4: strong Estado civil
+            .col-md-8  {{ patient.civil_status }}
+          .row
+            .col-md-4: strong Dirección
+            .col-md-8  {{ patient.address.street }}
+                     | {{ patient.address.number }} -
+                     | {{ patient.address.district }} -
+                     | {{ patient.address.city }}
+          .row
+            .col-md-4: strong Motivo de la consulta
+            .col-md-8  {{ patient.consultation_reason }}
+    
+    .col-md-5
+      .panel.panel-default
+        .panel-heading Contacto
+        .panel-body
+          .row
+            .col-md-4: strong Telefóno particular
+            .col-md-8  {{ patient.phone.home }}
+          .row
+            .col-md-4: strong Telefóno Celular
+            .col-md-8  {{ patient.phone.cellphone }}
+          .row
+            .col-md-4: strong Telefóno Laboral
+            .col-md-8  {{ patient.phone.work }}
+          .row
+            .col-md-4: strong Email
+            .col-md-8  {{ patient.email }}
+          
+    .col-md-5
+      .panel.panel-default
+        .panel-heading Datos laborales
+        .panel-body
+          .row
+            .col-md-4: strong Lugar de trabajo
+            .col-md-8  {{ patient.work.place }}
+          .row
+            .col-md-4: strong Horario laboral
+            .col-md-8  {{ patient.work.hour }}

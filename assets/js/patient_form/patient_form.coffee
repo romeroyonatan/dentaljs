@@ -31,5 +31,8 @@ angular.module('dentaljs.patient_form', ['ngRoute', 'ui.bootstrap'])
 
     # Cancel button
     $scope.cancel = () ->
-      $location.path "/patients"
+      if $routeParams.slug
+        $location.path "/patients/#{$routeParams.slug}"
+      else
+        $location.path "/patients"
 ]

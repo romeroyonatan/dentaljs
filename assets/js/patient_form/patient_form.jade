@@ -25,6 +25,7 @@ h1 Nuevo paciente
       +form-input("Calle", "patient.address.street", "Balcarce")
       +form-input("Número", "patient.address.number", "50")(type="number")
       +form-input("Barrio", "patient.address.district", "San Nicolás")
+      +form-input("Ciudad", "patient.address.city", "CABA")
       +form-input("Teléfono particular", "patient.phones.home", "4277 0906")
       +form-input("Teléfono celular", "patient.phones.cellphone", "11 6211 1423")
       +form-input("Teléfono laboral", "patient.phones.work", "4123 4444")
@@ -37,8 +38,9 @@ h1 Nuevo paciente
       +form-input("Horario laboral", "patient.work.hour", "9 a 18")
     
 .row
-  .pull-right
-    .btn-group(role="group" aria-label="...")
-      button.btn.btn-success(ng-click="save(patient)" 
-                             ng-disabled="!form.$valid") Guardar
-      button.btn.btn-danger(ng-click="cancel()") Cancelar
+  .col-md-12
+    .pull-right
+      .btn-group(role="group" aria-label="...")
+        button.btn.btn-success(ng-click="save(patient)" 
+                               ng-disabled="!form.$valid") Guardar
+        button.btn.btn-danger(ng-click="cancel()") Cancelar

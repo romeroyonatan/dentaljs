@@ -19,9 +19,6 @@ table.table.table-striped
         ul: li(ng-repeat="(name, phone) in patient.phones") {{ phone }}
       td
         .btn-group
-          a.btn.btn-default(href="#/patients/{{ patient.slug }}/update")
-            i.fa.fa-pencil
-            |  Editar
           a.btn.btn-danger(href="#/patients/{{ patient.slug }}/delete")
-            i.fa.fa-remove
+            i.fa.fa-trash
             |  Borrar
