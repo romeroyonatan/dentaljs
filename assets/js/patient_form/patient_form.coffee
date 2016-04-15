@@ -19,7 +19,8 @@ angular.module('dentaljs.patient_form', ['ngRoute', 'ui.bootstrap'])
 
     # Save button
     $scope.save = (patient) ->
-      patient.civil_status = parseInt patient.civil_status
+      if patient.civil_status?
+        patient.civil_status = parseInt patient.civil_status
       person = new Person patient
       if not $routeParams.slug
         person.$save ->

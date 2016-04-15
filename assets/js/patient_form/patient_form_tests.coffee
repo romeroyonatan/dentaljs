@@ -26,7 +26,7 @@ describe 'dentaljs.patient_form module', ->
   describe 'patient_form controller', ->
     it 'should send a born date', inject ($controller) ->
       $httpBackend.expectPOST('/persons',
-        person: born: date: new Date('1990-12-19')
+        person: born: date: '1990-12-19'
       ).respond(201, '')
       controller = createController()
       $rootScope.save person: born: date: '1990-12-19'
