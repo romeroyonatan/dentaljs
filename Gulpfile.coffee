@@ -8,7 +8,7 @@ gls = require 'gulp-live-server'
 print = require 'gulp-print'
 docco = require "gulp-docco"
 {protractor, webdriver_update} = require('gulp-protractor')
-execSync = require('child_process').execSync
+{exec, execSync} = require('child_process')
 fs = require 'fs'
 
 # Build server's source code
@@ -93,14 +93,18 @@ gulp.task 'deploy', ['build'], ->
 
 # Backup application's data from mongo docker container
 gulp.task 'backup', ['build'], ->
-  ip = execSync 'docker inspect --format
+  exec 'docker inspect --format 
   "{{ .NetworkSettings.Networks.dentaljs_default.IPAddress }}" dentaljs_db_1',
-  if ip
-    today = new Date
-    path = "backup/#{today.getYear()}/#{today.getMonth()}/#{today.getDate()}"
-    fs.mkdir path, ->
-      execSync "mongodump -o #{path} -h #{ip}"
-      console.log("Backup successful")
+  (error, stdout, stderr) ->
+    ip = stdout
+    console.log "Mongo server ip - " + ip
+    if ip
+      today = new Date
+      path = "backup/" + today.toISOString()
+      console.log "Creating backup folder " + path
+      fs.mkdir path, ->
+        execSync "mongodump -o #{path} -h #{ip}"
+        console.log("Backup successful")
 
 # Default task run a development server
 gulp.task 'default', ['build', 'run-server', 'watch']
