@@ -21,12 +21,13 @@
 
 ## Deploy
 
-  ```/bin/bash
-  gulp deploy    
-  ```
+```/bin/bash
+npm install --production
+gulp deploy    
+```
 
 ## Backup
 
-  ```/bin/bash
-  gulp backup
-  ```
+```/bin/bash
+gulp backup
+```
