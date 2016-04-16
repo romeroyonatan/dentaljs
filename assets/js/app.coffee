@@ -24,3 +24,13 @@ angular.module 'dentaljs', [
 .config ['$routeProvider', ($routeProvider) ->
   $routeProvider.otherwise {redirectTo: '/patients'}
 ]
+
+# Simple error handling
+.config ['$httpProvider', ($httpProvider) ->
+  $httpProvider.interceptors.push ['$q', ($q) ->
+    responseError: (rejection) ->
+      switch rejection.status
+        when 401, 404 then window.location = "/"
+        else $q.reject(rejection)
+    ]
+]
