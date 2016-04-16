@@ -3,3 +3,30 @@
 # Dentaljs
 
 > Dental management software
+
+## Requirements
+
+* [Nodejs 5 + npm](https://nodejs.org/en/download/package-manager/)
+* gulp & bower
+  ```/bin/bash
+  sudo npm install -g gulp bower
+  ```
+
+* [Docker-engine](https://docs.docker.com/engine/installation/linux/fedora/)
+
+* Docker-compose
+  ```/bin/bash
+  sudo pip install -U docker-compose
+  ```
+
+## Deploy
+
+  ```/bin/bash
+  gulp deploy    
+  ```
+
+## Backup
+
+  ```/bin/bash
+  gulp backup
+  ```

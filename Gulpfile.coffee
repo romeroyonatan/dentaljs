@@ -85,7 +85,7 @@ gulp.task 'docs', ->
 
 # Deploy application into docker container
 gulp.task 'deploy', ['build'], ->
-  execSync 'git pull origin master'
+  execSync 'git pull'
   execSync 'npm install --production'
   execSync 'bower install --production'
   execSync 'docker-compose build'
@@ -93,8 +93,8 @@ gulp.task 'deploy', ['build'], ->
 
 # Backup application's data from mongo docker container
 gulp.task 'backup', ['build'], ->
-  ip = execSync 'docker inspect --format "{{ .NetworkSettings.Networks.
-                 dentaljs_default.IPAddress }}" dentaljs_db_1',
+  ip = execSync 'docker inspect --format
+  "{{ .NetworkSettings.Networks.dentaljs_default.IPAddress }}" dentaljs_db_1',
   if ip
     today = new Date
     path = "backup/#{today.getYear()}/#{today.getMonth()}/#{today.getDate()}"
