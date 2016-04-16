@@ -21,6 +21,7 @@
     "gulp-print": "^2.0.1",
     "gulp-protractor": "^2.3.0",
     "gulp-util": "^3.0.7",
+    "jade": "^1.11.0",
     "karma": "^0.13.22",
     "mongoose": "^4.4.7",
     "mongoose-url-slugs": "^0.2.1",
