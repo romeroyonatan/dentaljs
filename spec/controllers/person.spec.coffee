@@ -36,7 +36,7 @@ describe 'Person´s controller tests', ->
 
   it "Should update a person", ->
     # Mock config
-    spyOn(Mock, 'where').and.callThrough()
+    spyOn(Mock, 'update').and.callThrough()
     # Parameters
     person =
       first_name: 'Example'
@@ -46,8 +46,10 @@ describe 'Person´s controller tests', ->
       slug: 'example-test'
     # Exec tests
     controller.update req, res
-    expect(Mock.where).toHaveBeenCalledWith slug: 'example-test'
-    expect(spies.update).toHaveBeenCalledWith person, jasmine.any Function
+    expect(Mock.update).toHaveBeenCalledWith
+      slug: 'example-test',
+      person,
+      jasmine.any(Function)
 
   it "Should retrieve details of a person", ->
     spyOn(res, 'send')

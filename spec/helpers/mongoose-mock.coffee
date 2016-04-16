@@ -42,6 +42,12 @@ Mock.save = (cb) ->
   ###
   cb? null
 
+Mock.update = (cb) ->
+  ###
+  Call a callback function
+  ###
+  cb? null
+
 Mock.where = (cb) ->
   ###
   Return an object with a update function
