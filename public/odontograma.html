@@ -39,6 +39,9 @@
     </head>
     <body>
 
+<button id="btn_arreglo">Arreglo</button>
+<button id="btn_enfermedad">Enfermedad</button>
+<br/>
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -131,6 +134,12 @@ Created by potrace 1.13, written by Peter Selinger 2001-2015
 <script>
   $(".sector").on("click", function(e) {
     $(this).toggleClass("selected");
+  });
+  $('#btn_arreglo').on('click', function(e){
+    $(".selected").removeClass().addClass('sector arreglo')
+  });
+  $('#btn_enfermedad').on('click', function(e){
+    $(".selected").removeClass().addClass('sector enfermedad')
   });
 </script>
 
