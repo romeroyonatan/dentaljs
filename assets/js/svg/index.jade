@@ -1,0 +1,95 @@
+- var cuadrantes = [1, 2, 3, 4]
+- var piezas = [1, 2, 3, 4, 5, 6, 7, 8]
+
+style
+  |  .sector {
+  |      fill:white;
+  |      fill-opacity:1;
+  |  }
+  |  .sector:hover {
+  |      fill:#dddddd;
+  |  }
+  |  .enfermedad {
+  |      fill:red;
+  |  }
+  |  .enfermedad:hover {
+  |      fill:#ff887f;
+  |  }
+  |  .arreglo {
+  |      fill:blue;
+  |  }
+  |  .arreglo:hover {
+  |      fill:#0088ff;
+  |  }
+  |  .selected {
+  |      fill:#ffae00;
+  |  }
+  |  .selected:hover {
+  |      fill:#e1e883;
+  |  }
+  |  .removed {
+  |      display:none;
+  |  }
+  | .pieza {
+  |  display: inline-block; 
+  | }
+  | .cuadrante {
+  |  display: inline-block; 
+  |  margin-right: 1em;
+  | }
+  | table {
+  | border: 1px solid black; 
+  | width: 100%;
+  | }
+  | td {
+  | border: 1px solid black; 
+  | text-align: center;
+  | }
+
+div
+  button#btn_arreglo Arreglo
+  button#btn_enfermedad Enfermedad
+  button#btn_removed Removido
+  button#btn_clean Limpiar
+
+- for cuadrante in cuadrantes
+  div.cuadrante
+    - for pieza in piezas
+      - id = cuadrante * 10 + pieza
+        div.pieza
+          table
+            thead
+              th(colspan=3)=id
+            tbody
+              tr: td(colspan=3) A
+              tr
+                td B
+                td C
+                td D
+              tr: td(colspan=3) E
+          include odontograma.jade
+          div=id
+
+script(src="https://code.jquery.com/jquery-2.2.3.min.js")
+script
+  | $(".sector").on("click", function(e) {
+  |   $(this).toggleClass("selected");
+  | });
+  | $('#btn_arreglo').on('click', function(e){
+  |   $(".selected").removeClass().addClass('sector arreglo')
+  |                 .attr('title', 'Arreglo');
+  | });
+  | $('#btn_enfermedad').on('click', function(e){
+  |   $(".selected").removeClass().addClass('sector enfermedad')
+  |                 .attr('title', 'Enfermedad');
+  | });
+  | $('#btn_removed').on('click', function(e){
+  |   var e = $(".selected").nextAll(".removed")
+  |   var o = e.css('display');
+  |   e.css('display', o === "none" ? "inline": "none");
+  |   $(".selected").removeClass('selected');
+  | });
+  | $('#btn_clean').on('click', function(e){
+  |   $(".sector").removeClass().addClass('sector').attr('title', '');
+  |   $(".removed").css('display', 'none');
+  | });
