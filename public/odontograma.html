@@ -35,10 +35,10 @@
             fill:#ffae00;
         }
         </style>
-        
+
     </head>
     <body>
-    
+
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -126,5 +126,13 @@ Created by potrace 1.13, written by Peter Selinger 2001-2015
      class="sector selected"
      inkscape:connector-curvature="0" />
 </svg>
+
+<script src="../bower_components/jquery/dist/jquery.js"></script>
+<script>
+  $(".sector").on("click", function(e) {
+    $(this).toggleClass("selected");
+  });
+</script>
+
     </body>
 </html>
