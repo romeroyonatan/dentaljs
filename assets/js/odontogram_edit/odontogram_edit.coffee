@@ -10,28 +10,32 @@ angular.module('dentaljs.odontogram_edit', ['ngRoute'])
 .controller 'OdontogramEditCtrl', [
   "$scope", "$routeParams", ($scope, $routeParams) ->
     $scope.diseases = [
-      {code: "A", description: "Enfermedad A"},
-      {code: "B", description: "Enfermedad B"},
-      {code: "C", description: "Enfermedad C"},
-      {code: "D", description: "Enfermedad D"},
+      {code: "A", description: "Enfermedad A", _id: 'a'},
+      {code: "B", description: "Enfermedad B", _id: 'b'},
+      {code: "C", description: "Enfermedad C", _id: 'c'},
+      {code: "D", description: "Enfermedad D", _id: 'd'},
     ]
 
     $scope.fixes = [
-      {code: "X", description: "Arreglo X"},
-      {code: "Y", description: "Arreglo Y"},
-      {code: "Z", description: "Arreglo Z"},
+      {code: "X", description: "Arreglo X", _id: 'x'},
+      {code: "Y", description: "Arreglo Y", _id: 'y'},
+      {code: "Z", description: "Arreglo Z", _id: 'z'},
     ]
 
     $scope.pieces = []
     $scope.description = ""
 
-    # build pieces array
-    for quadrant in [1..4]
-      for piece in [1..8]
-        id = quadrant * 10 + piece
-        $scope.pieces[id] =
-          id: id
-          sector: [0..4]
+    # attach issue to teeth. This issue could be either a fix or a disease
+    attachIssue = (id, sector, issue) ->
+      # if piece exists
+      if $scope.pieces[id]?
+        piece = $scope.pieces[id]
+      # create a new piece
+      else
+        piece = id: id, sectors: []
+        $scope.pieces[id] = piece
+      piece.sectors.push id: sector, issue: issue
+
 
     # when user clicks over a fix button, mark all selected sectors as fixed
     $scope.setFix = (fix) ->
@@ -39,10 +43,9 @@ angular.module('dentaljs.odontogram_edit', ['ngRoute'])
       selected = $ '.selected'
       # mark sectors as fixed
       selected.each (index, elem) ->
-        piece = $(elem).parents('.piece').attr('id')
+        id = $(elem).parents('.piece').attr('id')
         sector = $(elem).attr('id')
-        $scope.pieces[piece].sector[sector] = fix.code
-        console.log $scope.pieces[piece]
+        attachIssue id, sector, fix._id
       # removed selected state
       selected.removeClass()
               .addClass 'sector fix'
@@ -53,10 +56,19 @@ angular.module('dentaljs.odontogram_edit', ['ngRoute'])
     # when user clicks over a disease button, mark all selected sectors as
     # diseased
     $scope.setDisease = (disease) ->
-      $(".selected").removeClass()
-                    .addClass 'sector disease'
-                    .attr 'title', disease.description
-      true
+      # get selected sectors
+      selected = $ '.selected'
+      # mark sectors as disease
+      selected.each (index, elem) ->
+        id = $(elem).parents('.piece').attr('id')
+        sector = $(elem).attr('id')
+        attachIssue id, sector, disease._id
+      # removed selected state
+      selected.removeClass()
+              .addClass 'sector disease'
+              .attr 'title', disease.description
+      # ok!
+      return true
 
     # when user clicks over a removed button, mark all teeths selected as
     # removed
