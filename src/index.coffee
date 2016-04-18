@@ -23,6 +23,8 @@ config.setEnvironment env
 # db_config
 mongoose.connect config.MONGO_DB
 
+# FIXME serve-favicon
+
 # view engine setup
 app.set 'view engine', 'jade'
 
