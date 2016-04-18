@@ -42,7 +42,7 @@ module.exports =
       res.send object
 
   # Remove a exiting person
-  delete: (req, res, next) ->
+  remove: (req, res, next) ->
     Person.findOne(slug: req.params.slug).remove ->
       res.status 204
       res.end()

@@ -1,0 +1,68 @@
+// Styles for odontogram
+// Variables
+// $disease-color: Represents background color when the theeth has a disorder
+// $fix-color: Represents background color when the teeth has a fix
+// $bg-color: Color of the background when the sector isn selected
+
+$disease-color ?= $brand-danger
+$fix-color ?= $brand-primary
+$bg-color ?= white
+
+.btn-disease
+  background-color: $disease-color
+  color: white
+
+.btn-fix
+  background-color: $fix-color
+  color: white
+
+.quadrant
+  display: inline-block
+  margin-right: 1em
+
+  .piece
+    display: inline-block
+
+    svg
+      width: 69px
+      @media screen and (max-width: 1024px)
+        width: 57px
+      @media screen and (max-width: 800px)
+        width: 87px
+      @media screen and (max-width: 320px)
+        width: 87px
+
+    .sector
+      fill: $bg-color
+      &:hover
+        fill: $gray
+
+    .sector.disease
+      fill: $disease-color
+      fill-opacity:1
+      &:hover
+        fill: lighten($disease-color, 10%)
+
+    .sector.fix
+      fill: $fix-color
+      fill-opacity:1
+      &:hover
+        fill: lighten($fix-color, 10%)
+
+    .sector.selected
+      fill: $gray-darker
+      fill-opacity:1
+      &:hover
+        fill: $gray-dark
+
+    .removed
+      display: none
+      fill: $disease-color
+
+    table
+      border: 1px solid $gray-darker
+      width: 100%
+
+      td
+        border: 1px solid $gray-darker
+        text-align: center

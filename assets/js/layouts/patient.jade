@@ -12,6 +12,8 @@ block nav
   ul.nav.nav-tabs
     +nav_item('Datos del paciente', "#/patients/{{patient.slug}}",
               section == 'detail')
+    +nav_item('Odontograma', "#/patients/{{patient.slug}}/odontograms/edit",
+              section == 'odontogram')
     +nav_item('Historia Clínica', "#/patients/{{patient.slug}}/history",
               section == 'history')
     +nav_item('Plan de tratamiento', "#/patients/{{patient.slug}}/treatment",
