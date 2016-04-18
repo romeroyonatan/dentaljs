@@ -8,13 +8,16 @@ $disease-color ?= $brand-danger
 $fix-color ?= $brand-primary
 $bg-color ?= white
 
+.btn-toolbar
+  margin-bottom: 0.5em;
+
 .btn-disease
+  @extend .btn-danger
   background-color: $disease-color
-  color: white
 
 .btn-fix
+  @extend .btn-primary
   background-color: $fix-color
-  color: white
 
 .quadrant
   display: inline-block
@@ -66,3 +69,8 @@ $bg-color ?= white
       td
         border: 1px solid $gray-darker
         text-align: center
+        height: 1.5em;
+        width: 1.5em;
+
+      th
+        text-align: right

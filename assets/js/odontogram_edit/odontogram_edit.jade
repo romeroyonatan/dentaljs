@@ -1,34 +1,36 @@
 extends ../layouts/patient.jade
 include ../mixins/odontogram
+include ../mixins/form
 
 prepend nav
   -var section = 'odontogram'
 
 block content
   h2 Odontograma
+  +form-input("Título", "title", "Odontograma inicial")
+  +form-textarea("Comentarios", "comments")
+  
   .btn-toolbar(role="toolbar")
     //- Diseases buttons
     .btn-group
       button.btn.btn-disease(ng-click="setDisease(disease)" 
-                             ng-repeat="disease in diseases")
-        | {{ disease.description }}
+                             ng-repeat="disease in diseases"
+                             ng-disabled="!selected"
+                             ng-bind="disease.description")
       
     //- Fixes buttons
     .btn-group
-      button.btn.btn-fix(ng-click="setFix(fix)" ng-repeat="fix in fixes")
-        | {{ fix.description }}
+      button.btn.btn-fix(ng-click="setFix(fix)" ng-repeat="fix in fixes"
+                         ng-disabled="!selected" ng-bind="fix.description")
       
     //- Utils buttons
     .btn-group
-      button.btn.btn-disease(ng-click="setRemoved()")
-        i.fa.fa-times
-        |  Removido
-      button.btn.btn-default(ng-click="clean()")
+      button.btn.btn-default(ng-click="clean()" ng-disabled="!selected")
         i.fa.fa-eraser  
         |  Limpiar
-      
+  
   //- Odontogram widget  
-  +odontogram
+  +odontogram({remove: true})
   
   button.btn.btn-success(ng-click="save()")
     i.fa.fa-save  
