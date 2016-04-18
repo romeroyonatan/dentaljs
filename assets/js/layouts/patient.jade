@@ -6,7 +6,7 @@ include ../mixins/breadcrumb.jade
   {href:"#/patients", name:"{{ patient.first_name }} {{ patient.last_name }}"}
 )
 
-h1 {{ patient.first_name }} {{ patient.last_name }}
+h1(ng-bind="patient.first_name + ' ' + patient.last_name")
 
 block nav
   ul.nav.nav-tabs

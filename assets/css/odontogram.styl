@@ -7,6 +7,7 @@
 $disease-color ?= $brand-danger
 $fix-color ?= $brand-primary
 $bg-color ?= white
+$selected-color ?= #8CD58C
 
 .btn-toolbar
   margin-bottom: 0.5em;
@@ -38,7 +39,7 @@ $bg-color ?= white
     .sector
       fill: $bg-color
       &:hover
-        fill: $gray
+        fill: $selected-color
 
     .sector.disease
       fill: $disease-color
@@ -53,10 +54,10 @@ $bg-color ?= white
         fill: lighten($fix-color, 10%)
 
     .sector.selected
-      fill: $gray-darker
+      fill: $selected-color
       fill-opacity:1
       &:hover
-        fill: $gray-dark
+        fill: darken($selected-color, 10%)
 
     .removed
       display: none
