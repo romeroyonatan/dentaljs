@@ -151,3 +151,22 @@ describe 'Odontogram widget', ->
         elem.click()
       quadrant1.all(By.css '.removed').each (strikethough) ->
         expect(strikethough.getCssValue('display')).toBe 'none'
+
+  it "mix fixes and diseases", ->
+    # click all sectors of second quadrant
+    quadrant1 = element.all(By.css '.quadrant').get 0
+    quadrant3 = element.all(By.css '.quadrant').get 2
+    fixes = quadrant1.all By.css '.sector'
+    diseases = quadrant3.all By.css '.sector'
+    fixes.each (elem) ->
+      elem.click()
+    .then ->
+      btn_fix.click()
+      diseases.each (elem) ->
+        elem.click()
+      .then ->
+        btn_disease.click()
+        fixed = element.all By.css '.sector.fix'
+        expect(fixed.count()).toEqual 40 # 8 pieces * 5 sectors
+        diseased = element.all By.css '.sector.disease'
+        expect(fixed.count()).toEqual 40 # 8 pieces * 5 sectors

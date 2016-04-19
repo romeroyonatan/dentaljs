@@ -67,6 +67,6 @@ describe 'Person´s controller tests', ->
     req.params =
       slug: 'example-test'
     # Exec tests
-    controller.delete req, res
+    controller.remove req, res
     expect(spies.findOne).toHaveBeenCalledWith slug: 'example-test'
     expect(spies.remove).toHaveBeenCalled()
