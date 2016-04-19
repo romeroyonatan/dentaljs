@@ -74,7 +74,7 @@ gulp.task 'test-e2e', ['build-e2e', 'protractor-run']
 gulp.task 'build', ['build-src', 'build-jade'], ->
 
 # Run all tests
-gulp.task 'test', ['test-server', 'test-client', 'test-e2e'], ->
+gulp.task 'test', ['test-server', 'test-client'], ->
 
 # Run development server
 server = gls.new 'bin/www'
