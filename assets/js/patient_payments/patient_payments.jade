@@ -33,7 +33,7 @@ block content
             )
           td
           td
-            button.btn(ng-click="new_account()" ng-disabled="!form.$valid") Guardar
+            button.btn(ng-click="new(account)" ng-disabled="!form.$valid") Guardar
 
       tbody
         tr(ng-repeat="account in accounting|orderBy:'-date'")
