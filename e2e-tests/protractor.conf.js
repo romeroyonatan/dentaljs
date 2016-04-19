@@ -2,14 +2,14 @@ exports.config = {
   allScriptsTimeout: 11000,
 
   specs: [
-    '*.js'
+    '../.e2e-tests/**/*[Ss]pec.js'
   ],
 
   capabilities: {
-    'browserName': 'chrome'
+    'browserName': 'firefox'
   },
 
-  baseUrl: 'http://localhost:8000/app/',
+  baseUrl: 'http://localhost:3000/',
 
   framework: 'jasmine',
 

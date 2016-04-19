@@ -38,7 +38,7 @@
     "karma-jasmine": "^0.3.5",
     "karma-phantomjs-launcher": "^1.0.0",
     "node-inspector": "*",
-    "protractor": "^2.1.0",
+    "protractor": "^3.2.2",
     "request": "*",
     "rewire": "^2.5.1"
   }

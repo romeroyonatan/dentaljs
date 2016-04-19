@@ -7,8 +7,9 @@ jade = require 'gulp-jade'
 gls = require 'gulp-live-server'
 print = require 'gulp-print'
 docco = require "gulp-docco"
-{protractor, webdriver_update} = require('gulp-protractor')
-{exec, execSync} = require('child_process')
+{protractor, webdriver_update} = require 'gulp-protractor'
+{exec, execSync, spawn} = require 'child_process'
+path = require 'path'
 fs = require 'fs'
 
 # Build server's source code
@@ -29,6 +30,11 @@ gulp.task 'build-spec', ['build'], ->
     .pipe coffee().on 'error', gutil.log
     .pipe gulp.dest '.spec/'
 
+gulp.task 'build-e2e', ['build'], ->
+  gulp.src 'e2e-tests/**/*.coffee'
+    .pipe coffee().on 'error', gutil.log
+    .pipe gulp.dest '.e2e-tests/'
+
 # Run client-side tests
 gulp.task 'test-client', (done)->
   server = new karma.Server
@@ -42,15 +48,27 @@ gulp.task 'test-server', ['build-spec'], ->
   gulp.src('.spec/**/*[sS]pec.js')
     .pipe jasmine()
 
-# Downloads the selenium webdriver
-gulp.task 'webdriver-update', webdriver_update
+# get the binary of protractor
+getProtractorBinary = (binaryName) ->
+  winExt = if /^win/.test(process.platform) then '.cmd' else ''
+  pkgPath = require.resolve('protractor')
+  protractorDir = path.resolve(path.join(path.dirname(pkgPath), '..', 'bin'))
+  path.join(protractorDir, '/' + binaryName + winExt)
 
-# Run e2e tests
-gulp.task 'test-e2e', ['build-spec', 'webdriver-update'], ->
-  gulp.src [".e2e-tests/**/*[sS]pec.js"]
-    .pipe protractor
-      configFile: 'e2e-tests/protractor.config.js',
-      args: ['--baseUrl', 'http://127.0.0.1:8000']
+# update webdriver
+gulp.task 'protractor-install', (done) ->
+  spawn(getProtractorBinary('webdriver-manager'), ['update'], {
+    stdio: 'inherit'
+  }).once('close', done)
+
+# run end-to-end tests
+gulp.task 'protractor-run', ['protractor-install'], (done) ->
+  argv = ['e2e-tests/protractor.conf.js']
+  spawn(getProtractorBinary('protractor'), argv, {
+    stdio: 'inherit'
+  }).once('close', done)
+
+gulp.task 'test-e2e', ['build-e2e', 'protractor-run']
 
 # Build application's code
 gulp.task 'build', ['build-src', 'build-jade'], ->
@@ -63,6 +81,10 @@ server = gls.new 'bin/www'
 gulp.task 'run-server', ->
   server.start()
   console.log "Server started"
+
+gulp.task 'stop-server', ->
+  server.stop()
+  console.log "Server stopped"
 
 # Reload development server
 gulp.task 'reload', ->
@@ -93,7 +115,7 @@ gulp.task 'deploy', ['build'], ->
 
 # Backup application's data from mongo docker container
 gulp.task 'backup', ['build'], ->
-  exec 'docker inspect --format 
+  exec 'docker inspect --format
   "{{ .NetworkSettings.Networks.dentaljs_default.IPAddress }}" dentaljs_db_1',
   (error, stdout, stderr) ->
     ip = stdout

@@ -1,5 +1,6 @@
 .app/
 .spec/
+.e2e-tests/
 data/
 node_modules/
 bower_components/
