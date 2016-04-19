@@ -49,7 +49,7 @@ angular.module('dentaljs.odontogram_edit', ['ngRoute'])
         $scope.pieces[issue.id] = piece
       piece.sectors[issue.sector] =
         id: issue.sector,
-        issue: issue.code if issue.code?
+        issue: issue.issue if issue.issue?
       if issue.removed?
         piece.sectors = []
         # toggle remove attr
@@ -61,9 +61,11 @@ angular.module('dentaljs.odontogram_edit', ['ngRoute'])
       selected = $ '.selected'
       # mark sectors as fixed
       selected.each (index, elem) ->
-        id = $(elem).parents('.piece').attr('id')
+        # XXX Replace parents
+        id = $(elem).closest('.piece').attr('id')
+        # XXX Replace attr
         sector = $(elem).attr('id')
-        attachIssue id: id, sector: sector, code: fix._id
+        attachIssue id: id, sector: sector, issue: fix
       # removed selected state
       selected.removeClass()
               .addClass 'sector fix'
@@ -75,12 +77,14 @@ angular.module('dentaljs.odontogram_edit', ['ngRoute'])
     # diseased
     $scope.setDisease = (disease) ->
       # get selected sectors
-      selected = $ '.selected'
+      selected = angular.element '.selected'
       # mark sectors as disease
       selected.each (index, elem) ->
-        id = $(elem).parents('.piece').attr('id')
+        # XXX replace closest
+        id = $(elem).closest('.piece').attr('id')
+        # XXX replace attr
         sector = $(elem).attr('id')
-        attachIssue id: id, sector: sector, code: disease._id
+        attachIssue id: id, sector: sector, issue: disease
       # removed selected state
       selected.removeClass()
               .addClass 'sector disease'
@@ -92,8 +96,10 @@ angular.module('dentaljs.odontogram_edit', ['ngRoute'])
     # removed
     $scope.setRemoved = (id) ->
       # reset sectors
+      # XXX findbyCssSelector
       $("##{id} .sector").removeClass().addClass('sector').attr('title', '')
       # show/hide strikethough
+      # XXX findbyCssSelector
       $("##{id} .removed").toggle()
       # mark teeth as removed
       attachIssue id: id, removed: true
@@ -102,10 +108,13 @@ angular.module('dentaljs.odontogram_edit', ['ngRoute'])
     # value. If teeth is marked as removed, the mark will be clean
     $scope.clean = ->
       # get selected sectors
+      # XXX findbyCssSelector
       selected = $ '.selected'
       # reset sector marks
       selected.each (index, elem) ->
-        id = $(elem).parents('.piece').attr('id')
+        # XXX replace closest
+        id = $(elem).closest('.piece').attr('id')
+        # XXX replace attr
         sector = $(elem).attr('id')
         delete $scope.pieces[id]
       # reset widget appearance
@@ -125,11 +134,14 @@ angular.module('dentaljs.odontogram_edit', ['ngRoute'])
       console.log odontogram
 
     # Bindings for teeth's sector click
+    # XXX findbyCssSelector
     $(".sector")
       .on "click touchstart", (e) ->
         e.preventDefault()
+        # XXX replace toogleClass
         $(@).toggleClass("selected")
         # enable or disables toolbar
+        # XXX findbyCssSelector
         $scope.selected = $(".selected").length > 0
         $scope.$apply()
       .on "touchmove", (e) ->
