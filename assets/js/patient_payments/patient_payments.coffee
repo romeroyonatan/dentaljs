@@ -12,7 +12,6 @@ angular.module('dentaljs.patient_payments', ['ngRoute', 'ui.bootstrap'])
     # initialize scope vars
     $scope.accounting = []
     $scope.balance = 0
-    modalEdit = null
 
     # get patient and its accounting
     $scope.patient = Person.get slug: $routeParams.slug, ->
@@ -47,7 +46,7 @@ angular.module('dentaljs.patient_payments', ['ngRoute', 'ui.bootstrap'])
     $scope.delete = (account) -> account.$delete -> subtract(account)
 
     # edit existing accounting
-    update = (account) ->
+    $scope.update = (account) ->
       account.person = $scope.patient._id
       resource = new Accounting account
       resource.$update()
@@ -56,13 +55,13 @@ angular.module('dentaljs.patient_payments', ['ngRoute', 'ui.bootstrap'])
 
     # shows a modal with update's form
     $scope.showEdit = (account) ->
-      modalEdit = $uibModal.open
+      $uibModal.open
         templateUrl: 'partials/patient_payments/modal_edit.html'
         controller: 'ModalUpdateCtrl',
         size: 'lg',
         resolve:
           account: account
-      .result.then (account)-> update(account)
+      .result.then (account)-> $scope.update(account)
 ]
 
 .controller 'ModalUpdateCtrl', ['$scope', '$uibModalInstance', 'account',

@@ -39,7 +39,7 @@ describe 'Accounting controller tests', ->
 
   it "Should update an accounting", ->
     # Mock config
-    spyOn(Mock, 'where').and.callThrough()
+    spyOn(Mock, 'update').and.callThrough()
     # Parameters
     accounting =
       date: new Date
@@ -50,8 +50,8 @@ describe 'Accounting controller tests', ->
       id: 'abcxyz'
     # Exec tests
     controller.update req, res
-    expect(Mock.where).toHaveBeenCalledWith _id: 'abcxyz'
-    expect(spies.update).toHaveBeenCalledWith accounting, jasmine.any Function
+    expect(Mock.update).toHaveBeenCalledWith _id:'abcxyz', accounting,
+                                             jasmine.any Function
 
   it "Should retrieve details of an accounting", ->
     spyOn(res, 'send')

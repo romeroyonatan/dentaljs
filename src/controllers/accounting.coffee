@@ -18,13 +18,18 @@ module.exports =
     object = new Accounting object
     object.save (err) ->
       if not err
+        res.status = 201
         res.send object
 
   # Update an existing accounting
   update: (req, res) ->
     object = req.body
-    Accounting.where(_id: req.params.id).update object, ->
-      res.send object
+    # update balance because Mongoose doesnt do in pre-save hook
+    object.balance = object.assets - object.debit
+    Accounting.update _id: req.params.id, object, (err)->
+      if not err
+        res.status = 200
+        res.send object
 
   # Get details from an accounting
   detail: (req, res) ->
