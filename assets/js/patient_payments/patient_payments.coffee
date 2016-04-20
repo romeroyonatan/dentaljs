@@ -1,4 +1,4 @@
-angular.module('dentaljs.patient_payments', ['ngRoute'])
+angular.module('dentaljs.patient_payments', ['ngRoute', 'ui.bootstrap'])
 
 .config ['$routeProvider', ($routeProvider) ->
   $routeProvider.when '/patients/:slug/payments',
@@ -7,11 +7,12 @@ angular.module('dentaljs.patient_payments', ['ngRoute'])
 ]
 
 .controller 'PatientPaymentsCtrl', [
-  "$scope", "$routeParams", "$route", "Person", "Accounting",
-  ($scope, $routeParams, $route, Person, Accounting) ->
+  "$scope", "$routeParams", "$route","$uibModal", "Person", "Accounting",
+  ($scope, $routeParams, $route, $uibModal, Person, Accounting) ->
     # initialize scope vars
     $scope.accounting = []
     $scope.balance = 0
+    modalEdit = null
 
     # get patient and its accounting
     $scope.patient = Person.get slug: $routeParams.slug, ->
@@ -42,13 +43,31 @@ angular.module('dentaljs.patient_payments', ['ngRoute'])
       accounting.$save()
       add(accounting)
 
+    # remove accounting
+    $scope.delete = (account) -> account.$delete -> subtract(account)
+
     # edit existing accounting
-    $scope.update = (account) ->
+    update = (account) ->
       account.person = $scope.patient._id
       resource = new Accounting account
       resource.$update()
+      # hide modal
       $route.reload()
 
-    # remove accounting
-    $scope.delete = (account) -> account.$delete -> subtract(account)
+    # shows a modal with update's form
+    $scope.showEdit = (account) ->
+      modalEdit = $uibModal.open
+        templateUrl: 'partials/patient_payments/modal_edit.html'
+        controller: 'ModalUpdateCtrl',
+        size: 'lg',
+        resolve:
+          account: account
+      .result.then (account)-> update(account)
+]
+
+.controller 'ModalUpdateCtrl', ['$scope', '$uibModalInstance', 'account',
+  ($scope, $uibModalInstance, account) ->
+    $scope.account = account
+    $scope.ok = -> $uibModalInstance.close $scope.account
+    $scope.cancel = -> $uibModalInstance.dismiss 'cancel'
 ]

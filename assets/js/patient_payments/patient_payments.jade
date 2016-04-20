@@ -1,6 +1,6 @@
 extends ../layouts/patient.jade
 prepend nav
-  -var section = 'payments'
+  - var section = 'payments'
 
 block content
   h2 Planilla de pagos
@@ -25,29 +25,32 @@ block content
             td
               input.form-control(
                 ng-model="account.debit" name="debit" type="number"
-                placeholder="$ 100"
+                placeholder="$ 100" value=0
               )
             td
               input.form-control(
-                ng-model="account.credit" name="credit" type="number"
-                placeholder="$ 100"
+                ng-model="account.assets" name="credit" type="number"
+                placeholder="$ 100" value=0
               )
-            td
+            td(ng-bind="(account.assets - account.debit)|currency")
             td
               button.btn(ng-click="new(account)" ng-disabled="!form.$valid")
                 | Guardar
 
         tbody
           tr(ng-repeat="account in accounting|orderBy:'-date'")
-            td {{ account.date|date }}
-            td {{ account.description }}
-            td {{ account.debit|currency }}
-            td {{ account.credit|currency }}
-            td {{ account.balance|currency }}
+            td(ng-bind="account.date|date")
+            td(ng-bind="account.description")
+            td(ng-bind="account.debit|currency")
+            td(ng-bind="account.assets|currency")
+            td(ng-bind="account.balance|currency")
             td
-              button.btn.btn-danger(ng-click="delete(account)"): i.fa.fa-trash
+              .btn-group(role="group")
+                button.btn.btn-warning(ng-click="showEdit(account)") 
+                  i.fa.fa-pencil
+                button.btn.btn-danger(ng-click="delete(account)")
+                  i.fa.fa-trash
         tfoot
           tr.active(ng-class="{'success': balance > 0, 'danger': balance < 0}")
             td(colspan=4): strong Balance
-            td {{ balance|currency }}
-            td
+            td(colspan=2 ng-bind="balance|currency")
