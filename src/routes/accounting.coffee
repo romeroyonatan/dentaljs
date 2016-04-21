@@ -3,6 +3,7 @@ controller = require '../controllers/accounting'
 
 router = express.Router()
 
+
 ###
 # REST API
 ###
@@ -13,8 +14,8 @@ router.put '/:id', controller.update
 router.delete '/:id', controller.delete
 
 ###
-## Another utils methods
+# ## Another utils methods
 ###
-router.get '/balance/:person', controller.list
+router.get '/balance/:person', controller.balance
 
 module.exports = router

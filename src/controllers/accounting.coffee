@@ -63,4 +63,4 @@ module.exports =
       for account in list
         balance += account.assets
         balance -= account.debit
-      res.send balance
+      res.send balance: balance

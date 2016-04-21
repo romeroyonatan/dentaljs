@@ -111,7 +111,7 @@ describe 'Accounting controller tests without mock', ->
     person = mongoose.Types.ObjectId '1234567890ab'
     req = params: person: person
     res = send: (data) ->
-      expect(data).toEqual -30
+      expect(data.balance).toEqual -30
       done()
     # Create mock data
     Accounting.create [

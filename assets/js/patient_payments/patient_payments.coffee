@@ -6,9 +6,9 @@ angular.module('dentaljs.patient_payments', ['ngRoute', 'ui.bootstrap'])
     controller: 'PatientPaymentsCtrl'
 ]
 
-.controller 'PatientPaymentsCtrl', [
-  "$scope", "$routeParams", "$route","$uibModal", "Person", "Accounting",
-  ($scope, $routeParams, $route, $uibModal, Person, Accounting) ->
+.controller 'PatientPaymentsCtrl', ["$scope", "$routeParams", "$route",
+  "$http", "$uibModal", "Person", "Accounting",
+  ($scope, $routeParams, $route, $http, $uibModal, Person, Accounting) ->
     # initialize scope vars
     $scope.accounting = []
     $scope.balance = 0
@@ -16,7 +16,8 @@ angular.module('dentaljs.patient_payments', ['ngRoute', 'ui.bootstrap'])
     # get patient and its accounting
     $scope.patient = Person.get slug: $routeParams.slug, ->
       $scope.accounting = Accounting.query person: $scope.patient._id, ->
-        $scope.balance += a.balance for a in $scope.accounting
+        $http.get("/accounting/balance/" + $scope.patient._id).then (res) ->
+          $scope.balance = res.data.balance
 
     # add new accounting to list and add mounts to balance
     add = (account)->

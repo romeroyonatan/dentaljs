@@ -83,5 +83,5 @@ block content
           //- -----------------------------------------------------------------
         tfoot
           tr.active(ng-class="{'success': balance > 0, 'danger': balance < 0}")
-            td(colspan=4): strong Balance
+            td(colspan=5): strong Balance
             td(colspan=2 ng-bind="balance|currency")
