@@ -1,0 +1,25 @@
+include ../mixins/form.jade
+
+.modal-header
+  button.close(type="button" data-dismiss="modal" aria-label="close")
+    span(aria-hidden="true") &times;
+  h4.modal-title Registro dependiente
+.modal-body
+  form
+    label Padre
+    p.form-control-static(
+      ng-bind="account.parent.description"
+    )
+    +form-date("Fecha", "account.date")
+    +form-input("Descripción", "account.description")
+    +form-input("Debe", "account.debit")(type="number")
+    +form-input("Haber", "account.assets")(type="number")
+    label Saldo
+    p.form-control-static(
+      ng-bind="(account.assets - account.debit)|currency"
+    )
+.modal-footer
+  button.btn.btn-default(type="button" ng-click="cancel()")
+    | Cancelar
+  button.btn.btn-primary(type="button" ng-click="ok()")
+    | Guardar cambios

@@ -1,6 +1,7 @@
 rewire = require 'rewire'
 {Mock, spies} = require '../helpers/mongoose-mock'
 controller = rewire '../../.app/controllers/accounting'
+Accounting = require '../../.app/models/accounting'
 
 describe 'Accounting controller tests', ->
   req = {}
@@ -72,3 +73,21 @@ describe 'Accounting controller tests', ->
     controller.delete req, res
     expect(spies.findOne).toHaveBeenCalledWith _id: 'abcxyz'
     expect(spies.remove).toHaveBeenCalled()
+
+describe 'Accounting controller tests without mock', ->
+
+  it 'father should has childs', (done) ->
+    childs = []
+    father = new Accounting description: "Father", debit:10
+    father.save().then ->
+      console.log(father)
+      child = new Accounting description: "Child", credit:1, parent: father
+      child.save().then ->
+        console.log(child)
+        Accounting.findOne(description: "Father").then ->
+          console.log(elem)
+          expect(elem.childs.length).toEqual 1
+          expect(elem.childs[0].description).toEqual "Child"
+          done()
+      parent.remove()
+      child.remove()

@@ -46,7 +46,7 @@ gulp.task 'test-client', (done)->
 # Run server-side tests
 gulp.task 'test-server', ['build-spec'], ->
   gulp.src('.spec/**/*[sS]pec.js')
-    .pipe jasmine()
+    .pipe jasmine verbose: on, includeStackTrace: on
 
 # get the binary of protractor
 getProtractorBinary = (binaryName) ->

@@ -7,7 +7,7 @@ block content
 
   form(novalidate name="form")
     .table-responsive
-      table.table.table-hover
+      table.table.table-hover.table-striped
         thead
           tr
             th Fecha
@@ -38,17 +38,24 @@ block content
                 | Guardar
 
         tbody
-          tr(ng-repeat="account in accounting|orderBy:'-date'")
-            td(ng-bind="account.date|date")
+          tr(ng-repeat="account in accounting|orderBy:'-date'"
+             ng-if="!account.parent")
+            td
+             button.btn.btn-default.btn-sm(ng-click="showDependant(account)"
+                                           title="Crear registro dependiente")
+               i.fa.fa-plus
+             span(ng-bind="account.date|date")
             td(ng-bind="account.description")
             td(ng-bind="account.debit|currency")
             td(ng-bind="account.assets|currency")
             td(ng-bind="account.balance|currency")
             td
               .btn-group(role="group")
-                button.btn.btn-warning(ng-click="showEdit(account)") 
+                button.btn.btn-warning(ng-click="showEdit(account)" 
+                                       title="Editar") 
                   i.fa.fa-pencil
-                button.btn.btn-danger(ng-click="delete(account)")
+                button.btn.btn-danger(ng-click="delete(account)"
+                                      title="Eliminar")
                   i.fa.fa-trash
         tfoot
           tr.active(ng-class="{'success': balance > 0, 'danger': balance < 0}")

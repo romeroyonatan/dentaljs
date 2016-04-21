@@ -8,15 +8,20 @@ Accounting = new mongoose.Schema
   assets: {type: Number, default: 0, min: 0}
   balance: {type: Number, default: 0, min: 0}
   date: { type: Date, default: Date.now },
-  # id de accounting que este registro invalida
-  invalid: mongoose.Schema.Types.ObjectId
-  # id de accounting que este registro paga
-  pay: mongoose.Schema.Types.ObjectId
+  # parent id
+  parent: mongoose.Schema.Types.ObjectId
+  childs: [mongoose.Schema.Types.ObjectId]
 
 Accounting.pre 'save', (next) ->
   @assets = 0 if not @assets?
   @debit = 0 if not @debit?
   @balance = @assets - @debit
+
+  if @parent?
+    child = this
+    Accounting.find _id: @parent, (err, elem) ->
+      elem.childs.push child
+      elem.save()
   next()
 
 module.exports = mongoose.model 'Accounting', Accounting

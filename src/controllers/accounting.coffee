@@ -6,20 +6,21 @@ Accounting = require '../models/accounting'
 module.exports =
 
   # Get a list of accounting filtered by person _id
-  list: (req, res) ->
-    Accounting.find req.query, (err, list)->
+  list: (req, res, next) ->
+    Accounting.find req.query, (err, list) ->
       if err
-        res.send err
+        next err
       res.send list
 
   # Create a new accounting
-  create: (req, res) ->
+  create: (req, res, next) ->
     object = req.body
     object = new Accounting object
     object.save (err) ->
-      if not err
-        res.status = 201
-        res.send object
+      if err
+        next err
+      res.status = 201
+      res.send object
 
   # Update an existing accounting
   update: (req, res) ->

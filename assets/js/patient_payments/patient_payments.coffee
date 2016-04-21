@@ -68,12 +68,32 @@ angular.module('dentaljs.patient_payments', ['ngRoute', 'ui.bootstrap'])
         size: 'lg',
         resolve:
           account: account
-      .result.then (account)-> $scope.update(account)
+      .result.then (account)-> $scope.update account
+
+    # shows a modal to create a dependant account
+    $scope.showDependant = (account) ->
+      $uibModal.open
+        templateUrl: 'partials/patient_payments/modal_dependant.html'
+        controller: 'ModalDependantCtrl'
+        size: 'lg',
+        resolve:
+          parent: account
+      .result.then (account)->
+        $scope.new account
+        $route.reload()
 ]
 
 .controller 'ModalUpdateCtrl', ['$scope', '$uibModalInstance', 'account',
   ($scope, $uibModalInstance, account) ->
     $scope.account = account
+    $scope.ok = -> $uibModalInstance.close $scope.account
+    $scope.cancel = -> $uibModalInstance.dismiss 'cancel'
+]
+
+.controller 'ModalDependantCtrl', ['$scope', '$uibModalInstance', 'parent',
+  ($scope, $uibModalInstance, parent) ->
+    $scope.account =
+      parent: parent
     $scope.ok = -> $uibModalInstance.close $scope.account
     $scope.cancel = -> $uibModalInstance.dismiss 'cancel'
 ]
