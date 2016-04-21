@@ -5,7 +5,7 @@
   <title>person.coffee</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
-  <link rel="stylesheet" media="all" href="../../dentaljs/docco.css" />
+  <link rel="stylesheet" media="all" href="../docco.css" />
 </head>
 <body>
   <div id="container">
@@ -62,8 +62,10 @@ Person = <span class="hljs-built_in">require</span> <span class="hljs-string">'.
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  list: <span class="hljs-function"><span class="hljs-params">(req, res)</span> -&gt;</span>
+            <div class="content"><div class='highlight'><pre>  list: <span class="hljs-function"><span class="hljs-params">(req, res, next)</span> -&gt;</span>
     Person.find (err, list)-&gt;
+      <span class="hljs-keyword">if</span> err
+        <span class="hljs-keyword">return</span> next err
       res.send list</pre></div></div>
             
         </li>
@@ -79,11 +81,13 @@ Person = <span class="hljs-built_in">require</span> <span class="hljs-string">'.
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  create: <span class="hljs-function"><span class="hljs-params">(req, res)</span> -&gt;</span>
+            <div class="content"><div class='highlight'><pre>  create: <span class="hljs-function"><span class="hljs-params">(req, res, next)</span> -&gt;</span>
     object = <span class="hljs-keyword">new</span> Person req.body
     object.save (err) -&gt;
-      <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> err
-        res.send object</pre></div></div>
+      <span class="hljs-keyword">if</span> err
+        <span class="hljs-keyword">return</span> next err
+      res.status <span class="hljs-number">201</span>
+      res.send object</pre></div></div>
             
         </li>
         
@@ -98,9 +102,13 @@ Person = <span class="hljs-built_in">require</span> <span class="hljs-string">'.
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  update: <span class="hljs-function"><span class="hljs-params">(req, res)</span> -&gt;</span>
+            <div class="content"><div class='highlight'><pre>  update: <span class="hljs-function"><span class="hljs-params">(req, res, next)</span> -&gt;</span>
     object = req.body
-    Person.where(slug: req.params.slug).update object, <span class="hljs-function">-&gt;</span>
+    Person.update slug: req.params.slug, object, <span class="hljs-function"><span class="hljs-params">(err, rawResponse)</span> -&gt;</span>
+      <span class="hljs-keyword">if</span> err
+        <span class="hljs-keyword">return</span> next err
+      <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> rawResponse.ok
+        <span class="hljs-keyword">return</span> next status: <span class="hljs-number">404</span>, message: <span class="hljs-string">'Person not found'</span>
       res.send req.body</pre></div></div>
             
         </li>
@@ -116,9 +124,8 @@ Person = <span class="hljs-built_in">require</span> <span class="hljs-string">'.
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  detail: <span class="hljs-function"><span class="hljs-params">(req, res)</span> -&gt;</span>
-    Person.findOne slug: req.params.slug, <span class="hljs-function"><span class="hljs-params">(err, object)</span> -&gt;</span>
-      res.send object</pre></div></div>
+            <div class="content"><div class='highlight'><pre>  detail: <span class="hljs-function"><span class="hljs-params">(req, res, next)</span> -&gt;</span>
+    Person.findOne slug: req.params.slug, <span class="hljs-function"><span class="hljs-params">(err, object)</span> -&gt;</span></pre></div></div>
             
         </li>
         
@@ -129,13 +136,33 @@ Person = <span class="hljs-built_in">require</span> <span class="hljs-string">'.
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-7">&#182;</a>
               </div>
+              <p>Error handling</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">if</span> err
+        <span class="hljs-keyword">return</span> next err
+      <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> object?
+        <span class="hljs-keyword">return</span> next status: <span class="hljs-number">404</span>, message: <span class="hljs-string">'Person not found'</span>
+      res.send object</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
               <p>Remove a exiting person</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  delete: <span class="hljs-function"><span class="hljs-params">(req, res)</span> -&gt;</span>
+            <div class="content"><div class='highlight'><pre>  remove: <span class="hljs-function"><span class="hljs-params">(req, res, next)</span> -&gt;</span>
     Person.findOne(slug: req.params.slug).remove -&gt;
-      res.send <span class="hljs-string">"<span class="hljs-subst">#{req.params.slug}</span> deleted"</span></pre></div></div>
+      res.status <span class="hljs-number">204</span>
+      res.end()</pre></div></div>
             
         </li>
         

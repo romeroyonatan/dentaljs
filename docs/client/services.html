@@ -32,12 +32,12 @@
             
             <div class="content"><div class='highlight'><pre>angular.<span class="hljs-built_in">module</span> <span class="hljs-string">'dentaljs.services'</span>, [<span class="hljs-string">'ngResource'</span>]
 .factory <span class="hljs-string">'Person'</span>, [<span class="hljs-string">'$resource'</span>, <span class="hljs-function"><span class="hljs-params">($resource)</span> -&gt;</span>
-  <span class="hljs-keyword">return</span> $resource <span class="hljs-string">'persons/:slug'</span>, {slug: <span class="hljs-string">"@slug"</span>},
+  <span class="hljs-keyword">return</span> $resource <span class="hljs-string">'/persons/:slug'</span>, {slug: <span class="hljs-string">"@slug"</span>},
     update:
       method: <span class="hljs-string">'PUT'</span>
 ]
 .factory <span class="hljs-string">'Accounting'</span>, [<span class="hljs-string">'$resource'</span>, <span class="hljs-function"><span class="hljs-params">($resource)</span> -&gt;</span>
-  <span class="hljs-keyword">return</span> $resource <span class="hljs-string">'accounting/:id'</span>, {id: <span class="hljs-string">"@_id"</span>},
+  <span class="hljs-keyword">return</span> $resource <span class="hljs-string">'/accounting/:id'</span>, {id: <span class="hljs-string">"@_id"</span>},
     update:
       method: <span class="hljs-string">'PUT'</span>
 ]</pre></div></div>

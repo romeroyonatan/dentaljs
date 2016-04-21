@@ -36,13 +36,13 @@ angular.module('dentaljs.patient_payments', ['ngRoute', 'ui.bootstrap'])
       $scope.balance -= account.assets if account.assets?
 
     # create new account
-    $scope.new = (account) ->
+    $scope.new = (account, cb) ->
       account.person = $scope.patient._id
       accounting = new Accounting account
-      accounting.$save()
-      add(accounting)
-      toastr.success "Registro creado con éxito"
-      return true
+      accounting.$save ->
+        add(accounting)
+        toastr.success "Registro creado con éxito"
+        cb?(accounting)
 
     # remove accounting
     $scope.delete = (account) -> account.$delete ->
@@ -54,11 +54,10 @@ angular.module('dentaljs.patient_payments', ['ngRoute', 'ui.bootstrap'])
     $scope.update = (account) ->
       account.person = $scope.patient._id
       resource = new Accounting account
-      resource.$update()
-      # hide modal
-      $route.reload()
-      toastr.success "Registro actualizado con éxito"
-      return true
+      resource.$update() ->
+        # hide modal
+        $route.reload()
+        toastr.success "Registro actualizado con éxito"
 
     # shows a modal with update's form
     $scope.showEdit = (account) ->

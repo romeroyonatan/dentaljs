@@ -10,13 +10,13 @@ block content
       table.table.table-hover.table-striped
         thead
           tr
-            th Fecha
+            th(colspan=2) Fecha
             th Descripción
             th Debe
             th Haber
             th Saldo
           tr.active
-            td Ahora mismo
+            td(colspan=2) Ahora mismo
             td
                input.form-control(
                  ng-model="account.description" name="description"
@@ -37,14 +37,13 @@ block content
               button.btn(ng-click="new(account)" ng-disabled="!form.$valid")
                 | Guardar
 
-        tbody
-          tr(ng-repeat="account in accounting|orderBy:'-date'"
-             ng-if="!account.parent")
+        tbody(ng-repeat="account in accounting|orderBy:'-date'")
+          tr
             td
              button.btn.btn-default.btn-sm(ng-click="showDependant(account)"
                                            title="Crear registro dependiente")
                i.fa.fa-plus
-             span(ng-bind="account.date|date")
+            td(ng-bind="account.date|date")
             td(ng-bind="account.description")
             td(ng-bind="account.debit|currency")
             td(ng-bind="account.assets|currency")
@@ -55,6 +54,21 @@ block content
                                        title="Editar") 
                   i.fa.fa-pencil
                 button.btn.btn-danger(ng-click="delete(account)"
+                                      title="Eliminar")
+                  i.fa.fa-trash
+          tr.child(ng-repeat="child in account.childs|orderBy:'-date'")
+            td: i.fa.fa-angle-double-right
+            td(ng-bind="child.date|date")
+            td(ng-bind="child.description")
+            td(ng-bind="child.debit|currency")
+            td(ng-bind="child.assets|currency")
+            td(ng-bind="child.balance|currency")
+            td
+              .btn-group(role="group")
+                button.btn.btn-sm.btn-warning(ng-click="showEdit(child)" 
+                                       title="Editar") 
+                  i.fa.fa-pencil
+                button.btn.btn-sm.btn-danger(ng-click="delete(child)"
                                       title="Eliminar")
                   i.fa.fa-trash
         tfoot

@@ -5,7 +5,7 @@
   <title>patient_payments.coffee</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
-  <link rel="stylesheet" media="all" href="../../dentaljs/docco.css" />
+  <link rel="stylesheet" media="all" href="../docco.css" />
 </head>
 <body>
   <div id="container">
@@ -30,35 +30,250 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre>angular.<span class="hljs-built_in">module</span>(<span class="hljs-string">'dentaljs.patient_payments'</span>, [<span class="hljs-string">'ngRoute'</span>])
+            <div class="content"><div class='highlight'><pre>angular.<span class="hljs-built_in">module</span>(<span class="hljs-string">'dentaljs.patient_payments'</span>, [<span class="hljs-string">'ngRoute'</span>, <span class="hljs-string">'ui.bootstrap'</span>])
 
 .config [<span class="hljs-string">'$routeProvider'</span>, <span class="hljs-function"><span class="hljs-params">($routeProvider)</span> -&gt;</span>
   $routeProvider.<span class="hljs-keyword">when</span> <span class="hljs-string">'/patients/:slug/payments'</span>,
-    templateUrl: <span class="hljs-string">'/partials/patient_payments.html'</span>
+    templateUrl: <span class="hljs-string">'/partials/patient_payments/patient_payments.html'</span>
     controller: <span class="hljs-string">'PatientPaymentsCtrl'</span>
 ]
 
 .controller <span class="hljs-string">'PatientPaymentsCtrl'</span>, [
-  <span class="hljs-string">"$scope"</span>, <span class="hljs-string">"$routeParams"</span>, <span class="hljs-string">"Person"</span>, <span class="hljs-string">"Accounting"</span>,
-  <span class="hljs-function"><span class="hljs-params">($scope, $routeParams, Person, Accounting)</span> -&gt;</span>
-<span class="hljs-function">    
-    <span class="hljs-title">getAccounting</span> = -&gt;</span>
+  <span class="hljs-string">"$scope"</span>, <span class="hljs-string">"$routeParams"</span>, <span class="hljs-string">"$route"</span>,<span class="hljs-string">"$uibModal"</span>, <span class="hljs-string">"Person"</span>, <span class="hljs-string">"Accounting"</span>,
+  <span class="hljs-function"><span class="hljs-params">($scope, $routeParams, $route, $uibModal, Person, Accounting)</span> -&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>initialize scope vars</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    $scope.accounting = []
+    $scope.balance = <span class="hljs-number">0</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>get patient and its accounting</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    $scope.patient = Person.get slug: $routeParams.slug, <span class="hljs-function">-&gt;</span>
       $scope.accounting = Accounting.query person: $scope.patient._id, <span class="hljs-function">-&gt;</span>
-        $scope.balance = <span class="hljs-number">0</span>
-        $scope.balance += a.balance <span class="hljs-keyword">for</span> a <span class="hljs-keyword">in</span> $scope.accounting
+        $scope.balance += a.balance <span class="hljs-keyword">for</span> a <span class="hljs-keyword">in</span> $scope.accounting</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>add new accounting to list and add mounts to balance</p>
 
-    $scope.patient = Person.get slug: $routeParams.slug, <span class="hljs-function">-&gt;</span> getAccounting()
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-function">    <span class="hljs-title">add</span> = <span class="hljs-params">(account)</span>-&gt;</span>
+      $scope.accounting.push account</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>modify balance</p>
 
-    $scope.new_account = <span class="hljs-function">-&gt;</span>
-      accounting = <span class="hljs-keyword">new</span> Accounting $scope.account
-      accounting.person = $scope.patient._id
-      accounting.assets = <span class="hljs-number">0</span> <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> $scope.account.assets?
-      accounting.debit = <span class="hljs-number">0</span> <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> $scope.account.debit?
-      accounting.$save()
-      $scope.account = <span class="hljs-keyword">new</span> Accounting
-      getAccounting()
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      $scope.balance -= account.debit <span class="hljs-keyword">if</span> account.debit?
+      $scope.balance += account.assets <span class="hljs-keyword">if</span> account.assets?</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>clean scope’s account</p>
 
-    $scope.<span class="hljs-keyword">delete</span> = <span class="hljs-function"><span class="hljs-params">(account)</span> -&gt;</span> account.$<span class="hljs-keyword">delete</span> -&gt; getAccounting()
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      $scope.account = {}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>remove accounting from list and subtract from balance</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-function">    <span class="hljs-title">subtract</span> = <span class="hljs-params">(account)</span>-&gt;</span>
+      $scope.accounting = (
+        a <span class="hljs-keyword">for</span> a <span class="hljs-keyword">in</span> $scope.accounting <span class="hljs-keyword">when</span> a._id <span class="hljs-keyword">isnt</span> account._id
+      )
+      $scope.balance += account.debit <span class="hljs-keyword">if</span> account.debit?
+      $scope.balance -= account.assets <span class="hljs-keyword">if</span> account.assets?</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>create new account</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    $scope.<span class="hljs-keyword">new</span> = <span class="hljs-function"><span class="hljs-params">(account)</span> -&gt;</span>
+      account.person = $scope.patient._id
+      accounting = <span class="hljs-keyword">new</span> Accounting account
+      accounting.$save -&gt;
+        add(accounting)
+        toastr.success <span class="hljs-string">"Registro creado con éxito"</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>remove accounting</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    $scope.<span class="hljs-keyword">delete</span> = <span class="hljs-function"><span class="hljs-params">(account)</span> -&gt;</span> account.$<span class="hljs-keyword">delete</span> -&gt;
+      subtract(account)
+      toastr.success <span class="hljs-string">"Registro eliminado con éxito"</span>
+      <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>edit existing accounting</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    $scope.update = <span class="hljs-function"><span class="hljs-params">(account)</span> -&gt;</span>
+      account.person = $scope.patient._id
+      resource = <span class="hljs-keyword">new</span> Accounting account
+      resource.$update() -&gt;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>hide modal</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        $route.reload()
+        toastr.success <span class="hljs-string">"Registro actualizado con éxito"</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>shows a modal with update’s form</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    $scope.showEdit = <span class="hljs-function"><span class="hljs-params">(account)</span> -&gt;</span>
+      $uibModal.open
+        templateUrl: <span class="hljs-string">'partials/patient_payments/modal_edit.html'</span>
+        controller: <span class="hljs-string">'ModalUpdateCtrl'</span>,
+        size: <span class="hljs-string">'lg'</span>,
+        resolve:
+          account: account
+      .result.<span class="hljs-keyword">then</span> (account)-&gt; $scope.update account</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>shows a modal to create a dependant account</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    $scope.showDependant = <span class="hljs-function"><span class="hljs-params">(account)</span> -&gt;</span>
+      $uibModal.open
+        templateUrl: <span class="hljs-string">'partials/patient_payments/modal_dependant.html'</span>
+        controller: <span class="hljs-string">'ModalDependantCtrl'</span>
+        size: <span class="hljs-string">'lg'</span>,
+        resolve:
+          parent: account
+      .result.<span class="hljs-keyword">then</span> (account)-&gt;
+        $scope.<span class="hljs-keyword">new</span> account
+        $route.reload()
+]
+
+.controller <span class="hljs-string">'ModalUpdateCtrl'</span>, [<span class="hljs-string">'$scope'</span>, <span class="hljs-string">'$uibModalInstance'</span>, <span class="hljs-string">'account'</span>,
+  <span class="hljs-function"><span class="hljs-params">($scope, $uibModalInstance, account)</span> -&gt;</span>
+    $scope.account = account
+    $scope.ok = <span class="hljs-function">-&gt;</span> $uibModalInstance.close $scope.account
+    $scope.cancel = <span class="hljs-function">-&gt;</span> $uibModalInstance.dismiss <span class="hljs-string">'cancel'</span>
+]
+
+.controller <span class="hljs-string">'ModalDependantCtrl'</span>, [<span class="hljs-string">'$scope'</span>, <span class="hljs-string">'$uibModalInstance'</span>, <span class="hljs-string">'parent'</span>,
+  <span class="hljs-function"><span class="hljs-params">($scope, $uibModalInstance, parent)</span> -&gt;</span>
+    $scope.account =
+      parent: parent
+    $scope.ok = <span class="hljs-function">-&gt;</span> $uibModalInstance.close $scope.account
+    $scope.cancel = <span class="hljs-function">-&gt;</span> $uibModalInstance.dismiss <span class="hljs-string">'cancel'</span>
 ]</pre></div></div>
             
         </li>

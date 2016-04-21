@@ -31,13 +31,13 @@
 = require filters
 = require services
 = require patient_list/patient_list
-= require patient_create/patient_create
+= require patient_form/patient_form
 = require patient_delete/patient_delete
-= require patient_update/patient_update
 = require patient_detail/patient_detail
 = require patient_history/patient_history
 = require patient_treatment/patient_treatment
-= require patient_payments/patient_payments</p>
+= require patient_payments/patient_payments
+= require odontogram_edit/odontogram_edit</p>
 
             </div>
             
@@ -46,17 +46,39 @@ angular.<span class="hljs-built_in">module</span> <span class="hljs-string">'den
   <span class="hljs-string">'ngRoute'</span>,
   <span class="hljs-string">'dentaljs.services'</span>,
   <span class="hljs-string">'dentaljs.patient_list'</span>,
-  <span class="hljs-string">'dentaljs.patient_create'</span>,
+  <span class="hljs-string">'dentaljs.patient_form'</span>,
   <span class="hljs-string">'dentaljs.patient_delete'</span>,
-  <span class="hljs-string">'dentaljs.patient_update'</span>,
   <span class="hljs-string">'dentaljs.patient_detail'</span>,
   <span class="hljs-string">'dentaljs.patient_history'</span>,
   <span class="hljs-string">'dentaljs.patient_treatment'</span>,
   <span class="hljs-string">'dentaljs.patient_payments'</span>,
+  <span class="hljs-string">'dentaljs.odontogram_edit'</span>,
 ]
 
 .config [<span class="hljs-string">'$routeProvider'</span>, <span class="hljs-function"><span class="hljs-params">($routeProvider)</span> -&gt;</span>
   $routeProvider.otherwise {redirectTo: <span class="hljs-string">'/patients'</span>}
+]</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>Simple error handling</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>.config [<span class="hljs-string">'$httpProvider'</span>, <span class="hljs-function"><span class="hljs-params">($httpProvider)</span> -&gt;</span>
+  $httpProvider.interceptors.push [<span class="hljs-string">'$q'</span>, <span class="hljs-function"><span class="hljs-params">($q)</span> -&gt;</span>
+    responseError: <span class="hljs-function"><span class="hljs-params">(rejection)</span> -&gt;</span>
+      <span class="hljs-keyword">switch</span> rejection.status
+        <span class="hljs-keyword">when</span> <span class="hljs-number">401</span>, <span class="hljs-number">404</span> <span class="hljs-keyword">then</span> <span class="hljs-built_in">window</span>.location = <span class="hljs-string">"/"</span>
+        <span class="hljs-keyword">else</span> $q.reject(rejection)
+    ]
 ]</pre></div></div>
             
         </li>

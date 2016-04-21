@@ -26,7 +26,7 @@ Mock.find = (query, cb) ->
   cb = query if query instanceof Function
   spies.find(query) if query instanceof Object
   cb? null, ['a', 'list']
-  {remove: spies.remove}
+  populate: -> exec: (cb) -> cb?(null, ['a', 'b', 'c'])
 
 Mock.findOne = (filter, cb) ->
   ###
@@ -53,6 +53,18 @@ Mock.where = (cb) ->
   Return an object with a update function
   ###
   {update: spies.update}
+
+Mock.create = (cb) ->
+  ###
+  Call a callback function
+  ###
+  cb? null
+
+Mock.remove = (cb) ->
+  ###
+  Call a callback function
+  ###
+  cb? null
 
 module.exports.Mock = Mock
 module.exports.spies = spies

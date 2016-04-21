@@ -5,7 +5,7 @@
   <title>accounting.coffee</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
-  <link rel="stylesheet" media="all" href="../../dentaljs/docco.css" />
+  <link rel="stylesheet" media="all" href="../docco.css" />
 </head>
 <body>
   <div id="container">
@@ -48,9 +48,9 @@
             <div class="content"><div class='highlight'><pre>Accounting = <span class="hljs-keyword">new</span> mongoose.Schema
   person: mongoose.Schema.Types.ObjectId
   description: String
-  debit: Number
+  debit: {type: Number, default: <span class="hljs-number">0</span>, min: <span class="hljs-number">0</span>}
   assets: {type: Number, default: <span class="hljs-number">0</span>, min: <span class="hljs-number">0</span>}
-  balance: {type: Number, default: <span class="hljs-number">0</span>, min: <span class="hljs-number">0</span>}
+  balance: {type: Number, default: <span class="hljs-number">0</span>}
   date: { type: Date, default: Date.now },</pre></div></div>
             
         </li>
@@ -62,11 +62,12 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
-              <p>id de accounting que este registro invalida</p>
+              <p>parent id</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  invalid: mongoose.Schema.Types.ObjectId</pre></div></div>
+            <div class="content"><div class='highlight'><pre>  parent: type: mongoose.Schema.Types.ObjectId, ref: <span class="hljs-string">'Accounting'</span>
+  childs: [type: mongoose.Schema.Types.ObjectId, ref: <span class="hljs-string">'Accounting'</span>]</pre></div></div>
             
         </li>
         
@@ -77,13 +78,11 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-4">&#182;</a>
               </div>
-              <p>id de accounting que este registro paga</p>
+              <p>Pre-save Hook that calculates balance amount</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  pay: mongoose.Schema.Types.ObjectId
-
-Accounting.pre <span class="hljs-string">'save'</span>, <span class="hljs-function"><span class="hljs-params">(next)</span> -&gt;</span>
+            <div class="content"><div class='highlight'><pre>Accounting.pre <span class="hljs-string">'save'</span>, <span class="hljs-function"><span class="hljs-params">(next)</span> -&gt;</span>
   @assets = <span class="hljs-number">0</span> <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> @assets?
   @debit = <span class="hljs-number">0</span> <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> @debit?
   @balance = @assets - @debit
