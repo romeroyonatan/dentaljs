@@ -37,6 +37,8 @@ block content
               button.btn(ng-click="new(account)" ng-disabled="!form.$valid")
                 | Guardar
 
+        //- -----------------------------------------------------------------
+        //- Show payment details
         tbody(ng-repeat="account in accounting|orderBy:'-date'")
           tr
             td
@@ -56,6 +58,9 @@ block content
                 button.btn.btn-danger(ng-click="delete(account)"
                                       title="Eliminar")
                   i.fa.fa-trash
+                  
+          //- -----------------------------------------------------------------
+          //- Show payment's childs details
           tr.child(ng-repeat="child in account.childs|orderBy:'-date'")
             td: i.fa.fa-angle-double-right
             td(ng-bind="child.date|date")
@@ -65,12 +70,17 @@ block content
             td(ng-bind="child.balance|currency")
             td
               .btn-group(role="group")
+                //- XXX Disable for now
                 button.btn.btn-sm.btn-warning(ng-click="showEdit(child)" 
-                                       title="Editar") 
+                                       title="Editar"
+                                       disabled) 
                   i.fa.fa-pencil
+                //- XXX Disable for now
                 button.btn.btn-sm.btn-danger(ng-click="delete(child)"
-                                      title="Eliminar")
+                                      title="Eliminar",
+                                      disabled)
                   i.fa.fa-trash
+          //- -----------------------------------------------------------------
         tfoot
           tr.active(ng-class="{'success': balance > 0, 'danger': balance < 0}")
             td(colspan=4): strong Balance

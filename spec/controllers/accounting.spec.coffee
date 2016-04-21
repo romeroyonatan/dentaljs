@@ -80,10 +80,9 @@ describe 'Accounting controller tests without mock', ->
 
   beforeAll -> mongoose.connect 'mongodb://localhost/dentaljs-test', (err) ->
     console.error err if err
+  afterAll -> mongoose.disconnect()
 
-  afterEach ->
-    Accounting.remove({})
-    mongoose.disconnect()
+  afterEach (done) -> Accounting.remove {}, done
 
   it 'father should has childs', (done) ->
     # preparing request mock
@@ -106,3 +105,21 @@ describe 'Accounting controller tests without mock', ->
       # create child accounting
       req.body.parent = father._id
       controller.create req, res
+
+  it 'should calculate a balance', (done) ->
+    # Prepare mock request and response
+    person = mongoose.Types.ObjectId '1234567890ab'
+    req = params: person: person
+    res = send: (data) ->
+      expect(data).toEqual -30
+      done()
+    # Create mock data
+    Accounting.create [
+      {description: "test1", debit: 10, person: person},
+      {description: "test2", debit: 10, person: person},
+      {description: "test3", debit: 10, person: person},
+      {description: "test4", debit: 10, person: person},
+      {description: "test5", debit: 10, person: person},
+      {description: "test6", assets: 20, person: person},
+    ], (err, list) ->
+      controller.balance req, res

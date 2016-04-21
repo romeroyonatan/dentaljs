@@ -12,4 +12,9 @@ router.get '/:id', controller.detail
 router.put '/:id', controller.update
 router.delete '/:id', controller.delete
 
+###
+## Another utils methods
+###
+router.get '/balance/:person', controller.list
+
 module.exports = router
