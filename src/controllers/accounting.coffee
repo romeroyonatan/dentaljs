@@ -20,7 +20,12 @@ module.exports =
       if err
         next err
       res.status = 201
-      res.send object
+      if object.parent?
+        Accounting.findOne _id: object.parent._id, (err, parent) ->
+          parent.childs.push object
+          parent.save().then -> res.send object
+      else
+        res.send object
 
   # Update an existing accounting
   update: (req, res) ->

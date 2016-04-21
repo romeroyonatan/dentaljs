@@ -17,11 +17,4 @@ Accounting.pre 'save', (next) ->
   @debit = 0 if not @debit?
   @balance = @assets - @debit
 
-  if @parent?
-    child = this
-    Accounting.find _id: @parent, (err, elem) ->
-      elem.childs.push child
-      elem.save()
-  next()
-
 module.exports = mongoose.model 'Accounting', Accounting
