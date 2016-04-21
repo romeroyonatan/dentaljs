@@ -9,3 +9,5 @@ before_install:
 before_script:
   - npm install -g gulp bower
   - bower install
+services:
+  - mongodb
