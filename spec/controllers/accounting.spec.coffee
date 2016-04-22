@@ -82,6 +82,7 @@ describe 'Accounting controller tests without mock', ->
     console.error err if err
   afterAll -> mongoose.disconnect()
 
+  beforeEach (done) -> Accounting.remove {}, done
   afterEach (done) -> Accounting.remove {}, done
 
   it 'father should has childs', (done) ->
@@ -96,15 +97,32 @@ describe 'Accounting controller tests without mock', ->
       send: (child) ->
         Accounting.findOne _id: child.parent, (err, parent)->
           expect(parent isnt null).toBe true
-          if parent
-            expect(parent.childs.length).toEqual 1
-            expect(parent.childs[0]).toEqual child._id
+          expect(parent.childs.length).toEqual 1
+          expect(parent.childs[0]).toEqual child._id
           done()
     # create parent accounting
     Accounting.create description: "Father", debit: 10, (err, father) ->
       # create child accounting
       req.body.parent = father._id
       controller.create req, res
+
+  it 'should update father when child is removed', (done) ->
+    # preparing request mock
+    req = params: {}
+    # preparing response mock
+    res =
+      status: ->
+      send: (child) ->
+        Accounting.findOne description: 'Father', (err, father)->
+          expect(father?).toBe true
+          expect(father.childs.length).toEqual 0
+          done()
+    # create parent accounting
+    Accounting.create description: "Father", debit: 10, (err, father) ->
+      # create child accounting
+      Accounting.create description: "Child", credit: 10, (err, child) ->
+        req.params.id = child._id
+        controller.delete req, res
 
   it 'should calculate a balance', (done) ->
     # Prepare mock request and response

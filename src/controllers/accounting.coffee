@@ -48,7 +48,12 @@ module.exports =
   # ## delete
   # Delete a accounting
   delete: (req, res, next) ->
-    Accounting.remove _id: req.params.id, ->
+    Accounting.remove _id: req.params.id, (err, account)->
+      return next err if err
+      # check if account has parent
+      if account.parent?
+        Accounting.update { _id: account.parent },
+                          {$pull: 'childs': _id: account._id}
       res.status 204
       res.send ""
 

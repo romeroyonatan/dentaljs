@@ -40,23 +40,25 @@ angular.module('dentaljs.patient_payments', ['ngRoute', 'ui.bootstrap'])
     $scope.new = (account, cb) ->
       account.person = $scope.patient._id
       accounting = new Accounting account
-      accounting.$save ->
+      accounting.$save().then ->
         add(accounting)
         toastr.success "Registro creado con éxito"
         cb?(accounting)
 
     # remove accounting
-    $scope.delete = (account) -> account.$delete ->
-      subtract(account)
-      toastr.success "Registro eliminado con éxito"
-      return true
+    $scope.delete = (account, cb) ->
+      account = new Accounting account if account not instanceof Accounting
+      account.$delete().then ->
+        $route.reload()
+        toastr.success "Registro eliminado con éxito"
+        cb?(account)
 
     # edit existing accounting
     $scope.update = (account) ->
       account.person = $scope.patient._id
       resource = new Accounting account
-      resource.$update() ->
-        # hide modal
+      resource.$update().then ->
+        # Reload page
         $route.reload()
         toastr.success "Registro actualizado con éxito"
 
@@ -65,20 +67,17 @@ angular.module('dentaljs.patient_payments', ['ngRoute', 'ui.bootstrap'])
       $uibModal.open
         templateUrl: 'partials/patient_payments/modal_edit.html'
         controller: 'ModalUpdateCtrl',
-        size: 'lg',
         resolve:
           account: account
-      .result.then (account)-> $scope.update account
+      .result.then (account) -> $scope.update account
 
     # shows a modal to create a dependant account
     $scope.showDependant = (account) ->
       $uibModal.open
         templateUrl: 'partials/patient_payments/modal_dependant.html'
         controller: 'ModalDependantCtrl'
-        size: 'lg',
-        resolve:
-          parent: account
-      .result.then (account)->
+        resolve: parent: account
+      .result.then (account) ->
         $scope.new account
         $route.reload()
 ]

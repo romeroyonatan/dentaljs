@@ -1,7 +1,7 @@
 include ../mixins/form.jade
 
 .modal-header
-  button.close(type="button" data-dismiss="modal" aria-label="close")
+  button.close(type="button" ng-click="cancel()" aria-label="close")
     span(aria-hidden="true") &times;
   h4.modal-title Editar
 .modal-body
