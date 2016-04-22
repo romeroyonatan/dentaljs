@@ -1,19 +1,23 @@
 include ../mixins/form.jade
 
 .modal-header
-  button.close(type="button" data-dismiss="modal" aria-label="close")
+  button.close(type="button" ng-click="cancel()" aria-label="close")
     span(aria-hidden="true") &times;
   h4.modal-title Registro dependiente
 .modal-body
-  form
+  form(novalidate name="form")
+    div
+      button.btn.btn-default(data-target="#date" data-toggle="collapse")
+        i.fa.fa-calendar
+        |  Modificar fecha
+      #date.collapse: +form-date("Fecha", "account.date")
     label Padre
     p.form-control-static(
       ng-bind="account.parent.description"
     )
-    +form-date("Fecha", "account.date")
-    +form-input("Descripción", "account.description")
-    +form-input("Debe", "account.debit")(type="number")
-    +form-input("Haber", "account.assets")(type="number")
+    +form-input("Descripción", "account.description", "Paga parcial", true)
+    +form-input("Debe", "account.debit")(type="number" min="0")
+    +form-input("Haber", "account.assets")(type="number" min="0")
     label Saldo
     p.form-control-static(
       ng-bind="(account.assets - account.debit)|currency"
@@ -21,5 +25,6 @@ include ../mixins/form.jade
 .modal-footer
   button.btn.btn-default(type="button" ng-click="cancel()")
     | Cancelar
-  button.btn.btn-primary(type="button" ng-click="ok()")
+  button.btn.btn-primary(type="button" ng-click="ok()"
+                         ng-disabled="!form.$valid")
     | Guardar cambios

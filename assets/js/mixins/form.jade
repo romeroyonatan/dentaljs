@@ -1,7 +1,7 @@
 //- Creates a form's input
 mixin form-input(label, model, placeholder, required)
   - var id = label.replace(/\s/,"-").toLowerCase()
-  .form-group(ng-class="{'has-error':form.$submitted && form.#{model}.$error}"
+  .form-group(ng-class="{'has-error':form.#{model}.$error}"
               class=required?"required":"")
     label(for="id_#{id}")=label
     input.form-control(
@@ -16,7 +16,7 @@ mixin form-input(label, model, placeholder, required)
 //- Creates a form's textarea
 mixin form-textarea(label, model, placeholder, required)
   - var id = label.replace(/\s/,"-").toLowerCase()
-  .form-group(ng-class="{'has-error':form.$submitted && form.#{model}.$error}")
+  .form-group(ng-class="{'has-error':form.#{model}.$error}")
     label(for="id_" + id)=label
     textarea.form-control(
       id="id_" + id
@@ -29,7 +29,7 @@ mixin form-textarea(label, model, placeholder, required)
 //- Creates a form's select
 mixin form-select(label, model, items)
   - var id = label.replace(/\s/,"-").toLowerCase()
-  .form-group(ng-class="{'has-error':form.$submitted && form.#{model}.$error}")
+  .form-group(ng-class="{'has-error':form.#{model}.$error}")
     label(for="id_" + id)=label
     select.form-control(
       id="id_" + id
@@ -43,7 +43,7 @@ mixin form-select(label, model, items)
 //- creates a datepicker
 mixin form-date(label, model, required)
   - var id = label.replace(/\s/,"-").toLowerCase()
-  .form-group(ng-class="{'has-error':form.$submitted && form.#{model}.$error}")
+  .form-group(ng-class="{'has-error':form.#{model}.$error}")
     label(for="id_" + id)=label
     uib-datepicker(
       ng-model=model
@@ -53,7 +53,7 @@ mixin form-date(label, model, required)
 //- creates a datepicker
 mixin form-time(label, model, required)
   - var id = label.replace(/\s/,"-").toLowerCase()
-  .form-group(ng-class="{'has-error':form.$submitted && form.#{model}.$error}")
+  .form-group(ng-class="{'has-error':form.#{model}.$error}")
     label(for="id_" + id)=label
     uib-timepicker(
       ng-model=model
