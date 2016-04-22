@@ -17,10 +17,10 @@ mixin odontogram(options)
                 else
                   th(colspan=3)=id
               tbody
-                tr: td(colspan=3 ng-bind='pieces[#{id}].sectors[1].issue')
+                tr: td(colspan=3 ng-bind='pieces[#{id}].sectors[1].issue.code')
                 tr
-                  td(ng-bind='pieces[#{id}].sectors[4].issue')
-                  td(ng-bind='pieces[#{id}].sectors[0].issue')
-                  td(ng-bind='pieces[#{id}].sectors[2].issue')
-                tr: td(colspan=3 ng-bind='pieces[#{id}].sectors[3].issue')
+                  td(ng-bind='pieces[#{id}].sectors[4].issue.code')
+                  td(ng-bind='pieces[#{id}].sectors[0].issue.code')
+                  td(ng-bind='pieces[#{id}].sectors[2].issue.code')
+                tr: td(colspan=3 ng-bind='pieces[#{id}].sectors[3].issue.code')
             include ../svg/odontogram.svg
