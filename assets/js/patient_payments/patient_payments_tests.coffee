@@ -21,10 +21,11 @@ xdescribe 'dentaljs.patient_payments module', ->
                              '$scope': $scope,
                              '$route':$route
 
-  it 'it should add new account with debit amount', ->
-    $scope.new description: "Test", debit: 77
-    expect($scope.accounting.length).toEqual 1
-    expect($scope.balance).toEqual -77
+  it 'it should add new account with debit amount', (done) ->
+    $scope.new description: "Test", debit: 77, ->
+      expect($scope.accounting.length).toEqual 1
+      expect($scope.balance).toEqual -77
+      done()
 
   it 'it should add new account with assets amount', ->
     $scope.new description: "Test", assets: 88.77

@@ -1,4 +1,4 @@
-xdescribe 'dentaljs.odontogram_edit module', ->
+describe 'dentaljs.odontogram_edit module', ->
 
   beforeEach module 'dentaljs'
   beforeEach module 'dentaljs.services'
@@ -8,8 +8,3 @@ xdescribe 'dentaljs.odontogram_edit module', ->
     $controller = _$controller_
 
   describe 'odontogram_edit controller', ->
-
-    it 'should be load svg file', inject ($controller) ->
-      $scope = {}
-      controller = $controller 'OdontogramEditCtrl', $scope: $scope
-      expect($(".sector").length).toBeGreaterThan(0)
