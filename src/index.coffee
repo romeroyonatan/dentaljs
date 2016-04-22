@@ -1,11 +1,12 @@
-express = require('express')
-path = require('path')
-favicon = require('serve-favicon')
-logger = require('morgan')
-mongoose = require('mongoose')
-cookieParser = require('cookie-parser')
-bodyParser = require('body-parser')
-routes = require('./routes/index')
+express = require 'express'
+path = require 'path'
+favicon = require 'serve-favicon'
+logger = require 'morgan'
+mongoose = require 'mongoose'
+cookieParser = require 'cookie-parser'
+bodyParser = require 'body-parser'
+compression = require 'compression'
+routes = require './routes/index'
 connectAssets = require 'connect-assets'
 
 # Bootstrap models
@@ -28,6 +29,7 @@ mongoose.connect config.MONGO_DB
 # view engine setup
 app.set 'view engine', 'jade'
 
+app.use compression()
 app.use favicon path.join 'public', 'favicon.ico'
 app.use logger('dev')
 app.use bodyParser.json()
