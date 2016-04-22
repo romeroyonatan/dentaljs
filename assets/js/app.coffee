@@ -12,6 +12,7 @@
 
 angular.module 'dentaljs', [
   'ngRoute',
+  'ngAnimate',
   'dentaljs.services',
   'dentaljs.patient_list',
   'dentaljs.patient_form',
