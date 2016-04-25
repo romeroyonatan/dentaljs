@@ -18,10 +18,10 @@ exports.setEnvironment = (env) ->
       exports.MONGO_DB = 'mongodb://localhost/dentaljs-test'
 
     when "production"
-      exports.DEBUG_LOG = false
-      exports.DEBUG_WARN = false
+      exports.DEBUG_LOG = true
+      exports.DEBUG_WARN = true
       exports.DEBUG_ERROR = true
-      exports.DEBUG_CLIENT = false
+      exports.DEBUG_CLIENT = true
       exports.MONGO_DB = 'mongodb://db/dentaljs'
     else
       console.log "environment #{env} not found"

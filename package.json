@@ -37,7 +37,6 @@
     "karma-coffee-preprocessor": "^0.3.0",
     "karma-firefox-launcher": "^0.1.6",
     "karma-jasmine": "^0.3.5",
-    "karma-phantomjs-launcher": "^1.0.0",
     "node-inspector": "*",
     "protractor": "^3.2.2",
     "request": "*",
