@@ -170,3 +170,25 @@ describe 'Odontogram widget', ->
         expect(fixed.count()).toEqual 40 # 8 pieces * 5 sectors
         diseased = element.all By.css '.sector.disease'
         expect(fixed.count()).toEqual 40 # 8 pieces * 5 sectors
+
+  it "multiple fixes click even", ->
+    for i in [1..6]
+      sector.click()
+      btn_fix.click()
+    # sector should be marked
+    fix = element By.css '.sector.fix'
+    expect(fix.isPresent()).toBe false
+    # should not be a selected sector
+    selected = element By.css '.sector.selected'
+    expect(selected.isPresent()).toBe true
+
+  it "multiple fixes click odd", ->
+    for i in [1..5]
+      sector.click()
+      btn_fix.click()
+    # sector should be marked
+    fix = element By.css '.sector.fix'
+    expect(fix.isPresent()).toBe true
+    # should not be a selected sector
+    selected = element By.css '.sector.selected'
+    expect(selected.isPresent()).toBe false

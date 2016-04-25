@@ -8,7 +8,8 @@ angular.module('dentaljs.odontogram_edit', ['ngRoute'])
 ]
 
 .controller 'OdontogramEditCtrl', [
-  "$scope", "$routeParams", "Person", ($scope, $routeParams, Person) ->
+  "$scope", "$routeParams", "Person", "Odontogram",
+  ($scope, $routeParams, Person, Odontogram) ->
     $scope.diseases = [
       {code: "A", description: "Enfermedad A", _id: 'a'},
       {code: "B", description: "Enfermedad B", _id: 'b'},
@@ -21,8 +22,6 @@ angular.module('dentaljs.odontogram_edit', ['ngRoute'])
       {code: "Y", description: "Arreglo Y", _id: 'y'},
       {code: "Z", description: "Arreglo Z", _id: 'z'},
     ]
-
-    $scope.patient = Person.get slug: $routeParams.slug
 
     $scope.pieces = []
     $scope.description = ""
@@ -37,9 +36,9 @@ angular.module('dentaljs.odontogram_edit', ['ngRoute'])
     # ------------------
     # * issue.id: the teeth's identification
     # * issue.sector: the sector affected. it could be null if teeth is removed
-    # * issue.code: if sector is fix or disease, it is the code of them
+    # * issue.issue: the fix or disease
     # * issue.removed: if teeth was removed
-    attachIssue = (issue) ->
+    $scope.attachIssue = (issue) ->
       # if piece exists
       if $scope.pieces[issue.id]?
         piece = $scope.pieces[issue.id]
@@ -65,7 +64,7 @@ angular.module('dentaljs.odontogram_edit', ['ngRoute'])
         id = $(elem).closest('.piece').attr('id')
         # XXX Replace attr
         sector = $(elem).attr('id')
-        attachIssue id: id, sector: sector, issue: fix
+        $scope.attachIssue id: id, sector: sector, issue: fix
       # removed selected state
       selected.removeClass()
               .addClass 'sector fix'
@@ -84,7 +83,7 @@ angular.module('dentaljs.odontogram_edit', ['ngRoute'])
         id = $(elem).closest('.piece').attr('id')
         # XXX replace attr
         sector = $(elem).attr('id')
-        attachIssue id: id, sector: sector, issue: disease
+        $scope.attachIssue id: id, sector: sector, issue: disease
       # removed selected state
       selected.removeClass()
               .addClass 'sector disease'
@@ -102,7 +101,7 @@ angular.module('dentaljs.odontogram_edit', ['ngRoute'])
       # XXX findbyCssSelector
       $("##{id} .removed").toggle()
       # mark teeth as removed
-      attachIssue id: id, removed: true
+      $scope.attachIssue id: id, removed: true
 
     # when user clicks over a clean button, clean selected sectors to default
     # value. If teeth is marked as removed, the mark will be clean
@@ -116,7 +115,7 @@ angular.module('dentaljs.odontogram_edit', ['ngRoute'])
         id = $(elem).closest('.piece').attr('id')
         # XXX replace attr
         sector = $(elem).attr('id')
-        delete $scope.pieces[id]
+        delete $scope.pieces[id].sectors[sector]
       # reset widget appearance
       selected.removeClass()
               .addClass('sector')
@@ -126,12 +125,16 @@ angular.module('dentaljs.odontogram_edit', ['ngRoute'])
 
     # Build odontogram's object for send to server
     $scope.save = ->
-      odontogram =
+      patient = Person.get slug: $routeParams.slug
+      odontogram = new Odontogram
         pieces: $scope.pieces.filter Boolean
         comments: $scope.comments
         title: $scope.title
-        person: $scope.patient._id
+        person: patient._id
       console.log odontogram
+      odontogram.$save()
+
+
 
     # Bindings for teeth's sector click
     # XXX findbyCssSelector
