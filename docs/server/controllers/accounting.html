@@ -58,7 +58,8 @@ mongoose = <span class="hljs-built_in">require</span> <span class="hljs-string">
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
-              <p>Get a list of accounting filtered by person _id</p>
+              <h2 id="list">list</h2>
+<p>Get a list of accounting filtered by person _id</p>
 
             </div>
             
@@ -78,7 +79,8 @@ mongoose = <span class="hljs-built_in">require</span> <span class="hljs-string">
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-4">&#182;</a>
               </div>
-              <p>Create a new accounting</p>
+              <h2 id="create">create</h2>
+<p>Create a new accounting</p>
 
             </div>
             
@@ -102,11 +104,12 @@ mongoose = <span class="hljs-built_in">require</span> <span class="hljs-string">
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-5">&#182;</a>
               </div>
-              <p>Update an existing accounting</p>
+              <h2 id="update">update</h2>
+<p>Update an existing accounting</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  update: <span class="hljs-function"><span class="hljs-params">(req, res)</span> -&gt;</span>
+            <div class="content"><div class='highlight'><pre>  update: <span class="hljs-function"><span class="hljs-params">(req, res, next)</span> -&gt;</span>
     object = req.body</pre></div></div>
             
         </li>
@@ -137,11 +140,12 @@ mongoose = <span class="hljs-built_in">require</span> <span class="hljs-string">
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-7">&#182;</a>
               </div>
-              <p>Get details from an accounting</p>
+              <h2 id="detail">detail</h2>
+<p>Get details from an accounting</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  detail: <span class="hljs-function"><span class="hljs-params">(req, res)</span> -&gt;</span>
+            <div class="content"><div class='highlight'><pre>  detail: <span class="hljs-function"><span class="hljs-params">(req, res, next)</span> -&gt;</span>
     Accounting.findOne _id: req.params.id, <span class="hljs-function"><span class="hljs-params">(err, object)</span> -&gt;</span>
       res.send object</pre></div></div>
             
@@ -154,13 +158,58 @@ mongoose = <span class="hljs-built_in">require</span> <span class="hljs-string">
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-8">&#182;</a>
               </div>
-              <p>Delete a accounting</p>
+              <h2 id="delete">delete</h2>
+<p>Delete a accounting</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  delete: <span class="hljs-function"><span class="hljs-params">(req, res)</span> -&gt;</span>
-    Accounting.remove _id: req.params.id, <span class="hljs-function">-&gt;</span>
-      res.send <span class="hljs-string">"<span class="hljs-subst">#{req.params.id}</span> deleted"</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre>  delete: <span class="hljs-function"><span class="hljs-params">(req, res, next)</span> -&gt;</span>
+    Accounting.remove _id: req.params.id, <span class="hljs-function"><span class="hljs-params">(err, account)</span>-&gt;</span>
+      <span class="hljs-keyword">return</span> next err <span class="hljs-keyword">if</span> err</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>check if account has parent</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">if</span> account.parent?
+        Accounting.update { _id: account.parent },
+                          {$pull: <span class="hljs-string">'childs'</span>: _id: account._id}
+      res.status <span class="hljs-number">204</span>
+      res.send <span class="hljs-string">""</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <h2 id="balance">balance</h2>
+<p>Calculate the person’s balance</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  balance: <span class="hljs-function"><span class="hljs-params">(req, res, next)</span> -&gt;</span>
+    Accounting.find person: req.params.person, <span class="hljs-function"><span class="hljs-params">(err, list)</span>-&gt;</span>
+      <span class="hljs-keyword">if</span> err
+        <span class="hljs-built_in">console</span>.error err
+        <span class="hljs-keyword">return</span> next err
+      balance = <span class="hljs-number">0</span>
+      <span class="hljs-keyword">for</span> account <span class="hljs-keyword">in</span> list
+        balance += account.assets
+        balance -= account.debit
+      res.send balance: balance</pre></div></div>
             
         </li>
         

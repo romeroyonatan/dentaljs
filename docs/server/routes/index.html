@@ -33,6 +33,7 @@
             <div class="content"><div class='highlight'><pre>express = <span class="hljs-built_in">require</span> <span class="hljs-string">'express'</span>
 person_routes = <span class="hljs-built_in">require</span> <span class="hljs-string">'./person'</span>
 accouting_routes = <span class="hljs-built_in">require</span> <span class="hljs-string">'./accounting'</span>
+odontograms_routes = <span class="hljs-built_in">require</span> <span class="hljs-string">'./odontogram'</span>
 
 router = express.Router()</pre></div></div>
             
@@ -66,7 +67,8 @@ router = express.Router()</pre></div></div>
             </div>
             
             <div class="content"><div class='highlight'><pre>router.use <span class="hljs-string">'/persons'</span>, person_routes
-router.use <span class="hljs-string">'/accounting'</span>, accouting_routes</pre></div></div>
+router.use <span class="hljs-string">'/accounting'</span>, accouting_routes
+router.use <span class="hljs-string">'/odontograms'</span>, odontograms_routes</pre></div></div>
             
         </li>
         

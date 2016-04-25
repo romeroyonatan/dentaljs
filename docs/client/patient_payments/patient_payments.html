@@ -38,9 +38,9 @@
     controller: <span class="hljs-string">'PatientPaymentsCtrl'</span>
 ]
 
-.controller <span class="hljs-string">'PatientPaymentsCtrl'</span>, [
-  <span class="hljs-string">"$scope"</span>, <span class="hljs-string">"$routeParams"</span>, <span class="hljs-string">"$route"</span>,<span class="hljs-string">"$uibModal"</span>, <span class="hljs-string">"Person"</span>, <span class="hljs-string">"Accounting"</span>,
-  <span class="hljs-function"><span class="hljs-params">($scope, $routeParams, $route, $uibModal, Person, Accounting)</span> -&gt;</span></pre></div></div>
+.controller <span class="hljs-string">'PatientPaymentsCtrl'</span>, [<span class="hljs-string">"$scope"</span>, <span class="hljs-string">"$routeParams"</span>, <span class="hljs-string">"$route"</span>,
+  <span class="hljs-string">"$http"</span>, <span class="hljs-string">"$uibModal"</span>, <span class="hljs-string">"Person"</span>, <span class="hljs-string">"Accounting"</span>,
+  <span class="hljs-function"><span class="hljs-params">($scope, $routeParams, $route, $http, $uibModal, Person, Accounting)</span> -&gt;</span></pre></div></div>
             
         </li>
         
@@ -73,7 +73,8 @@
             
             <div class="content"><div class='highlight'><pre>    $scope.patient = Person.get slug: $routeParams.slug, <span class="hljs-function">-&gt;</span>
       $scope.accounting = Accounting.query person: $scope.patient._id, <span class="hljs-function">-&gt;</span>
-        $scope.balance += a.balance <span class="hljs-keyword">for</span> a <span class="hljs-keyword">in</span> $scope.accounting</pre></div></div>
+        $http.get(<span class="hljs-string">"/accounting/balance/"</span> + $scope.patient._id).<span class="hljs-keyword">then</span> (res) -&gt;
+          $scope.balance = res.data.balance</pre></div></div>
             
         </li>
         
@@ -158,7 +159,7 @@
             <div class="content"><div class='highlight'><pre>    $scope.<span class="hljs-keyword">new</span> = <span class="hljs-function"><span class="hljs-params">(account)</span> -&gt;</span>
       account.person = $scope.patient._id
       accounting = <span class="hljs-keyword">new</span> Accounting account
-      accounting.$save -&gt;
+      accounting.$save().<span class="hljs-keyword">then</span> -&gt;
         add(accounting)
         toastr.success <span class="hljs-string">"Registro creado con éxito"</span></pre></div></div>
             
@@ -175,10 +176,11 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    $scope.<span class="hljs-keyword">delete</span> = <span class="hljs-function"><span class="hljs-params">(account)</span> -&gt;</span> account.$<span class="hljs-keyword">delete</span> -&gt;
-      subtract(account)
-      toastr.success <span class="hljs-string">"Registro eliminado con éxito"</span>
-      <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre>    $scope.<span class="hljs-keyword">delete</span> = <span class="hljs-function"><span class="hljs-params">(account)</span> -&gt;</span>
+      account = <span class="hljs-keyword">new</span> Accounting account <span class="hljs-keyword">if</span> account <span class="hljs-keyword">not</span> <span class="hljs-keyword">instanceof</span> Accounting
+      account.$<span class="hljs-keyword">delete</span>().<span class="hljs-keyword">then</span> -&gt;
+        $route.reload()
+        toastr.success <span class="hljs-string">"Registro eliminado con éxito"</span></pre></div></div>
             
         </li>
         
@@ -196,7 +198,7 @@
             <div class="content"><div class='highlight'><pre>    $scope.update = <span class="hljs-function"><span class="hljs-params">(account)</span> -&gt;</span>
       account.person = $scope.patient._id
       resource = <span class="hljs-keyword">new</span> Accounting account
-      resource.$update() -&gt;</pre></div></div>
+      resource.$update().<span class="hljs-keyword">then</span> -&gt;</pre></div></div>
             
         </li>
         
@@ -207,7 +209,7 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-11">&#182;</a>
               </div>
-              <p>hide modal</p>
+              <p>Reload page</p>
 
             </div>
             
@@ -231,10 +233,9 @@
       $uibModal.open
         templateUrl: <span class="hljs-string">'partials/patient_payments/modal_edit.html'</span>
         controller: <span class="hljs-string">'ModalUpdateCtrl'</span>,
-        size: <span class="hljs-string">'lg'</span>,
         resolve:
           account: account
-      .result.<span class="hljs-keyword">then</span> (account)-&gt; $scope.update account</pre></div></div>
+      .result.<span class="hljs-keyword">then</span> (account) -&gt; $scope.update account</pre></div></div>
             
         </li>
         
@@ -253,10 +254,8 @@
       $uibModal.open
         templateUrl: <span class="hljs-string">'partials/patient_payments/modal_dependant.html'</span>
         controller: <span class="hljs-string">'ModalDependantCtrl'</span>
-        size: <span class="hljs-string">'lg'</span>,
-        resolve:
-          parent: account
-      .result.<span class="hljs-keyword">then</span> (account)-&gt;
+        resolve: parent: account
+      .result.<span class="hljs-keyword">then</span> (account) -&gt;
         $scope.<span class="hljs-keyword">new</span> account
         $route.reload()
 ]

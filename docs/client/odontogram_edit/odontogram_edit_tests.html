@@ -30,21 +30,87 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre>xdescribe <span class="hljs-string">'dentaljs.odontogram_edit module'</span>, <span class="hljs-function">-&gt;</span>
+            <div class="content"><div class='highlight'><pre>describe <span class="hljs-string">'dentaljs.odontogram_edit module'</span>, <span class="hljs-function">-&gt;</span>
+  $scope = <span class="hljs-literal">null</span>
+  $httpBackend = <span class="hljs-literal">null</span>
+  controller = <span class="hljs-literal">null</span>
 
-  beforeEach <span class="hljs-built_in">module</span> <span class="hljs-string">'dentaljs'</span>
   beforeEach <span class="hljs-built_in">module</span> <span class="hljs-string">'dentaljs.services'</span>
   beforeEach <span class="hljs-built_in">module</span> <span class="hljs-string">'dentaljs.odontogram_edit'</span>
 
-  beforeEach inject (_$controller_) -&gt;
-    $controller = _$controller_
+  beforeEach inject ($injector) -&gt;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>Get hold of a scope (i.e. the root scope)</p>
 
-  describe <span class="hljs-string">'odontogram_edit controller'</span>, <span class="hljs-function">-&gt;</span>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    $scope = $injector.get <span class="hljs-string">'$rootScope'</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>The $controller service is used to create instances of controllers</p>
 
-    it <span class="hljs-string">'should be load svg file'</span>, inject ($controller) -&gt;
-      $scope = {}
-      controller = $controller <span class="hljs-string">'OdontogramEditCtrl'</span>, $scope: $scope
-      expect($(<span class="hljs-string">".sector"</span>).length).toBeGreaterThan(<span class="hljs-number">0</span>)</pre></div></div>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    $controller = $injector.get <span class="hljs-string">'$controller'</span>
+    $httpBackend = $injector.get <span class="hljs-string">'$httpBackend'</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>create new controller</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    controller = $controller <span class="hljs-string">'OdontogramEditCtrl'</span>,
+                             <span class="hljs-string">'$scope'</span>: $scope,
+
+  describe <span class="hljs-string">"Attach Issue's fix"</span>, <span class="hljs-function">-&gt;</span>
+
+    issue =
+      _id: <span class="hljs-string">'x'</span>
+      code: <span class="hljs-string">'X'</span>
+      description: <span class="hljs-string">'Arreglo X'</span>
+
+    it <span class="hljs-string">'should send a fix'</span>, <span class="hljs-function">-&gt;</span>
+      $httpBackend.expectPOST <span class="hljs-string">"/odontograms"</span>,
+        title: <span class="hljs-string">"Test"</span>
+        comments: <span class="hljs-string">"Test odontogram"</span>
+        pieces: [
+          {id: <span class="hljs-number">11</span>, sectors: [id: <span class="hljs-number">0</span>, issue: issue._id]},
+        ]
+      .respond <span class="hljs-number">201</span>
+      $httpBackend.whenGET(<span class="hljs-string">"/persons"</span>).respond <span class="hljs-number">200</span>, {_id:<span class="hljs-string">'abc123'</span>}
+      $scope.title = <span class="hljs-string">"Test"</span>
+      $scope.comments = <span class="hljs-string">"Test odontogram"</span>
+      $scope.attachIssue
+        id: <span class="hljs-number">11</span>
+        sector: <span class="hljs-number">0</span>
+        issue: issue
+      $scope.save()
+      $httpBackend.flush()</pre></div></div>
             
         </li>
         

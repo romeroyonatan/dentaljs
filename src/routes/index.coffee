@@ -1,6 +1,7 @@
 express = require 'express'
 person_routes = require './person'
 accouting_routes = require './accounting'
+odontograms_routes = require './odontogram'
 
 router = express.Router()
 
@@ -11,6 +12,7 @@ router.get '/', (req, res, next) ->
 # Call person routes
 router.use '/persons', person_routes
 router.use '/accounting', accouting_routes
+router.use '/odontograms', odontograms_routes
 
 # simple session authorization
 checkAuth = (req, res, next) ->

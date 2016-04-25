@@ -126,15 +126,18 @@ angular.module('dentaljs.odontogram_edit', ['ngRoute'])
     # Build odontogram's object for send to server
     $scope.save = ->
       patient = Person.get slug: $routeParams.slug
+      pieces = $scope.pieces.filter Boolean
+      for piece in pieces
+        for sector in piece.sectors when sector?
+          sector.issue = sector.issue._id if sector.issue?
       odontogram = new Odontogram
-        pieces: $scope.pieces.filter Boolean
+        pieces: pieces
         comments: $scope.comments
         title: $scope.title
         person: patient._id
       console.log odontogram
-      odontogram.$save()
-
-
+      odontogram.$save().then ->
+        toastr.success "Odontograma creado con éxito"
 
     # Bindings for teeth's sector click
     # XXX findbyCssSelector

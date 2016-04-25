@@ -26,12 +26,14 @@ describe 'dentaljs.odontogram_edit module', ->
     it 'should send a fix', ->
       $httpBackend.expectPOST "/odontograms",
         title: "Test"
+        comments: "Test odontogram"
         pieces: [
-          {id: 11, sectors: [id: 0, issue: issue]},
+          {id: 11, sectors: [id: 0, issue: issue._id]},
         ]
       .respond 201
       $httpBackend.whenGET("/persons").respond 200, {_id:'abc123'}
       $scope.title = "Test"
+      $scope.comments = "Test odontogram"
       $scope.attachIssue
         id: 11
         sector: 0

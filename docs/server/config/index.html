@@ -50,10 +50,10 @@
       exports.MONGO_DB = <span class="hljs-string">'mongodb://localhost/dentaljs-test'</span>
 
     <span class="hljs-keyword">when</span> <span class="hljs-string">"production"</span>
-      exports.DEBUG_LOG = <span class="hljs-literal">false</span>
-      exports.DEBUG_WARN = <span class="hljs-literal">false</span>
+      exports.DEBUG_LOG = <span class="hljs-literal">true</span>
+      exports.DEBUG_WARN = <span class="hljs-literal">true</span>
       exports.DEBUG_ERROR = <span class="hljs-literal">true</span>
-      exports.DEBUG_CLIENT = <span class="hljs-literal">false</span>
+      exports.DEBUG_CLIENT = <span class="hljs-literal">true</span>
       exports.MONGO_DB = <span class="hljs-string">'mongodb://db/dentaljs'</span>
     <span class="hljs-keyword">else</span>
       <span class="hljs-built_in">console</span>.log <span class="hljs-string">"environment <span class="hljs-subst">#{env}</span> not found"</span></pre></div></div>

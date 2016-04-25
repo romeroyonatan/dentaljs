@@ -73,7 +73,9 @@
     $route = $injector.get <span class="hljs-string">'$route'</span>
     $httpBackend = $injector.get <span class="hljs-string">'$httpBackend'</span>
     $httpBackend.whenGET(<span class="hljs-string">'/persons'</span>).respond <span class="hljs-number">200</span>
-    $httpBackend.whenGET(<span class="hljs-string">'/accounting'</span>).respond <span class="hljs-number">200</span></pre></div></div>
+    $httpBackend.whenGET(<span class="hljs-string">'/accounting'</span>).respond <span class="hljs-number">200</span>
+    $httpBackend.whenGET(<span class="hljs-string">'/accounting/balance/undefined'</span>).respond <span class="hljs-number">200</span>
+    $httpBackend.whenPOST(<span class="hljs-string">'/accounting'</span>).respond <span class="hljs-number">201</span></pre></div></div>
             
         </li>
         
@@ -92,30 +94,46 @@
                              <span class="hljs-string">'$scope'</span>: $scope,
                              <span class="hljs-string">'$route'</span>:$route
 
-  it <span class="hljs-string">'it should add new account with debit amount'</span>, <span class="hljs-function">-&gt;</span>
-    $scope.<span class="hljs-keyword">new</span> description: <span class="hljs-string">"Test"</span>, debit: <span class="hljs-number">77</span>
-    expect($scope.accounting.length).toEqual <span class="hljs-number">1</span>
-    expect($scope.balance).toEqual <span class="hljs-number">-77</span>
+  it <span class="hljs-string">'it should add new account with assets amount'</span>, <span class="hljs-function"><span class="hljs-params">(done)</span>-&gt;</span>
+    $scope.<span class="hljs-keyword">new</span>(description: <span class="hljs-string">"Test"</span>, assets: <span class="hljs-number">88.77</span>).<span class="hljs-keyword">then</span> -&gt;
+      expect($scope.accounting.length).toEqual <span class="hljs-number">1</span>
+      expect($scope.balance).toEqual <span class="hljs-number">88.77</span>
+      done()
+    $httpBackend.flush()
 
-  it <span class="hljs-string">'it should add new account with assets amount'</span>, <span class="hljs-function">-&gt;</span>
-    $scope.<span class="hljs-keyword">new</span> description: <span class="hljs-string">"Test"</span>, assets: <span class="hljs-number">88.77</span>
-    expect($scope.accounting.length).toEqual <span class="hljs-number">1</span>
-    expect($scope.balance).toEqual <span class="hljs-number">88.77</span>
+  it <span class="hljs-string">'it should add new account with debit amount'</span>, <span class="hljs-function"><span class="hljs-params">(done)</span>-&gt;</span>
+    $scope.<span class="hljs-keyword">new</span>(description: <span class="hljs-string">"Test"</span>, debit: <span class="hljs-number">77</span>).<span class="hljs-keyword">then</span> -&gt;
+      expect($scope.accounting.length).toEqual <span class="hljs-number">1</span>
+      expect($scope.balance).toEqual <span class="hljs-number">-77</span>
+      done()
+    $httpBackend.flush()
 
-  it <span class="hljs-string">'it should add new account with assets and debit amount'</span>, <span class="hljs-function">-&gt;</span>
-    $scope.<span class="hljs-keyword">new</span> description: <span class="hljs-string">"Test"</span>, assets: <span class="hljs-number">50</span>, debit: <span class="hljs-number">100</span>
-    expect($scope.accounting.length).toEqual <span class="hljs-number">1</span>
-    expect($scope.balance).toEqual <span class="hljs-number">-50</span>
+  it <span class="hljs-string">'it should add new account with assets amount'</span>, <span class="hljs-function"><span class="hljs-params">(done)</span>-&gt;</span>
+    $scope.<span class="hljs-keyword">new</span>(description: <span class="hljs-string">"Test"</span>, assets: <span class="hljs-number">88.77</span>).<span class="hljs-keyword">then</span> -&gt;
+      expect($scope.accounting.length).toEqual <span class="hljs-number">1</span>
+      expect($scope.balance).toEqual <span class="hljs-number">88.77</span>
+      done()
+    $httpBackend.flush()
 
-  it <span class="hljs-string">'it should add multiple accounts with assets and debit amount'</span>, <span class="hljs-function">-&gt;</span>
-    $scope.<span class="hljs-keyword">new</span> description: <span class="hljs-string">"Test1"</span>, assets: <span class="hljs-number">150</span>
-    $scope.<span class="hljs-keyword">new</span> description: <span class="hljs-string">"Test2"</span>, debit: <span class="hljs-number">250</span>
-    expect($scope.accounting.length).toEqual <span class="hljs-number">2</span>
-    expect($scope.balance).toEqual <span class="hljs-number">-100</span>
-    expect($scope.accounting[<span class="hljs-number">0</span>].description).toEqual <span class="hljs-string">"Test1"</span>
-    expect($scope.accounting[<span class="hljs-number">1</span>].description).toEqual <span class="hljs-string">"Test2"</span>
+  it <span class="hljs-string">'it should add new account with assets and debit amount'</span>, <span class="hljs-function"><span class="hljs-params">(done)</span>-&gt;</span>
+    $scope.<span class="hljs-keyword">new</span>(description: <span class="hljs-string">"Test"</span>, assets: <span class="hljs-number">50</span>, debit: <span class="hljs-number">100</span>).<span class="hljs-keyword">then</span> -&gt;
+      expect($scope.accounting.length).toEqual <span class="hljs-number">1</span>
+      expect($scope.balance).toEqual <span class="hljs-number">-50</span>
+      done()
+    $httpBackend.flush()
 
-  it <span class="hljs-string">'it should remove an existing account'</span>, <span class="hljs-function">-&gt;</span></pre></div></div>
+  it <span class="hljs-string">'it should add multiple accounts with assets and debit amount'</span>, <span class="hljs-function"><span class="hljs-params">(done)</span>-&gt;</span>
+    $scope.<span class="hljs-keyword">new</span>(description: <span class="hljs-string">"Test1"</span>, assets: <span class="hljs-number">150</span>).<span class="hljs-keyword">then</span> -&gt;
+      $scope.<span class="hljs-keyword">new</span>(description: <span class="hljs-string">"Test2"</span>, debit: <span class="hljs-number">250</span>).<span class="hljs-keyword">then</span> -&gt;
+        expect($scope.accounting.length).toEqual <span class="hljs-number">2</span>
+        expect($scope.balance).toEqual <span class="hljs-number">-100</span>
+        expect($scope.accounting[<span class="hljs-number">0</span>].description).toEqual <span class="hljs-string">"Test1"</span>
+        expect($scope.accounting[<span class="hljs-number">1</span>].description).toEqual <span class="hljs-string">"Test2"</span>
+        done()
+    $httpBackend.flush()
+
+  it <span class="hljs-string">'it should remove an existing account'</span>, <span class="hljs-function"><span class="hljs-params">(done)</span>-&gt;</span>
+    spyOn($route, <span class="hljs-string">'reload'</span>)</pre></div></div>
             
         </li>
         
@@ -133,7 +151,8 @@
             <div class="content"><div class='highlight'><pre>    account =
       description: <span class="hljs-string">"Test"</span>
       debit: <span class="hljs-number">200</span>
-      _id: <span class="hljs-string">'abc123'</span></pre></div></div>
+      _id: <span class="hljs-string">'abcxyz'</span>
+    $httpBackend.expectDELETE(<span class="hljs-string">'/accounting/abcxyz'</span>).respond <span class="hljs-number">200</span></pre></div></div>
             
         </li>
         
@@ -144,11 +163,11 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-6">&#182;</a>
               </div>
-              <p>mock $delete method</p>
+              <p>delete accounting</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      $delete: <span class="hljs-function"><span class="hljs-params">(cb)</span> -&gt;</span> cb?()</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    $scope.<span class="hljs-keyword">delete</span>(account).<span class="hljs-keyword">then</span> -&gt;</pre></div></div>
             
         </li>
         
@@ -159,11 +178,16 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-7">&#182;</a>
               </div>
-              <p>add account to accounting</p>
+              <p>check if it deleted</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    $scope.<span class="hljs-keyword">new</span> account</pre></div></div>
+            <div class="content"><div class='highlight'><pre>      expect($route.reload).toHaveBeenCalled()
+      done()
+    $httpBackend.flush()
+
+  it <span class="hljs-string">'it should remove an existing account with another existing accounts'</span>,
+  <span class="hljs-function"><span class="hljs-params">(done)</span>-&gt;</span></pre></div></div>
             
         </li>
         
@@ -174,11 +198,20 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-8">&#182;</a>
               </div>
-              <p>delete accounting</p>
+              <p>create mock account</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    $scope.<span class="hljs-keyword">delete</span> account</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    spyOn($route, <span class="hljs-string">'reload'</span>)
+    $scope.accounting = [
+      {description: <span class="hljs-string">"Test1"</span>, debit: <span class="hljs-number">200</span>},
+      {description: <span class="hljs-string">"Test2"</span>, debit: <span class="hljs-number">200</span>},
+      {description: <span class="hljs-string">"Test3"</span>, debit: <span class="hljs-number">200</span>},
+    ]
+    account =
+      description: <span class="hljs-string">"Test"</span>
+      debit: <span class="hljs-number">200</span>
+      _id: <span class="hljs-string">'abcxyz'</span></pre></div></div>
             
         </li>
         
@@ -189,14 +222,12 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-9">&#182;</a>
               </div>
-              <p>check if it deleted</p>
+              <p>delete accounting</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    expect($scope.accounting.length).toEqual <span class="hljs-number">0</span>
-    expect($scope.balance).toEqual <span class="hljs-number">0</span>
-
-  it <span class="hljs-string">'it should remove an existing account with another existing accounts'</span>, <span class="hljs-function">-&gt;</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre>    $httpBackend.expectDELETE(<span class="hljs-string">'/accounting/abcxyz'</span>).respond <span class="hljs-number">200</span>
+    $scope.<span class="hljs-keyword">delete</span>(account).<span class="hljs-keyword">then</span> -&gt;</pre></div></div>
             
         </li>
         
@@ -207,14 +238,33 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-10">&#182;</a>
               </div>
-              <p>create mock account</p>
+              <p>check if it deleted</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    account =
-      description: <span class="hljs-string">"Test"</span>
-      debit: <span class="hljs-number">200</span>
-      _id: <span class="hljs-string">'abc123'</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre>      expect($route.reload).toHaveBeenCalled()
+      done()
+    $httpBackend.flush()
+
+  it <span class="hljs-string">'it should update a accounting with debit amount'</span>, <span class="hljs-function"><span class="hljs-params">(done)</span>-&gt;</span>
+    $scope.<span class="hljs-keyword">new</span>(description: <span class="hljs-string">"Test1"</span>, debit: <span class="hljs-number">150</span>).<span class="hljs-keyword">then</span> -&gt;
+      spyOn($route, <span class="hljs-string">'reload'</span>)
+      $httpBackend.expectPUT(<span class="hljs-string">'/accounting/abcxyz'</span>).respond <span class="hljs-number">200</span>
+      $scope.update(description: <span class="hljs-string">"ABC"</span>, debit: <span class="hljs-number">50</span>, _id: <span class="hljs-string">'abcxyz'</span>).<span class="hljs-keyword">then</span> -&gt;
+        expect($route.reload).toHaveBeenCalled()
+        done()
+    $httpBackend.flush()
+
+  it <span class="hljs-string">'it should update a accounting with assets amount'</span>, <span class="hljs-function"><span class="hljs-params">(done)</span>-&gt;</span>
+    $scope.<span class="hljs-keyword">new</span>(description: <span class="hljs-string">"Test1"</span>, assets: <span class="hljs-number">150</span>).<span class="hljs-keyword">then</span> -&gt;
+      spyOn($route, <span class="hljs-string">'reload'</span>)
+      $httpBackend.expectPUT(<span class="hljs-string">'/accounting/abcxyz'</span>).respond <span class="hljs-number">200</span>
+      $scope.update(description: <span class="hljs-string">"ABC"</span>, assets: <span class="hljs-number">50</span>, _id: <span class="hljs-string">'abcxyz'</span>).<span class="hljs-keyword">then</span> -&gt;
+        expect($route.reload).toHaveBeenCalled()
+        done()
+    $httpBackend.flush()
+
+  it <span class="hljs-string">'should add dependent accounting'</span>, <span class="hljs-function"><span class="hljs-params">(done)</span>-&gt;</span></pre></div></div>
             
         </li>
         
@@ -225,11 +275,13 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-11">&#182;</a>
               </div>
-              <p>mock $delete method</p>
+              <p>define main accounting</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      $delete: <span class="hljs-function"><span class="hljs-params">(cb)</span> -&gt;</span> cb?()</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    father =
+      description: <span class="hljs-string">"test1"</span>
+      debit: <span class="hljs-number">200</span></pre></div></div>
             
         </li>
         
@@ -240,12 +292,9 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-12">&#182;</a>
               </div>
-              <p>add accounts</p>
+              <p>_id: ‘father’</p>
 
             </div>
-            
-            <div class="content"><div class='highlight'><pre>    $scope.<span class="hljs-keyword">new</span> account
-    $scope.<span class="hljs-keyword">new</span> description: <span class="hljs-string">"Test2"</span>, debit: <span class="hljs-number">200</span></pre></div></div>
             
         </li>
         
@@ -256,11 +305,13 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-13">&#182;</a>
               </div>
-              <p>delete accounting</p>
+              <p>define dependant account</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    $scope.<span class="hljs-keyword">delete</span> account</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    child =
+      description: <span class="hljs-string">"test1"</span>
+      assets: <span class="hljs-number">100</span></pre></div></div>
             
         </li>
         
@@ -271,32 +322,11 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-14">&#182;</a>
               </div>
-              <p>check if it deleted</p>
+              <p>_id: ‘child’</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    expect($scope.accounting.length).toEqual <span class="hljs-number">1</span>
-    expect($scope.balance).toEqual <span class="hljs-number">-200</span>
-
-  it <span class="hljs-string">'it should update a accounting with debit amount'</span>, <span class="hljs-function">-&gt;</span>
-    $httpBackend.expectPOST(<span class="hljs-string">'/accounting/abcxyz'</span>).respond <span class="hljs-number">201</span>
-    $scope.<span class="hljs-keyword">new</span> description: <span class="hljs-string">"Test1"</span>, debit: <span class="hljs-number">150</span>, _id: <span class="hljs-string">'abcxyz'</span>
-    spyOn($route, <span class="hljs-string">'reload'</span>)
-    $httpBackend.expectPUT(<span class="hljs-string">'/accounting/abcxyz'</span>).respond <span class="hljs-number">200</span>
-    $scope.update description: <span class="hljs-string">"ABC"</span>, debit: <span class="hljs-number">50</span>, _id: <span class="hljs-string">'abcxyz'</span>
-    expect($route.reload).toHaveBeenCalled()
-    $httpBackend.flush()
-
-  it <span class="hljs-string">'it should update a accounting with assets amount'</span>, <span class="hljs-function">-&gt;</span>
-    $httpBackend.expectPOST(<span class="hljs-string">'/accounting/abcxyz'</span>).respond <span class="hljs-number">201</span>
-    $scope.<span class="hljs-keyword">new</span> description: <span class="hljs-string">"Test1"</span>, assets: <span class="hljs-number">150</span>, _id: <span class="hljs-string">'abcxyz'</span>
-    spyOn($route, <span class="hljs-string">'reload'</span>)
-    $httpBackend.expectPUT(<span class="hljs-string">'/accounting/abcxyz'</span>).respond <span class="hljs-number">200</span>
-    $scope.update description: <span class="hljs-string">"ABC"</span>, assets: <span class="hljs-number">50</span>, _id: <span class="hljs-string">'abcxyz'</span>
-    expect($route.reload).toHaveBeenCalled()
-    $httpBackend.flush()
-
-  it <span class="hljs-string">'should add dependent accounting'</span>, <span class="hljs-function">-&gt;</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre>      parent: father</pre></div></div>
             
         </li>
         
@@ -307,52 +337,16 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-15">&#182;</a>
               </div>
-              <p>define main accounting</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>    father =
-      description: <span class="hljs-string">"test1"</span>
-      debit: <span class="hljs-number">200</span>
-      _id: <span class="hljs-string">'father'</span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-16">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-16">&#182;</a>
-              </div>
-              <p>define dependant account</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>    child =
-      description: <span class="hljs-string">"test1"</span>
-      assets: <span class="hljs-number">100</span>
-      _id: <span class="hljs-string">'child'</span>
-      parent: father</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-17">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-17">&#182;</a>
-              </div>
               <p>create accounting</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    $scope.<span class="hljs-keyword">new</span> father
-    $scope.<span class="hljs-keyword">new</span> child
-
-    expect($scope.accounting.length).toEqual <span class="hljs-number">2</span>
-    expect($scope.balance).toEqual <span class="hljs-number">-100</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre>    $scope.<span class="hljs-keyword">new</span>(father).<span class="hljs-keyword">then</span> -&gt;
+      $scope.<span class="hljs-keyword">new</span>(child).<span class="hljs-keyword">then</span> -&gt;
+        expect($scope.accounting.length).toEqual <span class="hljs-number">2</span>
+        expect($scope.balance).toEqual <span class="hljs-number">-100</span>
+        done()
+    $httpBackend.flush()</pre></div></div>
             
         </li>
         

@@ -40,7 +40,8 @@
 ]
 
 .controller <span class="hljs-string">'OdontogramEditCtrl'</span>, [
-  <span class="hljs-string">"$scope"</span>, <span class="hljs-string">"$routeParams"</span>, <span class="hljs-string">"Person"</span>, <span class="hljs-function"><span class="hljs-params">($scope, $routeParams, Person)</span> -&gt;</span>
+  <span class="hljs-string">"$scope"</span>, <span class="hljs-string">"$routeParams"</span>, <span class="hljs-string">"Person"</span>, <span class="hljs-string">"Odontogram"</span>,
+  <span class="hljs-function"><span class="hljs-params">($scope, $routeParams, Person, Odontogram)</span> -&gt;</span>
     $scope.diseases = [
       {code: <span class="hljs-string">"A"</span>, description: <span class="hljs-string">"Enfermedad A"</span>, _id: <span class="hljs-string">'a'</span>},
       {code: <span class="hljs-string">"B"</span>, description: <span class="hljs-string">"Enfermedad B"</span>, _id: <span class="hljs-string">'b'</span>},
@@ -53,8 +54,6 @@
       {code: <span class="hljs-string">"Y"</span>, description: <span class="hljs-string">"Arreglo Y"</span>, _id: <span class="hljs-string">'y'</span>},
       {code: <span class="hljs-string">"Z"</span>, description: <span class="hljs-string">"Arreglo Z"</span>, _id: <span class="hljs-string">'z'</span>},
     ]
-
-    $scope.patient = Person.get slug: $routeParams.slug
 
     $scope.pieces = []
     $scope.description = <span class="hljs-string">""</span>
@@ -100,13 +99,13 @@ teeth</p>
               <ul>
 <li>issue.id: the teeth’s identification</li>
 <li>issue.sector: the sector affected. it could be null if teeth is removed</li>
-<li>issue.code: if sector is fix or disease, it is the code of them</li>
+<li>issue.issue: the fix or disease</li>
 <li>issue.removed: if teeth was removed</li>
 </ul>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-function">    <span class="hljs-title">attachIssue</span> = <span class="hljs-params">(issue)</span> -&gt;</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre>    $scope.attachIssue = <span class="hljs-function"><span class="hljs-params">(issue)</span> -&gt;</span></pre></div></div>
             
         </li>
         
@@ -235,7 +234,7 @@ teeth</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>        sector = $(elem).attr(<span class="hljs-string">'id'</span>)
-        attachIssue id: id, sector: sector, issue: fix</pre></div></div>
+        $scope.attachIssue id: id, sector: sector, issue: fix</pre></div></div>
             
         </li>
         
@@ -344,7 +343,7 @@ diseased</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>        sector = $(elem).attr(<span class="hljs-string">'id'</span>)
-        attachIssue id: id, sector: sector, issue: disease</pre></div></div>
+        $scope.attachIssue id: id, sector: sector, issue: disease</pre></div></div>
             
         </li>
         
@@ -439,7 +438,7 @@ XXX findbyCssSelector</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      attachIssue id: id, removed: <span class="hljs-literal">true</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre>      $scope.attachIssue id: id, removed: <span class="hljs-literal">true</span></pre></div></div>
             
         </li>
         
@@ -517,7 +516,7 @@ XXX findbyCssSelector</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>        sector = $(elem).attr(<span class="hljs-string">'id'</span>)
-        <span class="hljs-keyword">delete</span> $scope.pieces[id]</pre></div></div>
+        <span class="hljs-keyword">delete</span> $scope.pieces[id].sectors[sector]</pre></div></div>
             
         </li>
         
@@ -565,12 +564,19 @@ XXX findbyCssSelector</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>    $scope.save = <span class="hljs-function">-&gt;</span>
-      odontogram =
-        pieces: $scope.pieces.filter Boolean
+      patient = Person.get slug: $routeParams.slug
+      pieces = $scope.pieces.filter Boolean
+      <span class="hljs-keyword">for</span> piece <span class="hljs-keyword">in</span> pieces
+        <span class="hljs-keyword">for</span> sector <span class="hljs-keyword">in</span> piece.sectors <span class="hljs-keyword">when</span> sector?
+          sector.issue = sector.issue._id <span class="hljs-keyword">if</span> sector.issue?
+      odontogram = <span class="hljs-keyword">new</span> Odontogram
+        pieces: pieces
         comments: $scope.comments
         title: $scope.title
-        person: $scope.patient._id
-      <span class="hljs-built_in">console</span>.log odontogram</pre></div></div>
+        person: patient._id
+      <span class="hljs-built_in">console</span>.log odontogram
+      odontogram.$save().<span class="hljs-keyword">then</span> -&gt;
+        toastr.success <span class="hljs-string">"Odontograma creado con éxito"</span></pre></div></div>
             
         </li>
         
