@@ -1,46 +1,59 @@
-include ../mixins/form.jade
-h1 Nuevo paciente
+include ../mixins/form
 
-.row
-  form(novalidate name="form")
-    formset.col-md-7
-      legend Datos personales
-      +form-input("Nombre", "patient.first_name", "Pedro", "required")
-      +form-input("Apellido", "patient.last_name", "Gonzalez", "required")
-      +form-input("DNI", "patient.identification", "11223445")
-      +form-date("Fecha de nacimiento", "patient.born.date")
-      +form-input("Ciudad de nacimiento", "patient.born.city", "La Rioja")
-      +form-input("País de nacimiento", "patient.born.country", "Argentina")
-      +form-select("Estado civil", "patient.civil_status", [
-        {value:1, label:"Soltera/o"},
-        {value:2, label:"Casada/o"},
-        {value:3, label:"Divorciada/o"},
-        {value:4, label:"Viuda/o"},
-        ])
-      +form-textarea("Motivo de la consulta", "patient.consultation_reason", 
-                     "Escribir lo que desea cambiar de su boca")
+block breadcrumb
+  ol.breadcrumb
+    li: a(href="/"): i.fa.fa-home
+    li: a(ng-href="#/patients") Lista de pacientes
+    li(ng-if="patient._id")
+      a(ng-href="#/patients/{{patient.slug}}" 
+        ng-bind="patient.first_name + ' ' + patient.last_name") 
+    li.active(ng-if="patient._id") Editar
+    li.active(ng-if="!patient._id") Nuevo
+  
+block content
+  h1(ng-if="!patient._id") Nuevo paciente
+  h1(ng-if="patient._id") Editar paciente
+
+  .row
+    form(novalidate name="form")
+      formset.col-md-7
+        legend Datos personales
+        +form-input("Nombre", "patient.first_name", "Pedro", "required")
+        +form-input("Apellido", "patient.last_name", "Gonzalez", "required")
+        +form-input("DNI", "patient.identification", "11223445")
+        +form-date("Fecha de nacimiento", "patient.born.date")
+        +form-input("Ciudad de nacimiento", "patient.born.city", "La Rioja")
+        +form-input("País de nacimiento", "patient.born.country", "Argentina")
+        +form-select("Estado civil", "patient.civil_status", [
+          {value:1, label:"Soltera/o"},
+          {value:2, label:"Casada/o"},
+          {value:3, label:"Divorciada/o"},
+          {value:4, label:"Viuda/o"},
+          ])
+        +form-textarea("Motivo de la consulta", "patient.consultation_reason", 
+                       "Escribir lo que desea cambiar de su boca")
+        
+      formset.col-md-5
+        legend Contacto
+        +form-input("Calle", "patient.address.street", "Balcarce")
+        +form-input("Número", "patient.address.number", "50")(type="number")
+        +form-input("Barrio", "patient.address.district", "San Nicolás")
+        +form-input("Ciudad", "patient.address.city", "CABA")
+        +form-input("Teléfono particular", "patient.phones.home", "4277 0906")
+        +form-input("Teléfono celular", "patient.phones.cellphone", "11 6211 1423")
+        +form-input("Teléfono laboral", "patient.phones.work", "4123 4444")
+        +form-input("Email", "patient.email", "email@example.com")(type="email")
       
-    formset.col-md-5
-      legend Contacto
-      +form-input("Calle", "patient.address.street", "Balcarce")
-      +form-input("Número", "patient.address.number", "50")(type="number")
-      +form-input("Barrio", "patient.address.district", "San Nicolás")
-      +form-input("Ciudad", "patient.address.city", "CABA")
-      +form-input("Teléfono particular", "patient.phones.home", "4277 0906")
-      +form-input("Teléfono celular", "patient.phones.cellphone", "11 6211 1423")
-      +form-input("Teléfono laboral", "patient.phones.work", "4123 4444")
-      +form-input("Email", "patient.email", "email@example.com")(type="email")
-    
-    
-    formset.col-md-5
-      legend Datos laborales
-      +form-input("Direccion laboral", "patient.work.place", "Claypole")
-      +form-input("Horario laboral", "patient.work.hour", "9 a 18")
-    
-.row
-  .col-md-12
-    .pull-right
-      .btn-group(role="group" aria-label="...")
-        button.btn.btn-success(ng-click="save(patient)" 
-                               ng-disabled="!form.$valid") Guardar
-        button.btn.btn-danger(ng-click="cancel()") Cancelar
+      
+      formset.col-md-5
+        legend Datos laborales
+        +form-input("Direccion laboral", "patient.work.place", "Claypole")
+        +form-input("Horario laboral", "patient.work.hour", "9 a 18")
+      
+  .row
+    .col-md-12
+      .pull-right
+        .btn-group(role="group" aria-label="...")
+          button.btn.btn-success(ng-click="save(patient)" 
+                                 ng-disabled="!form.$valid") Guardar
+          button.btn.btn-danger(ng-click="cancel()") Cancelar

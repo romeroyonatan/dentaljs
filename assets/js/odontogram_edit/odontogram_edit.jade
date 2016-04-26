@@ -8,7 +8,7 @@ prepend nav
 block breadcrumb
   +breadcrumb(
     {href:"#/patients", name:"Lista de pacientes"},
-    {href:"#/patients", name:"{{ patient.first_name }} {{ patient.last_name }}"},
+    {href:"#/patients/{{patient.slug}}", name:"{{ patient.first_name }} {{ patient.last_name }}"},
     {href:"#/patients/{{patient.slug}}/odontograms", name:"Odontogramas"},
     {name:"Nuevo"}
   )

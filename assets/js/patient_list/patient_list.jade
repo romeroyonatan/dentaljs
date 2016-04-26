@@ -1,31 +1,37 @@
-h1 Pacientes
+block breadcrumb
+  ol.breadcrumb
+    li: a(href="/"): i.fa.fa-home
+    li: a(href="#/patients") Lista de pacientes
+  
+block content  
+  h1 Pacientes
 
-input.col-xs-12(ng-model="search" placeholder="Teclee para buscar")
+  input.col-xs-12(ng-model="search" placeholder="Teclee para buscar")
 
-table.table.table-striped
-  thead
-    tr
-      th Nombre
-      th Teléfono
-      th: a.btn.btn-default(href="#/patients/create")
-        i.fa.fa-plus
-        |  Nuevo paciente
-  tbody
-    tr(ng-repeat="patient in patients|orderBy:'last_name'|filter:search")
-      td
-        a(ng-href="#/patients/{{patient.slug}}")
-          strong(ng-bind='patient.last_name|uppercase')
-          span.text-capitalize(ng-bind='" " + patient.first_name')
-      td
-        ul.unstyled
-          //- FIXME Se puede eliminar cuando se migren los telefonos viejos
-          li.style.phone(ng-if='patient.phone') {{ patient.phone }}
-          //- --------------------------------------------------------------
-          li.style.phone(ng-if='patient.phones.home') {{ patient.phones.home }}
-          li.style.cellphone(ng-if='patient.phones.cellphone') {{ patient.phones.cellphone }}
-          li.style.work(ng-if='patient.phones.work') {{ patient.phones.work }}
-      td
-        .btn-group
-          a.btn.btn-danger(href="#/patients/{{ patient.slug }}/delete")
-            i.fa.fa-trash
-            |  Borrar
+  table.table.table-striped
+    thead
+      tr
+        th Nombre
+        th Teléfono
+        th: a.btn.btn-default(href="#/patients/create")
+          i.fa.fa-plus
+          |  Nuevo paciente
+    tbody
+      tr(ng-repeat="patient in patients|orderBy:'last_name'|filter:search")
+        td
+          a(ng-href="#/patients/{{patient.slug}}")
+            strong(ng-bind='patient.last_name|uppercase')
+            span.text-capitalize(ng-bind='" " + patient.first_name')
+        td
+          ul.unstyled
+            //- FIXME Se puede eliminar cuando se migren los telefonos viejos
+            li.style.phone(ng-if='patient.phone') {{ patient.phone }}
+            //- --------------------------------------------------------------
+            li.style.phone(ng-if='patient.phones.home') {{ patient.phones.home }}
+            li.style.cellphone(ng-if='patient.phones.cellphone') {{ patient.phones.cellphone }}
+            li.style.work(ng-if='patient.phones.work') {{ patient.phones.work }}
+        td
+          .btn-group
+            a.btn.btn-danger(href="#/patients/{{ patient.slug }}/delete")
+              i.fa.fa-trash
+              |  Borrar
