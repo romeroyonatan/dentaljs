@@ -1,10 +1,10 @@
-rewire = require 'rewire'
-mongoose = require 'mongoose'
-{Mock, spies} = require '../helpers/mongoose-mock'
-controller = rewire '../../.app/controllers/accounting'
-Accounting = require '../../.app/models/accounting'
-
 describe 'Accounting controller tests', ->
+  rewire = require 'rewire'
+  mongoose = require 'mongoose'
+  {Mock, spies} = require '../helpers/mongoose-mock'
+  controller = rewire '../../.app/controllers/accounting'
+  Accounting = require '../../.app/models/accounting'
+
   req = {}
   res = send: ->
   revert = null
@@ -76,68 +76,69 @@ describe 'Accounting controller tests', ->
     expect(Mock.remove).toHaveBeenCalledWith _id: 'abcxyz',
                                              jasmine.any Function
 
-describe 'Accounting controller tests without mock', ->
+  xdescribe 'Accounting controller tests without mock', ->
 
-  beforeAll -> mongoose.connect 'mongodb://localhost/dentaljs-test', (err) ->
-    console.error err if err
-  afterAll -> mongoose.disconnect()
+    beforeAll -> mongoose.connect 'mongodb://localhost/dentaljs-test',
+      (err) -> console.error err if err
+    afterAll -> mongoose.disconnect()
 
-  beforeEach (done) -> Accounting.remove {}, done
-  afterEach (done) -> Accounting.remove {}, done
+    beforeEach (done) -> Accounting.remove {}, done
+    afterEach (done) -> Accounting.remove {}, done
 
-  it 'father should has childs', (done) ->
-    # preparing request mock
-    req =
-      body:
-        description: "Child"
-        assets: 1
-    # preparing response mock
-    res =
-      status: ->
-      send: (child) ->
-        Accounting.findOne _id: child.parent, (err, parent)->
-          expect(parent isnt null).toBe true
-          expect(parent.childs.length).toEqual 1
-          expect(parent.childs[0]).toEqual child._id
-          done()
-    # create parent accounting
-    Accounting.create description: "Father", debit: 10, (err, father) ->
-      # create child accounting
-      req.body.parent = father._id
-      controller.create req, res
+    it 'father should has childs', (done) ->
+      # preparing request mock
+      req =
+        body:
+          description: "Child"
+          assets: 1
+      # preparing response mock
+      res =
+        status: ->
+        send: (child) ->
+          Accounting.findOne _id: child.parent, (err, parent)->
+            expect(parent isnt null).toBe true
+            expect(parent.childs isnt null).toBe true
+            expect(parent.childs.length).toEqual 1
+            expect(parent.childs[0]).toEqual child._id
+            done()
+      # create parent accounting
+      Accounting.create description: "Father", debit: 10, (err, father) ->
+        # create child accounting
+        req.body.parent = father._id
+        controller.create req, res
 
-  it 'should update father when child is removed', (done) ->
-    # preparing request mock
-    req = params: {}
-    # preparing response mock
-    res =
-      status: ->
-      send: (child) ->
-        Accounting.findOne description: 'Father', (err, father)->
-          expect(father?).toBe true
-          expect(father.childs.length).toEqual 0
-          done()
-    # create parent accounting
-    Accounting.create description: "Father", debit: 10, (err, father) ->
-      # create child accounting
-      Accounting.create description: "Child", credit: 10, (err, child) ->
-        req.params.id = child._id
-        controller.delete req, res
+    it 'should update father when child is removed', (done) ->
+      # preparing request mock
+      req = params: {}
+      # preparing response mock
+      res =
+        status: ->
+        send: (child) ->
+          Accounting.findOne description: 'Father', (err, father)->
+            expect(father?).toBe true
+            expect(father.childs.length).toEqual 0
+            done()
+      # create parent accounting
+      Accounting.create description: "Father", debit: 10, (err, father) ->
+        # create child accounting
+        Accounting.create description: "Child", credit: 10, (err, child) ->
+          req.params.id = child._id
+          controller.delete req, res
 
-  it 'should calculate a balance', (done) ->
-    # Prepare mock request and response
-    person = mongoose.Types.ObjectId '1234567890ab'
-    req = params: person: person
-    res = send: (data) ->
-      expect(data.balance).toEqual -30
-      done()
-    # Create mock data
-    Accounting.create [
-      {description: "test1", debit: 10, person: person},
-      {description: "test2", debit: 10, person: person},
-      {description: "test3", debit: 10, person: person},
-      {description: "test4", debit: 10, person: person},
-      {description: "test5", debit: 10, person: person},
-      {description: "test6", assets: 20, person: person},
-    ], (err, list) ->
-      controller.balance req, res
+    it 'should calculate a balance', (done) ->
+      # Prepare mock request and response
+      person = mongoose.Types.ObjectId '1234567890ab'
+      req = params: person: person
+      res = send: (data) ->
+        expect(data.balance).toEqual -30
+        done()
+      # Create mock data
+      Accounting.create [
+        {description: "test1", debit: 10, person: person},
+        {description: "test2", debit: 10, person: person},
+        {description: "test3", debit: 10, person: person},
+        {description: "test4", debit: 10, person: person},
+        {description: "test5", debit: 10, person: person},
+        {description: "test6", assets: 20, person: person},
+      ], (err, list) ->
+        controller.balance req, res

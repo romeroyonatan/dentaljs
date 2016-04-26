@@ -125,7 +125,6 @@ angular.module('dentaljs.odontogram_edit', ['ngRoute'])
         comments: $scope.comments
         title: $scope.title
         person: patient._id
-      console.log odontogram
       odontogram.$save().then ->
         toastr.success "Odontograma creado con éxito"
 
