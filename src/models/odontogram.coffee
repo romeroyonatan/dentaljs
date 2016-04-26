@@ -5,6 +5,7 @@ Issue = require './issue'
 # ## Piece model
 Piece = new mongoose.Schema
   id: Number
+  removed: Boolean
   sectors: [
     id: Number,
     issue:

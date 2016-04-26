@@ -10,7 +10,6 @@ module.exports =
   list: (req, res, next) ->
     Odontogram.find req.query
     .then (list) ->
-      return next err if err
       res.send list
     .catch (err) ->
       console.error err
@@ -32,7 +31,6 @@ module.exports =
     object = req.body
     Odontogram.update id: req.params.id, object
     .then (rawResponse) ->
-      return next err if err
       if not rawResponse.ok
         return next status: 404, message: 'Odontogram not found'
       res.send req.body
