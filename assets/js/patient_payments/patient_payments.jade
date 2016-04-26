@@ -32,10 +32,13 @@ block content
                 ng-model="account.assets" name="credit" type="number"
                 placeholder="$ 100" value=0
               )
-            td(ng-bind="(account.assets - account.debit)|currency")
+            td
             td
               button.btn(ng-click="new(account)" ng-disabled="!form.$valid")
                 | Guardar
+          tr.active(ng-class="{'success': balance > 0, 'danger': balance < 0}")
+            td(colspan=5): strong Balance
+            td(colspan=2 ng-bind="balance|currency")
 
         //- -----------------------------------------------------------------
         //- Show payment details
