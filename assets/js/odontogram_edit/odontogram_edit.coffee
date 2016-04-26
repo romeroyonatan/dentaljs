@@ -8,8 +8,8 @@ angular.module('dentaljs.odontogram_edit', ['ngRoute'])
 ]
 
 .controller 'OdontogramEditCtrl', [
-  "$scope", "$routeParams", "Person", "Odontogram", "Issue"
-  ($scope, $routeParams, Person, Odontogram, Issue) ->
+  "$scope", "$routeParams", "$location", "Person", "Odontogram", "Issue"
+  ($scope, $routeParams, $location, Person, Odontogram, Issue) ->
     $scope.patient = Person.get slug: $routeParams.slug
     $scope.diseases = Issue.query type: 1
     $scope.fixes =  Issue.query type: 2
@@ -127,6 +127,7 @@ angular.module('dentaljs.odontogram_edit', ['ngRoute'])
         person: $scope.patient._id
       odontogram.$save().then ->
         toastr.success "Odontograma creado con éxito"
+        $location.path "/patients/#{$scope.patient.slug}/odontograms"
 
     # Bindings for teeth's sector click
     # XXX findbyCssSelector
