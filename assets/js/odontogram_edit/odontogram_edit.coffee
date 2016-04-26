@@ -10,6 +10,7 @@ angular.module('dentaljs.odontogram_edit', ['ngRoute'])
 .controller 'OdontogramEditCtrl', [
   "$scope", "$routeParams", "Person", "Odontogram", "Issue"
   ($scope, $routeParams, Person, Odontogram, Issue) ->
+    $scope.patient = Person.get slug: $routeParams.slug
     $scope.diseases = Issue.query type: 1
     $scope.fixes =  Issue.query type: 2
 
@@ -115,7 +116,6 @@ angular.module('dentaljs.odontogram_edit', ['ngRoute'])
 
     # Build odontogram's object for send to server
     $scope.save = ->
-      patient = Person.get slug: $routeParams.slug
       pieces = $scope.pieces.filter Boolean
       for piece in pieces
         for sector in piece.sectors when sector?
@@ -124,7 +124,7 @@ angular.module('dentaljs.odontogram_edit', ['ngRoute'])
         pieces: pieces
         comments: $scope.comments
         title: $scope.title
-        person: patient._id
+        person: $scope.patient._id
       odontogram.$save().then ->
         toastr.success "Odontograma creado con éxito"
 
