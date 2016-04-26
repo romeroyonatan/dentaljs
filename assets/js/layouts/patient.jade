@@ -1,10 +1,11 @@
 include ../mixins/nav.jade
 include ../mixins/breadcrumb.jade
 
-+breadcrumb(
-  {href:"#/patients", name:"Lista de pacientes"},
-  {href:"#/patients", name:"{{ patient.first_name }} {{ patient.last_name }}"}
-)
+block breadcrumb
+  +breadcrumb(
+    {href:"#/patients", name:"Lista de pacientes"},
+    {href:"#/patients", name:"{{ patient.first_name }} {{ patient.last_name }}"}
+  )
 
 h1
   span(ng-bind="patient.last_name|uppercase")
@@ -14,7 +15,7 @@ block nav
   ul.nav.nav-tabs
     +nav_item('Datos del paciente', "#/patients/{{patient.slug}}",
               section == 'detail')
-    +nav_item('Odontograma', "#/patients/{{patient.slug}}/odontograms/edit",
+    +nav_item('Odontograma', "#/patients/{{patient.slug}}/odontograms",
               section == 'odontogram')
     +nav_item('Historia Clínica', "#/patients/{{patient.slug}}/history",
               section == 'history')

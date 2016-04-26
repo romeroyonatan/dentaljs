@@ -4,6 +4,14 @@ include ../mixins/form
 
 prepend nav
   -var section = 'odontogram'
+  
+block breadcrumb
+  +breadcrumb(
+    {href:"#/patients", name:"Lista de pacientes"},
+    {href:"#/patients", name:"{{ patient.first_name }} {{ patient.last_name }}"},
+    {href:"#/patients/{{patient.slug}}/odontograms", name:"Odontogramas"},
+    {name:"Nuevo"}
+  )
 
 block content
   h2 Odontograma

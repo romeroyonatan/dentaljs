@@ -29,7 +29,7 @@ module.exports =
   # Updates data of a Odontogram
   update: (req, res, next) ->
     object = req.body
-    Odontogram.update id: req.params.id, object
+    Odontogram.update _id: req.params.id, object
     .then (rawResponse) ->
       if not rawResponse.ok
         return next status: 404, message: 'Odontogram not found'
@@ -40,7 +40,7 @@ module.exports =
 
   # Get details of a Odontogram
   detail: (req, res, next) ->
-    Odontogram.findOne id: req.params.id
+    Odontogram.findOne _id: req.params.id
     .populate 'pieces.sectors.issue'
     .then (object) ->
       if not object?
@@ -51,15 +51,13 @@ module.exports =
       console.error err
       next err
 
-  # Remove a exiting Odontogram
+  # Remove a existing Odontogram
   remove: (req, res, next) ->
-    Odontogram.remove id: req.params.id
-    .then ->
+    Odontogram.remove _id: req.params.id, (err, obj) ->
+      console.error err if err
+      console.log obj
       res.status 204
       res.end()
-    .catch (err) ->
-      console.error err
-      next err
 
   # Get issue list
   issues: (req, res, next) ->

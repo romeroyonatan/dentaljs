@@ -1,0 +1,38 @@
+extends ../layouts/patient.jade
+include ../mixins/odontogram
+include ../mixins/form
+
+prepend nav
+  -var section = 'odontogram'
+  
+block breadcrumb
+  +breadcrumb(
+    {href:"#/patients", name:"Lista de pacientes"},
+    {href:"#/patients/{{patient.slug}}", name:"{{ patient.first_name }} {{ patient.last_name }}"},
+    {name:"Odontogramas"}
+  )
+
+block content
+  h2 Odontogramas
+  
+  table.table.table-striped
+    thead
+      tr
+        th Fecha
+        th Título
+        th Comentarios
+        th
+          a.btn.btn-default(ng-href="#/patients/{{patient.slug}}/odontograms/edit") 
+            i.fa.fa-plus
+            |  Nuevo
+    tbody
+      tr(ng-repeat="odontogram in odontograms|orderBy:'date'")
+        td(ng-bind="odontogram.date|date")
+        td
+          a(ng-bind="odontogram.title" 
+            ng-href="#/patients/{{patient.slug}}/odontograms/")
+        td(ng-bind="odontogram.comments|limitTo:80")
+        td
+          .btn-group
+            a.btn.btn-warning(disabled) Editar
+            a.btn.btn-danger(ng-click="remove(odontogram)") Eliminar

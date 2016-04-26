@@ -16,6 +16,7 @@ Piece = new mongoose.Schema
 # ## Odontogram model
 Odontogram = new mongoose.Schema
   person: type: mongoose.Schema.Types.ObjectId, ref: Person
+  date: type: Date, default: Date.now
   title: String
   comments: String
   pieces: [Piece]

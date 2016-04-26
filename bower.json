@@ -17,6 +17,7 @@
     "jquery": "^2.2.1",
     "font-awesome": "fontawesome#^4.5.0",
     "moment": "^2.12.0",
-    "toastr": "^2.1.2"
+    "toastr": "^2.1.2",
+    "bootstrap": "^3.3.6"
   }
 }
