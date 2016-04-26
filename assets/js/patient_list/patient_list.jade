@@ -11,10 +11,11 @@ table.table.table-striped
         i.fa.fa-plus
         |  Nuevo paciente
   tbody
-    tr(ng-repeat="patient in patients|filter:search")
+    tr(ng-repeat="patient in patients|orderBy:'last_name'|filter:search")
       td
-        a(href="#/patients/{{patient.slug}}")
-          | {{ patient.first_name }} {{ patient.last_name }}
+        a(ng-href="#/patients/{{patient.slug}}")
+          strong(ng-bind='patient.last_name|uppercase')
+          span.text-capitalize(ng-bind='" " + patient.first_name')
       td
         ul.unstyled
           //- FIXME Se puede eliminar cuando se migren los telefonos viejos
