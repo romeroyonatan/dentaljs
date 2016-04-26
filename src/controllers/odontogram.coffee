@@ -3,6 +3,7 @@
 # This module implements CRUD methods for odontogram's collection
 
 Odontogram = require '../models/odontogram'
+Issue = require '../models/issue'
 
 module.exports =
   # Obtains a list of Odontograms
@@ -30,12 +31,14 @@ module.exports =
 
   # Get details of a Odontogram
   detail: (req, res, next) ->
-    Odontogram.findOne slug: req.params.slug, (err, object) ->
-      # Error handling
-      return next err if err
+    Odontogram.findOne slug: req.params.slug
+    .populate 'pieces.sectors.issue'
+    .then (object) ->
       if not object?
         return next status: 404, message: 'Odontogram not found'
       res.send object
+    # Error handling
+    .catch (err) -> next err
 
   # Remove a exiting Odontogram
   remove: (req, res, next) ->
@@ -43,3 +46,9 @@ module.exports =
       return next err if err
       res.status 204
       res.end()
+
+  # Get issue list
+  issues: (req, res, next) ->
+    Issue.find req.query, (err, list) ->
+      return next err if err
+      res.send list

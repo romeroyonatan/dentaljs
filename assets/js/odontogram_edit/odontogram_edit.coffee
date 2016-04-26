@@ -8,20 +8,10 @@ angular.module('dentaljs.odontogram_edit', ['ngRoute'])
 ]
 
 .controller 'OdontogramEditCtrl', [
-  "$scope", "$routeParams", "Person", "Odontogram",
-  ($scope, $routeParams, Person, Odontogram) ->
-    $scope.diseases = [
-      {code: "A", description: "Enfermedad A", _id: 'a'},
-      {code: "B", description: "Enfermedad B", _id: 'b'},
-      {code: "C", description: "Enfermedad C", _id: 'c'},
-      {code: "D", description: "Enfermedad D", _id: 'd'},
-    ]
-
-    $scope.fixes = [
-      {code: "X", description: "Arreglo X", _id: 'x'},
-      {code: "Y", description: "Arreglo Y", _id: 'y'},
-      {code: "Z", description: "Arreglo Z", _id: 'z'},
-    ]
+  "$scope", "$routeParams", "Person", "Odontogram", "Issue"
+  ($scope, $routeParams, Person, Odontogram, Issue) ->
+    $scope.diseases = Issue.query type: 1
+    $scope.fixes =  Issue.query type: 2
 
     $scope.pieces = []
     $scope.description = ""

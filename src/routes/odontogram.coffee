@@ -3,6 +3,9 @@ controller = require '../controllers/odontogram'
 
 router = express.Router()
 
+# ## Utils methods
+router.get '/issues', controller.issues
+
 # ## REST API
 router.get '/', controller.list
 router.post '/', controller.create

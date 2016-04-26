@@ -4,6 +4,7 @@ mongoose = require 'mongoose'
 Issue = new mongoose.Schema
   code: String
   description: String
+  
   # ### Issue's types:
   # 1. Disease
   # 2. Fix

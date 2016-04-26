@@ -14,3 +14,8 @@ angular.module 'dentaljs.services', ['ngResource']
     update:
       method: 'PUT'
 ]
+.factory 'Issue', ['$resource', ($resource) ->
+  return $resource '/odontograms/issues/:id', {id: "@_id"},
+    update:
+      method: 'PUT'
+]

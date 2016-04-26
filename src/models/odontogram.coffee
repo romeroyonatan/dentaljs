@@ -7,9 +7,9 @@ Piece = new mongoose.Schema
   id: Number
   sectors: [
     id: Number,
-    issue: String
-      #type: mongoose.Schema.Types.ObjectId
-      #ref: Issue
+    issue:
+      type: mongoose.Schema.Types.ObjectId
+      ref: 'Issue'
   ]
 
 # ## Odontogram model
