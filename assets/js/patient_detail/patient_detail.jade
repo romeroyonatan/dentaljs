@@ -3,9 +3,11 @@ extends ../layouts/patient.jade
 prepend nav
   -var section = 'detail'
 
+
 block content
-  .row
-    .col-md-12
+  h2 Datos personales
+  .btn-toolbar(role="toolbar")
+    .btn-group
       a.btn.btn-warning(href="#/patients/{{ patient.slug }}/update")
         i.fa.fa-pencil
         |  Editar
