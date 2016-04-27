@@ -49,9 +49,13 @@ Issue = <span class="hljs-built_in">require</span> <span class="hljs-string">'./
             
             <div class="content"><div class='highlight'><pre>Piece = <span class="hljs-keyword">new</span> mongoose.Schema
   id: Number
+  removed: Boolean
   sectors: [
     id: Number,
-    issue: String</pre></div></div>
+    issue:
+      type: mongoose.Schema.Types.ObjectId
+      ref: <span class="hljs-string">'Issue'</span>
+  ]</pre></div></div>
             
         </li>
         
@@ -62,28 +66,13 @@ Issue = <span class="hljs-built_in">require</span> <span class="hljs-string">'./
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
-              <p>type: mongoose.Schema.Types.ObjectId
-ref: Issue</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  ]</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-4">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-4">&#182;</a>
-              </div>
               <h2 id="odontogram-model">Odontogram model</h2>
 
             </div>
             
             <div class="content"><div class='highlight'><pre>Odontogram = <span class="hljs-keyword">new</span> mongoose.Schema
   person: type: mongoose.Schema.Types.ObjectId, ref: Person
+  date: type: Date, default: Date.now
   title: String
   comments: String
   pieces: [Piece]

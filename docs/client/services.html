@@ -45,6 +45,11 @@
   <span class="hljs-keyword">return</span> $resource <span class="hljs-string">'/odontograms/:id'</span>, {id: <span class="hljs-string">"@_id"</span>},
     update:
       method: <span class="hljs-string">'PUT'</span>
+]
+.factory <span class="hljs-string">'Issue'</span>, [<span class="hljs-string">'$resource'</span>, <span class="hljs-function"><span class="hljs-params">($resource)</span> -&gt;</span>
+  <span class="hljs-keyword">return</span> $resource <span class="hljs-string">'/odontograms/issues/:id'</span>, {id: <span class="hljs-string">"@_id"</span>},
+    update:
+      method: <span class="hljs-string">'PUT'</span>
 ]</pre></div></div>
             
         </li>

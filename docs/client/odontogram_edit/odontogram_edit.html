@@ -40,20 +40,11 @@
 ]
 
 .controller <span class="hljs-string">'OdontogramEditCtrl'</span>, [
-  <span class="hljs-string">"$scope"</span>, <span class="hljs-string">"$routeParams"</span>, <span class="hljs-string">"Person"</span>, <span class="hljs-string">"Odontogram"</span>,
-  <span class="hljs-function"><span class="hljs-params">($scope, $routeParams, Person, Odontogram)</span> -&gt;</span>
-    $scope.diseases = [
-      {code: <span class="hljs-string">"A"</span>, description: <span class="hljs-string">"Enfermedad A"</span>, _id: <span class="hljs-string">'a'</span>},
-      {code: <span class="hljs-string">"B"</span>, description: <span class="hljs-string">"Enfermedad B"</span>, _id: <span class="hljs-string">'b'</span>},
-      {code: <span class="hljs-string">"C"</span>, description: <span class="hljs-string">"Enfermedad C"</span>, _id: <span class="hljs-string">'c'</span>},
-      {code: <span class="hljs-string">"D"</span>, description: <span class="hljs-string">"Enfermedad D"</span>, _id: <span class="hljs-string">'d'</span>},
-    ]
-
-    $scope.fixes = [
-      {code: <span class="hljs-string">"X"</span>, description: <span class="hljs-string">"Arreglo X"</span>, _id: <span class="hljs-string">'x'</span>},
-      {code: <span class="hljs-string">"Y"</span>, description: <span class="hljs-string">"Arreglo Y"</span>, _id: <span class="hljs-string">'y'</span>},
-      {code: <span class="hljs-string">"Z"</span>, description: <span class="hljs-string">"Arreglo Z"</span>, _id: <span class="hljs-string">'z'</span>},
-    ]
+  <span class="hljs-string">"$scope"</span>, <span class="hljs-string">"$routeParams"</span>, <span class="hljs-string">"$location"</span>, <span class="hljs-string">"Person"</span>, <span class="hljs-string">"Odontogram"</span>, <span class="hljs-string">"Issue"</span>
+  ($scope, $routeParams, $location, Person, Odontogram, Issue) -&gt;
+    $scope.patient = Person.get slug: $routeParams.slug
+    $scope.diseases = Issue.query type: <span class="hljs-number">1</span>
+    $scope.fixes =  Issue.query type: <span class="hljs-number">2</span>
 
     $scope.pieces = []
     $scope.description = <span class="hljs-string">""</span>
@@ -564,7 +555,6 @@ XXX findbyCssSelector</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>    $scope.save = <span class="hljs-function">-&gt;</span>
-      patient = Person.get slug: $routeParams.slug
       pieces = $scope.pieces.filter Boolean
       <span class="hljs-keyword">for</span> piece <span class="hljs-keyword">in</span> pieces
         <span class="hljs-keyword">for</span> sector <span class="hljs-keyword">in</span> piece.sectors <span class="hljs-keyword">when</span> sector?
@@ -573,10 +563,10 @@ XXX findbyCssSelector</p>
         pieces: pieces
         comments: $scope.comments
         title: $scope.title
-        person: patient._id
-      <span class="hljs-built_in">console</span>.log odontogram
+        person: $scope.patient._id
       odontogram.$save().<span class="hljs-keyword">then</span> -&gt;
-        toastr.success <span class="hljs-string">"Odontograma creado con éxito"</span></pre></div></div>
+        toastr.success <span class="hljs-string">"Odontograma creado con éxito"</span>
+        $location.path <span class="hljs-string">"/patients/<span class="hljs-subst">#{$scope.patient.slug}</span>/odontograms"</span></pre></div></div>
             
         </li>
         

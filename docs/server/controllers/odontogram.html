@@ -46,6 +46,7 @@
             
             <div class="content"><div class='highlight'><pre>
 Odontogram = <span class="hljs-built_in">require</span> <span class="hljs-string">'../models/odontogram'</span>
+Issue = <span class="hljs-built_in">require</span> <span class="hljs-string">'../models/issue'</span>
 
 <span class="hljs-built_in">module</span>.exports =</pre></div></div>
             
@@ -63,9 +64,12 @@ Odontogram = <span class="hljs-built_in">require</span> <span class="hljs-string
             </div>
             
             <div class="content"><div class='highlight'><pre>  list: <span class="hljs-function"><span class="hljs-params">(req, res, next)</span> -&gt;</span>
-    Odontogram.find req.query, <span class="hljs-function"><span class="hljs-params">(err, list)</span> -&gt;</span>
-      <span class="hljs-keyword">return</span> next err <span class="hljs-keyword">if</span> err
-      res.send list</pre></div></div>
+    Odontogram.find req.query
+    .<span class="hljs-keyword">then</span> (list) -&gt;
+      res.send list
+    .<span class="hljs-keyword">catch</span> (err) -&gt;
+      <span class="hljs-built_in">console</span>.error err
+      next err</pre></div></div>
             
         </li>
         
@@ -81,11 +85,13 @@ Odontogram = <span class="hljs-built_in">require</span> <span class="hljs-string
             </div>
             
             <div class="content"><div class='highlight'><pre>  create: <span class="hljs-function"><span class="hljs-params">(req, res, next)</span> -&gt;</span>
-    object = <span class="hljs-keyword">new</span> Odontogram req.body
-    object.save (err) -&gt;
-      <span class="hljs-keyword">return</span> next err <span class="hljs-keyword">if</span> err
+    Odontogram.create req.body
+    .<span class="hljs-keyword">then</span> (object) -&gt;
       res.status <span class="hljs-number">201</span>
-      res.send object</pre></div></div>
+      res.send object
+    .<span class="hljs-keyword">catch</span> (err) -&gt;
+      <span class="hljs-built_in">console</span>.error err
+      next err</pre></div></div>
             
         </li>
         
@@ -102,11 +108,14 @@ Odontogram = <span class="hljs-built_in">require</span> <span class="hljs-string
             
             <div class="content"><div class='highlight'><pre>  update: <span class="hljs-function"><span class="hljs-params">(req, res, next)</span> -&gt;</span>
     object = req.body
-    Odontogram.update slug: req.params.slug, object, <span class="hljs-function"><span class="hljs-params">(err, rawResponse)</span> -&gt;</span>
-      <span class="hljs-keyword">return</span> next err <span class="hljs-keyword">if</span> err
+    Odontogram.update _id: req.params.id, object
+    .<span class="hljs-keyword">then</span> (rawResponse) -&gt;
       <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> rawResponse.ok
         <span class="hljs-keyword">return</span> next status: <span class="hljs-number">404</span>, message: <span class="hljs-string">'Odontogram not found'</span>
-      res.send req.body</pre></div></div>
+      res.send req.body
+    .<span class="hljs-keyword">catch</span> (err) -&gt;
+      <span class="hljs-built_in">console</span>.error err
+      next err</pre></div></div>
             
         </li>
         
@@ -122,7 +131,12 @@ Odontogram = <span class="hljs-built_in">require</span> <span class="hljs-string
             </div>
             
             <div class="content"><div class='highlight'><pre>  detail: <span class="hljs-function"><span class="hljs-params">(req, res, next)</span> -&gt;</span>
-    Odontogram.findOne slug: req.params.slug, <span class="hljs-function"><span class="hljs-params">(err, object)</span> -&gt;</span></pre></div></div>
+    Odontogram.findOne _id: req.params.id
+    .populate <span class="hljs-string">'pieces.sectors.issue'</span>
+    .<span class="hljs-keyword">then</span> (object) -&gt;
+      <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> object?
+        <span class="hljs-keyword">return</span> next status: <span class="hljs-number">404</span>, message: <span class="hljs-string">'Odontogram not found'</span>
+      res.send object</pre></div></div>
             
         </li>
         
@@ -137,10 +151,9 @@ Odontogram = <span class="hljs-built_in">require</span> <span class="hljs-string
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">return</span> next err <span class="hljs-keyword">if</span> err
-      <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> object?
-        <span class="hljs-keyword">return</span> next status: <span class="hljs-number">404</span>, message: <span class="hljs-string">'Odontogram not found'</span>
-      res.send object</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    .<span class="hljs-keyword">catch</span> (err) -&gt;
+      <span class="hljs-built_in">console</span>.error err
+      next err</pre></div></div>
             
         </li>
         
@@ -151,15 +164,36 @@ Odontogram = <span class="hljs-built_in">require</span> <span class="hljs-string
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-8">&#182;</a>
               </div>
-              <p>Remove a exiting Odontogram</p>
+              <p>Remove a existing Odontogram</p>
 
             </div>
             
             <div class="content"><div class='highlight'><pre>  remove: <span class="hljs-function"><span class="hljs-params">(req, res, next)</span> -&gt;</span>
-    Odontogram.findOne(slug: req.params.slug).remove (err) -&gt;
-      <span class="hljs-keyword">return</span> next err <span class="hljs-keyword">if</span> err
+    Odontogram.remove _id: req.params.id, <span class="hljs-function"><span class="hljs-params">(err, obj)</span> -&gt;</span>
+      <span class="hljs-built_in">console</span>.error err <span class="hljs-keyword">if</span> err
       res.status <span class="hljs-number">204</span>
       res.end()</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>Get issue list</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  issues: <span class="hljs-function"><span class="hljs-params">(req, res, next)</span> -&gt;</span>
+    Issue.find req.query
+    .<span class="hljs-keyword">then</span> (list) -&gt;
+      res.send list
+    .<span class="hljs-keyword">catch</span> (err) -&gt;
+      <span class="hljs-built_in">console</span>.error err
+      next err</pre></div></div>
             
         </li>
         
