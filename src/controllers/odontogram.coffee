@@ -20,7 +20,6 @@ module.exports =
     Odontogram.create req.body
     .then (object) ->
       res.status 201
-      console.log object
       res.send object
     .catch (err) ->
       console.error err
@@ -55,7 +54,6 @@ module.exports =
   remove: (req, res, next) ->
     Odontogram.remove _id: req.params.id, (err, obj) ->
       console.error err if err
-      console.log obj
       res.status 204
       res.end()
 

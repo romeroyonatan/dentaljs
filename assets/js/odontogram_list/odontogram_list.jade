@@ -1,5 +1,4 @@
 extends ../layouts/patient.jade
-include ../mixins/odontogram
 
 prepend nav
   -var section = 'odontogram'
@@ -26,10 +25,12 @@ block content
             |  Nuevo
     tbody
       tr(ng-repeat="odontogram in odontograms|orderBy:'date'")
-        td(ng-bind="odontogram.date|date")
+        td
+          a(ng-bind="odontogram.date|date"
+            ng-href="#/patients/{{patient.slug}}/odontograms/{{odontogram._id}}")
         td
           a(ng-bind="odontogram.title" 
-            ng-href="#/patients/{{patient.slug}}/odontograms/")
+            ng-href="#/patients/{{patient.slug}}/odontograms/{{odontogram._id}}")
         td(ng-bind="odontogram.comments|limitTo:80")
         td
           .btn-group

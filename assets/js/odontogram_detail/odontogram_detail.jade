@@ -1,0 +1,44 @@
+extends ../layouts/patient
+include ../mixins/odontogram
+
+prepend nav
+  -var section = 'odontogram'
+  
+//- -----------------------------------------------------------------------
+//- Breadcrumb
+block breadcrumb
+  ol.breadcrumb
+    li: a(href="/"): i.fa.fa-home
+    li: a(href="#/patients") Lista de pacientes
+    li: a(href="#/patients{{patient.slug}}"
+          ng-bind="patient.first_name + ' ' + patient.last_name")
+    li: a(href="#/patients{{patient.slug}}/odontograms") Odontogramas
+    li.active(ng-bind="odontogram.title || 'Detalle'")
+    
+block content
+  //- -----------------------------------------------------------------------
+  //- Title
+  h2(ng-bind="odontogram.title || 'Odontograma'")
+  
+  //- -----------------------------------------------------------------------
+  //- Toolbar
+  .btn-toolbar(role="toolbar")
+    .btn-group
+      a.btn.btn-default(ng-href="#/patients/{{patient.slug}}/odontograms/")
+        i.fa.fa-arrow-left
+        |  Volver
+      a.btn.btn-warning(ng-href="#/patients/{{patient.slug}}/odontograms/{{odontogram._id}}" disabled)
+        i.fa.fa-pencil
+        |  Editar
+        
+  //- -----------------------------------------------------------------------
+  //- Details
+  dl
+    dt Fecha
+    dd(ng-bind="odontogram.date|date")
+    dt Comentarios
+    dd(ng-bind="odontogram.comments")
+    
+  //- -----------------------------------------------------------------------
+  //- Odontogram SVG
+  +odontogram

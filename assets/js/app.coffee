@@ -10,6 +10,7 @@
 #= require patient_payments/patient_payments
 #= require odontogram_edit/odontogram_edit
 #= require odontogram_list/odontogram_list
+#= require odontogram_detail/odontogram_detail
 
 angular.module 'dentaljs', [
   'ngRoute',
@@ -24,6 +25,7 @@ angular.module 'dentaljs', [
   'dentaljs.patient_payments',
   'dentaljs.odontogram_edit',
   'dentaljs.odontogram_list',
+  'dentaljs.odontogram_detail',
 ]
 
 .config ['$routeProvider', ($routeProvider) ->

@@ -9,7 +9,7 @@ mixin odontogram(options)
           .piece(id=id)
             table
               thead
-                if(options.remove)
+                if(options && options.remove)
                   th(colspan=2)=id
                   th
                     button.btn.btn-xs.btn-disease(ng-click="setRemoved(#{id})")
