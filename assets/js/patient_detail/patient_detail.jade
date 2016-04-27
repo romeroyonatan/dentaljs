@@ -3,15 +3,19 @@ extends ../layouts/patient.jade
 prepend nav
   -var section = 'detail'
 
-
 block content
   h2 Datos personales
+  
+  //- ------------------------------------------------------------------------
+  //- Toolbar
   .btn-toolbar(role="toolbar")
     .btn-group
       a.btn.btn-warning(ng-href="#/patients/{{ patient.slug }}/update")
         i.fa.fa-pencil
         |  Editar
   .row
+    //- -------------------------------------------------------------------
+    //- Datos personales
     .col-md-7
       .panel.panel-default
         .panel-heading Datos personales
@@ -44,6 +48,8 @@ block content
             .col-md-4: strong Motivo de la consulta
             .col-md-8  {{ patient.consultation_reason }}
     
+    //- -------------------------------------------------------------------
+    //- Datos de contacto
     .col-md-5
       .panel.panel-default
         .panel-heading Contacto
@@ -63,6 +69,8 @@ block content
             .col-md-4: strong Email
             .col-md-8  {{ patient.email }}
           
+    //- -------------------------------------------------------------------
+    //- Datos laborales
     .col-md-5
       .panel.panel-default
         .panel-heading Datos laborales

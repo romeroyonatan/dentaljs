@@ -5,11 +5,13 @@ block breadcrumb
   +breadcrumb(
     {href:"#/patients", name:"Lista de pacientes"},
     {href:"#/patients", name:"{{ patient.first_name }} {{ patient.last_name }}"}
-  )
+)
 
 h1
   span(ng-bind="patient.last_name|uppercase")
   small.text-capitalize(ng-bind='" "+ patient.first_name')
+  .btn-group.pull-right
+    a.btn.btn-default(disabled): i.fa.fa-camera
 
 block nav
   ul.nav.nav-tabs
@@ -23,4 +25,6 @@ block nav
               section == 'treatment')
     +nav_item('Planilla de pago', "#/patients/{{patient.slug}}/payments",
               section == 'payments')
+    +nav_item('Fotos', "#/patients/{{patient.slug}}",
+              section == 'photos')
 block content
