@@ -46,3 +46,14 @@ module.exports =
     Person.findOne(slug: req.params.slug).remove ->
       res.status 204
       res.end()
+
+  uploadPhoto: (req, res, next) ->
+    file = req.files.file
+    console.log file
+    path = file.path
+    # move foto a carpeta /media
+    # obtener nuevo path
+    # guardar en la base de datos nuevo registro con path
+    res.status 201
+    # enviar path relativo de la imagen
+    res.end()

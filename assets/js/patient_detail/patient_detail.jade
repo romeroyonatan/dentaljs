@@ -13,6 +13,12 @@ block content
       a.btn.btn-warning(ng-href="#/patients/{{ patient.slug }}/update")
         i.fa.fa-pencil
         |  Editar
+      button.btn.btn-default(
+        type='file'
+        ngf-select="uploadPhoto($file, $invalidFiles)"
+        accept="image/*")
+        i.fa.fa-camera
+        |  Subir foto
   .row
     //- -------------------------------------------------------------------
     //- Datos personales
