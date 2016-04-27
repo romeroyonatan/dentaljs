@@ -11,6 +11,8 @@ angular.module('dentaljs.odontogram_detail', ['ngRoute'])
   ($scope, $routeParams, $route, Person, Odontogram) ->
 
     # # Issues constants
+    # 1. Disease
+    # 2. Fix
     DISEASE = 1
     FIX = 2
 
