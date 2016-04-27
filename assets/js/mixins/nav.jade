@@ -4,5 +4,9 @@
 //- href: Where item redirects
 //- active: If the item is active at this moment
 mixin nav_item(name, href, active)
-  li(role="presentation" class=active ? 'active' : '')
-    a(href=href)= name
+  if(href)
+    li(role="presentation" class=active ? 'active' : '')
+      a(href=href)= name
+  else
+    li.disabled(role="presentation")
+      a= name
