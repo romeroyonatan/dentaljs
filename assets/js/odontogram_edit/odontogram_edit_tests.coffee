@@ -12,6 +12,8 @@ describe 'dentaljs.odontogram_edit module', ->
     # The $controller service is used to create instances of controllers
     $controller = $injector.get '$controller'
     $httpBackend = $injector.get '$httpBackend'
+    $httpBackend.whenGET("/odontograms/issues?type=1").respond 200, [_id:'a']
+    $httpBackend.whenGET("/odontograms/issues?type=2").respond 200, [_id:'x']
     # create new controller
     controller = $controller 'OdontogramEditCtrl',
                              '$scope': $scope,
@@ -32,7 +34,6 @@ describe 'dentaljs.odontogram_edit module', ->
         ]
       .respond 201
       $httpBackend.whenGET("/persons").respond 200, {_id:'abc123'}
-      $httpBackend.whenGET("/odontograms/issues").respond 200, {_id:'abc123'}
       $scope.title = "Test"
       $scope.comments = "Test odontogram"
       $scope.attachIssue
