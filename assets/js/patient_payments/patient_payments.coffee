@@ -1,4 +1,5 @@
-angular.module('dentaljs.patient_payments', ['ngRoute', 'ui.bootstrap'])
+angular.module('dentaljs.patient_payments',
+  ['ngRoute', 'ui.bootstrap', 'angular-confirm'])
 
 .config ['$routeProvider', ($routeProvider) ->
   $routeProvider.when '/patients/:slug/payments',

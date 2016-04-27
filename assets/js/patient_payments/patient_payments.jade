@@ -2,6 +2,13 @@ extends ../layouts/patient.jade
 prepend nav
   - var section = 'payments'
 
+block breadcrumb
+  +breadcrumb(
+    {href:"#/patients", name:"Lista de pacientes"},
+    {href:"#/patients/{{patient.slug}}", name:"{{ patient.first_name }} {{ patient.last_name }}"},
+    {name:"Planilla de pago"}
+  )
+  
 block content
   h2 Planilla de pagos
   
@@ -63,9 +70,11 @@ block content
                 button.btn.btn-warning(ng-click="showEdit(account)" 
                                        title="Editar") 
                   i.fa.fa-pencil
-                button.btn.btn-danger(ng-click="delete(account)"
-                                      title="Eliminar")
-                  i.fa.fa-trash
+                button.btn.btn-danger(
+                  ng-click="delete(account)"
+                  confirm="¿Está seguro que quiere eliminar este registro?"
+                  title="Eliminar"
+                ): i.fa.fa-trash
                   
           //- -----------------------------------------------------------------
           //- Show payment's childs details
@@ -78,15 +87,14 @@ block content
             td(ng-bind="child.balance|currency")
             td
               .btn-group(role="group")
-                //- XXX Disable for now
                 button.btn.btn-sm.btn-warning(ng-click="showEdit(child)" 
-                                       title="Editar"
-                                       ) 
+                                              title="Editar") 
                   i.fa.fa-pencil
-                //- XXX Disable for now
-                button.btn.btn-sm.btn-danger(ng-click="delete(child)"
-                                      title="Eliminar"
-                                      )
+                button.btn.btn-sm.btn-danger(
+                  ng-click="delete(child)"
+                  confirm="¿Está seguro que quiere eliminar este registro?"
+                  title="Eliminar"
+                )
                   i.fa.fa-trash
           //- -----------------------------------------------------------------
         tfoot

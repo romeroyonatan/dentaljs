@@ -30,7 +30,7 @@ block content
     tbody
       //- ---------------------------------------------------------------------
       //- List of odontograms
-      tr(ng-repeat="odontogram in odontograms|orderBy:'date'")
+      tr(ng-repeat="odontogram in odontograms|orderBy:'-date'")
         td
           a(ng-bind="odontogram.date|date"
             ng-href="#/patients/{{patient.slug}}/odontograms/{{odontogram._id}}")
@@ -43,9 +43,11 @@ block content
         //- Buttons for edit and remove each odontogram
         td
           .btn-group
-            a.btn.btn-warning(ng-href="#/patients/{{patient.slug}}/odontograms/{{odontogram._id}}/edit")
+            a.btn.btn-warning(ng-href="#/patients/{{patient.slug}}/odontograms/{{odontogram._id}}/edit"
+                              title="Editar")
               i.fa.fa-pencil
-              |  Editar
-            button.btn.btn-danger(ng-click="remove(odontogram)")
-              i.fa.fa-trash
-              |  Eliminar
+            button.btn.btn-danger(
+                title="Eliminar"
+                ng-click="remove(odontogram)" 
+                confirm="¿Está seguro que quiere eliminar el odontograma?"
+            ): i.fa.fa-trash

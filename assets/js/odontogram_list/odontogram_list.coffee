@@ -1,4 +1,4 @@
-angular.module('dentaljs.odontogram_list', ['ngRoute'])
+angular.module('dentaljs.odontogram_list', ['ngRoute', 'angular-confirm'])
 
 .config ['$routeProvider', ($routeProvider) ->
   $routeProvider.when '/patients/:slug/odontograms',
