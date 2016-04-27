@@ -28,15 +28,26 @@ $selected-color ?= #8CD58C
 
   .piece
     display: inline-block
+    width: 69px
+    @media screen and (max-width: 1024px)
+      width: 57px
+      margin-bottom: 1em
+    @media screen and (max-width: 800px)
+      width: 88px
+      margin-bottom: 2em
+    @media screen and (max-width: 400px)
+      width: 160px
+      margin-bottom: 3em
 
     svg
       width: 69px
       @media screen and (max-width: 1024px)
-        width: 57px
+        width: 58px
       @media screen and (max-width: 800px)
-        width: 87px
+        width: 88px
       @media screen and (max-width: 400px)
-        width: 120px;
+        width: 160px
+
 
     .sector
       fill: $bg-color
