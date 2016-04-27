@@ -1,10 +1,11 @@
 //- Make a SVG odontogram.
 mixin odontogram(options)
-  - var quadrants = [ 1, 2, 3, 4 ]
-  - var pieces = [ 1, 2, 3, 4, 5, 6, 7, 8 ]
+  - var quadrants = [1, 2, 3, 4]
+  - var pieces_even = [1, 2, 3, 4, 5, 6, 7, 8]
+  - var pieces_odd = [8, 7, 6, 5, 4, 3, 2, 1]
   - for quadrant in quadrants
     .quadrant
-      - for piece in pieces
+      - for piece in quadrant % 2 ? pieces_odd : pieces_even
         - id = quadrant * 10 + piece
           .piece(id=id)
             table
