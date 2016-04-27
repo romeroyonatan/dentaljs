@@ -16,7 +16,7 @@ describe 'Odontogram widget', ->
 
 # TODO Ver como mockear las respuestas del server
   beforeEach ->
-    browser.get '#/patients/juan-perex/odontograms/edit'
+    browser.get '#/patients/juan-perex/odontograms/new'
 
   it 'should have an svg', ->
     expect(element(By.css 'svg').isPresent()).toBe true

@@ -16,8 +16,11 @@ angular.module('dentaljs.odontogram_detail', ['ngRoute'])
     DISEASE = 1
     FIX = 2
 
+    # Array that holds teeths information
     $scope.pieces = []
-    # # Loading odontogram information
+
+    # Loading odontogram information
+    # ================================
     # Loading colors in SVG based in odontogram information
     load = (odontogram) ->
       if odontogram.pieces?
@@ -35,7 +38,10 @@ angular.module('dentaljs.odontogram_detail', ['ngRoute'])
             elem.addClass 'disease' if sector.issue.type is DISEASE
             elem.addClass 'fix' if sector.issue.type is FIX
 
+    # Get patient info
     $scope.patient = Person.get slug: $routeParams.slug, ->
+      # Get odontogram
       $scope.odontogram = Odontogram.get id: $routeParams.id, ->
+        # loading odontogram information
         load($scope.odontogram)
 ]

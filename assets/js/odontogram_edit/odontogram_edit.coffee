@@ -1,22 +1,61 @@
 angular.module('dentaljs.odontogram_edit', ['ngRoute'])
 
 .config ['$routeProvider', ($routeProvider) ->
-  $routeProvider.when '/patients/:slug/odontograms/edit',
-    templateUrl:
-      '/partials/odontogram_edit/odontogram_edit.html'
+  # New URL
+  $routeProvider.when '/patients/:slug/odontograms/new',
+    templateUrl: '/partials/odontogram_edit/odontogram_edit.html'
+    controller: 'OdontogramEditCtrl'
+  # Edit URL
+  $routeProvider.when '/patients/:slug/odontograms/:id/edit',
+    templateUrl: '/partials/odontogram_edit/odontogram_edit.html'
     controller: 'OdontogramEditCtrl'
 ]
 
 .controller 'OdontogramEditCtrl', [
   "$scope", "$routeParams", "$location", "Person", "Odontogram", "Issue"
   ($scope, $routeParams, $location, Person, Odontogram, Issue) ->
+    # Get patient
     $scope.patient = Person.get slug: $routeParams.slug
-    $scope.diseases = Issue.query type: 1
-    $scope.fixes =  Issue.query type: 2
 
+    # Issues constants
+    # -----------------
+    # 1. Disease
+    # 2. Fix
+    DISEASE = 1
+    FIX = 2
+
+    # Get list of diseases
+    $scope.diseases = Issue.query type: 1
+    # Get list of fixes
+    $scope.fixes =  Issue.query type: 2
     $scope.pieces = []
-    $scope.description = ""
-    $scope.selected = false
+    # indicate if any sector is selected
+    $scope.sector_selected = off
+
+
+    # Loading odontogram information
+    # ================================
+    # Loading colors in SVG based in odontogram information
+    load = (odontogram) ->
+      $scope.title = odontogram.title
+      $scope.comments = odontogram.comments
+      if odontogram.pieces?
+        for piece in odontogram.pieces
+          $scope.pieces[piece.id] = piece
+          # Show strikethough if teeth is missed
+          if piece.removed
+            strikethough = angular.element "##{piece.id} .removed"
+            strikethough.show()
+          # Show sectors with diseases or fixes
+          for sector in piece.sectors when sector?
+            elem = angular.element "##{piece.id} ##{sector.id}"
+            elem.addClass 'disease' if sector.issue.type is DISEASE
+            elem.addClass 'fix' if sector.issue.type is FIX
+
+    # Get odontogram if I have its id
+    if $routeParams.id?
+      odontogram = Odontogram.get id: $routeParams.id, ->
+        load odontogram
 
     # Attach issue to teeth.
     # =======================
@@ -61,7 +100,7 @@ angular.module('dentaljs.odontogram_edit', ['ngRoute'])
               .addClass 'sector fix'
               .attr 'title', fix.description
       # disable toolbar
-      $scope.selected = false
+      $scope.sector_selected = false
 
     # when user clicks over a disease button, mark all selected sectors as
     # diseased
@@ -80,7 +119,7 @@ angular.module('dentaljs.odontogram_edit', ['ngRoute'])
               .addClass 'sector disease'
               .attr 'title', disease.description
       # disable toolbar
-      $scope.selected = false
+      $scope.sector_selected = false
 
     # when user clicks over a removed button, mark all teeths selected as
     # removed
@@ -112,22 +151,30 @@ angular.module('dentaljs.odontogram_edit', ['ngRoute'])
               .addClass('sector')
               .attr('title', '')
       # disable toolbar
-      $scope.selected = false
+      $scope.sector_selected = false
 
     # Build odontogram's object for send to server
     $scope.save = ->
       pieces = $scope.pieces.filter Boolean
+      # get id of issue instead of the object
       for piece in pieces
         for sector in piece.sectors when sector?
           sector.issue = sector.issue._id if sector.issue?
+      # make odontogram object
       odontogram = new Odontogram
         pieces: pieces
         comments: $scope.comments
         title: $scope.title
         person: $scope.patient._id
-      odontogram.$save().then ->
-        toastr.success "Odontograma creado con éxito"
-        $location.path "/patients/#{$scope.patient.slug}/odontograms"
+      if $routeParams.id?
+        odontogram._id = $routeParams.id
+        odontogram.$update().then ->
+          toastr.success "Odontograma actualizado con éxito"
+          $location.path "/patients/#{$scope.patient.slug}/odontograms"
+      else
+        odontogram.$save().then ->
+          toastr.success "Odontograma creado con éxito"
+          $location.path "/patients/#{$scope.patient.slug}/odontograms"
 
     # Bindings for teeth's sector click
     # XXX findbyCssSelector
@@ -138,7 +185,7 @@ angular.module('dentaljs.odontogram_edit', ['ngRoute'])
         $(@).toggleClass("selected")
         # enable or disables toolbar
         # XXX findbyCssSelector
-        $scope.selected = $(".selected").length > 0
+        $scope.sector_selected = $(".selected").length > 0
         $scope.$apply()
       .on "touchmove", (e) ->
         e.preventDefault()

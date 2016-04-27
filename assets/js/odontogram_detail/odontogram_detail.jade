@@ -21,17 +21,6 @@ block content
   h2(ng-bind="odontogram.title || 'Odontograma'")
   
   //- -----------------------------------------------------------------------
-  //- Toolbar
-  .btn-toolbar(role="toolbar")
-    .btn-group
-      a.btn.btn-default(ng-href="#/patients/{{patient.slug}}/odontograms/")
-        i.fa.fa-arrow-left
-        |  Volver
-      a.btn.btn-warning(ng-href="#/patients/{{patient.slug}}/odontograms/{{odontogram._id}}" disabled)
-        i.fa.fa-pencil
-        |  Editar
-        
-  //- -----------------------------------------------------------------------
   //- Details
   dl
     dt Fecha
