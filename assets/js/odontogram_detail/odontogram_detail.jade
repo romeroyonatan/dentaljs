@@ -10,9 +10,9 @@ block breadcrumb
   ol.breadcrumb
     li: a(href="/"): i.fa.fa-home
     li: a(href="#/patients") Lista de pacientes
-    li: a(href="#/patients{{patient.slug}}"
+    li: a(href="#/patients/{{patient.slug}}"
           ng-bind="patient.first_name + ' ' + patient.last_name")
-    li: a(href="#/patients{{patient.slug}}/odontograms") Odontogramas
+    li: a(href="#/patients/{{patient.slug}}/odontograms") Odontogramas
     li.active(ng-bind="odontogram.title || 'Detalle'")
     
 block content
