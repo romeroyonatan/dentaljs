@@ -65,16 +65,15 @@ module.exports =
       return next err if err
       # get uploaded file
       file = req.files.file
-      # random salt to evite collisions
-      salt = uuid.v4()[1..4]
       # get file extension
       ext = path.extname file.path
       # make new path
       folder = req.params.slug + '/'
       mkdirp config.MEDIA_ROOT + folder, ->
         # generate filename based in timestamp
-        # for example: `mick-jagger/2016-04-28_09:52:11_a1B2.jpeg`
-        filename = folder + moment().format 'Y-MM-DD_HH:mm:ss_' + salt + ext
+        # for example: `mick-jagger/2016-04-28_09:52:11.jpeg`
+        # TODO Ojo con las colisiones
+        filename = folder + moment().format 'Y-MM-DD_HH:mm:ss' + ext
         dest = config.MEDIA_ROOT + filename
         # move image to new folder
         mv file.path, dest, (err) ->

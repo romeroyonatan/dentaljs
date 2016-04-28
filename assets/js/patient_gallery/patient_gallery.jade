@@ -2,6 +2,13 @@ extends ../layouts/patient.jade
 
 prepend nav
   -var section = 'gallery'
+  
+block breadcrumb
+  +breadcrumb(
+    {href:"#/patients", name:"Lista de pacientes"},
+    {href:"#/patients/{{patient.slug}}", name:"{{ patient.first_name }} {{ patient.last_name }}"},
+    {name:"Fotos"}
+  )
 
 block content
   h2 Fotos
