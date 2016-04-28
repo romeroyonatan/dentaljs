@@ -49,6 +49,7 @@
   person: type: mongoose.Schema.Types.ObjectId, ref: <span class="hljs-string">'Person'</span>
   path: type: String, required: <span class="hljs-literal">on</span>
   description: String
+  date: type: Date, default: Date.now
 
 <span class="hljs-built_in">module</span>.exports = mongoose.model <span class="hljs-string">'Image'</span>, Image</pre></div></div>
             

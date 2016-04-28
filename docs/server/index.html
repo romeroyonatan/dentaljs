@@ -125,11 +125,8 @@ app.use logger(<span class="hljs-string">'dev'</span>)
 app.use bodyParser.json()
 app.use bodyParser.urlencoded(extended: <span class="hljs-literal">false</span>)
 app.use cookieParser()
-app.use express.static(process.cwd() + <span class="hljs-string">'/public'</span>)
-app.use express.static(process.cwd() + <span class="hljs-string">'/bower_components'</span>)
-app.use connectAssets()
-
-app.use <span class="hljs-string">'/'</span>, routes</pre></div></div>
+app.use express.static process.cwd() + <span class="hljs-string">'/public'</span>
+app.use express.static process.cwd() + <span class="hljs-string">'/bower_components'</span></pre></div></div>
             
         </li>
         
@@ -139,6 +136,24 @@ app.use <span class="hljs-string">'/'</span>, routes</pre></div></div>
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>Configure media dir</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>app.use config.MEDIA_PATH, express.static config.MEDIA_ROOT
+app.use connectAssets()
+
+app.use <span class="hljs-string">'/'</span>, routes</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
               </div>
               <p>catch 404 and forward to error handler</p>
 
@@ -153,11 +168,11 @@ app.use <span class="hljs-string">'/'</span>, routes</pre></div></div>
         </li>
         
         
-        <li id="section-8">
+        <li id="section-9">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-8">&#182;</a>
+                <a class="pilcrow" href="#section-9">&#182;</a>
               </div>
               <p>error handlers
 development error handler
@@ -175,11 +190,11 @@ will print stacktrace</p>
         </li>
         
         
-        <li id="section-9">
+        <li id="section-10">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-9">&#182;</a>
+                <a class="pilcrow" href="#section-10">&#182;</a>
               </div>
               <p>production error handler
 no stacktraces leaked to user</p>

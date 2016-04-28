@@ -39,8 +39,8 @@
 ]
 
 .controller <span class="hljs-string">'PatientDetailCtrl'</span>, [
-  <span class="hljs-string">"$scope"</span>, <span class="hljs-string">"$routeParams"</span>, <span class="hljs-string">"Upload"</span>, <span class="hljs-string">"Person"</span>, <span class="hljs-string">"Accounting"</span>,
-  <span class="hljs-function"><span class="hljs-params">($scope, $routeParams, Upload, Person, Accounting)</span> -&gt;</span>
+  <span class="hljs-string">"$scope"</span>, <span class="hljs-string">"$routeParams"</span>, <span class="hljs-string">"$location"</span>, <span class="hljs-string">"Upload"</span>, <span class="hljs-string">"Person"</span>, <span class="hljs-string">"Accounting"</span>,
+  <span class="hljs-function"><span class="hljs-params">($scope, $routeParams, $location, Upload, Person, Accounting)</span> -&gt;</span>
     $scope.patient = Person.get slug: $routeParams.slug
 
     $scope.uploadPhoto = <span class="hljs-function"><span class="hljs-params">(file, errFiles)</span> -&gt;</span>
@@ -83,6 +83,7 @@
             
             <div class="content"><div class='highlight'><pre>          toastr.success <span class="hljs-string">"Imagen subida con éxito"</span>
           file.result = response.data
+          $location.path <span class="hljs-string">"/patients/<span class="hljs-subst">#{$scope.patient.slug}</span>/gallery"</span>
         , <span class="hljs-function"><span class="hljs-params">(response)</span> -&gt;</span></pre></div></div>
             
         </li>

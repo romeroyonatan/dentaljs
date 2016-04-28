@@ -45,7 +45,7 @@ router = express.Router()</pre></div></div>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <h2 id="photo-uploadphoto">Photo uploadPhoto</h2>
+              <h2 id="images-routes">Images routes</h2>
 
             </div>
             
@@ -61,7 +61,8 @@ router = express.Router()</pre></div></div>
               
             </div>
             
-            <div class="content"><div class='highlight'><pre>router.post <span class="hljs-string">'/:slug/photos'</span>, multipartMiddleware, controller.uploadImage</pre></div></div>
+            <div class="content"><div class='highlight'><pre>router.post <span class="hljs-string">'/:slug/photos'</span>, multipartMiddleware, controller.uploadImage
+router.get <span class="hljs-string">'/:id/photos'</span>, controller.listImages</pre></div></div>
             
         </li>
         

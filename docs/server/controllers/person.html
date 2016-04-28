@@ -47,9 +47,11 @@
             <div class="content"><div class='highlight'><pre>mv = <span class="hljs-built_in">require</span> <span class="hljs-string">'mv'</span>
 fs = <span class="hljs-built_in">require</span> <span class="hljs-string">'fs'</span>
 path = <span class="hljs-built_in">require</span> <span class="hljs-string">'path'</span>
+mkdirp = <span class="hljs-built_in">require</span> <span class="hljs-string">'mkdirp'</span>
 uuid = <span class="hljs-built_in">require</span> <span class="hljs-string">'node-uuid'</span>
 moment = <span class="hljs-built_in">require</span> <span class="hljs-string">'moment'</span>
 Person = <span class="hljs-built_in">require</span> <span class="hljs-string">'../models/person'</span>
+Image = <span class="hljs-built_in">require</span> <span class="hljs-string">'../models/image'</span>
 config = <span class="hljs-built_in">require</span> <span class="hljs-string">'../config'</span>
 
 <span class="hljs-built_in">module</span>.exports =</pre></div></div>
@@ -167,9 +169,7 @@ config = <span class="hljs-built_in">require</span> <span class="hljs-string">'.
             <div class="content"><div class='highlight'><pre>  remove: <span class="hljs-function"><span class="hljs-params">(req, res, next)</span> -&gt;</span>
     Person.findOne(slug: req.params.slug).remove -&gt;
       res.status <span class="hljs-number">204</span>
-      res.end()
-
-  uploadImage: <span class="hljs-function"><span class="hljs-params">(req, res, next)</span> -&gt;</span></pre></div></div>
+      res.end()</pre></div></div>
             
         </li>
         
@@ -180,11 +180,9 @@ config = <span class="hljs-built_in">require</span> <span class="hljs-string">'.
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-9">&#182;</a>
               </div>
-              <p>Get person</p>
+              <h2 id="uploadimage">uploadImage</h2>
 
             </div>
-            
-            <div class="content"><div class='highlight'><pre>    Person.findOne slug: req.params.slug, <span class="hljs-function"><span class="hljs-params">(err, person)</span>-&gt;</span></pre></div></div>
             
         </li>
         
@@ -195,13 +193,11 @@ config = <span class="hljs-built_in">require</span> <span class="hljs-string">'.
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-10">&#182;</a>
               </div>
-              <p>remove uploaded file if error</p>
+              <p>Upload image and associate its with person</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">if</span> err
-        fs.unlink req.files.file
-        <span class="hljs-keyword">return</span> next err</pre></div></div>
+            <div class="content"><div class='highlight'><pre>  uploadImage: <span class="hljs-function"><span class="hljs-params">(req, res, next)</span> -&gt;</span></pre></div></div>
             
         </li>
         
@@ -212,11 +208,11 @@ config = <span class="hljs-built_in">require</span> <span class="hljs-string">'.
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-11">&#182;</a>
               </div>
-              <p>get uploaded file</p>
+              <p>Get person</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      file = req.files.file</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    Person.findOne slug: req.params.slug, <span class="hljs-function"><span class="hljs-params">(err, person)</span>-&gt;</span></pre></div></div>
             
         </li>
         
@@ -227,11 +223,12 @@ config = <span class="hljs-built_in">require</span> <span class="hljs-string">'.
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-12">&#182;</a>
               </div>
-              <p>random salt to miss collisions</p>
+              <p>get uploaded file</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      salt = uuid.v4()[<span class="hljs-number">0.</span>.<span class="hljs-number">.4</span>]</pre></div></div>
+            <div class="content"><div class='highlight'><pre>      file = req.files.file
+      is_image = <span class="hljs-regexp">/^image\/.*/</span>.test file.headers[<span class="hljs-string">'content-type'</span>]</pre></div></div>
             
         </li>
         
@@ -242,11 +239,16 @@ config = <span class="hljs-built_in">require</span> <span class="hljs-string">'.
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-13">&#182;</a>
               </div>
-              <p>get file extension</p>
+              <p>remove uploaded file if error</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      ext = path.extname file.path</pre></div></div>
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">if</span> err
+        fs.unlink file.path
+        <span class="hljs-keyword">return</span> next err
+      <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> person? <span class="hljs-keyword">or</span> <span class="hljs-keyword">not</span> is_image
+        fs.unlink file.path
+        next status: <span class="hljs-number">400</span>, message: <span class="hljs-string">"Invalid filetype"</span></pre></div></div>
             
         </li>
         
@@ -257,12 +259,11 @@ config = <span class="hljs-built_in">require</span> <span class="hljs-string">'.
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-14">&#182;</a>
               </div>
-              <p>make new path</p>
+              <p>get file extension</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      folder = req.params.slug + <span class="hljs-string">'/'</span>
-      fs.mkdir config.MEDIA_ROOT + folder, <span class="hljs-function">-&gt;</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre>      ext = path.extname file.path</pre></div></div>
             
         </li>
         
@@ -273,13 +274,12 @@ config = <span class="hljs-built_in">require</span> <span class="hljs-string">'.
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-15">&#182;</a>
               </div>
-              <p>generate filename based in timestamp
-for example: <code>mick-jagger/2016-04-28_09:52:11_a1B2cc.jpeg</code></p>
+              <p>make new path</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>        path = folder + moment.format <span class="hljs-string">'Y-MM-DD_HH:mm:ss_'</span> + salt + ext
-        dest = config.MEDIA_ROOT + path</pre></div></div>
+            <div class="content"><div class='highlight'><pre>      folder = req.params.slug + <span class="hljs-string">'/'</span>
+      mkdirp config.MEDIA_ROOT + folder, <span class="hljs-function">-&gt;</span></pre></div></div>
             
         </li>
         
@@ -289,6 +289,24 @@ for example: <code>mick-jagger/2016-04-28_09:52:11_a1B2cc.jpeg</code></p>
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p>generate filename based in timestamp
+for example: <code>mick-jagger/2016-04-28_09:52:11.jpeg</code>
+TODO Ojo con las colisiones</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        filename = folder + moment().format <span class="hljs-string">'Y-MM-DD_HH:mm:ss'</span> + ext
+        dest = config.MEDIA_ROOT + filename</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
               </div>
               <p>move image to new folder</p>
 
@@ -300,34 +318,110 @@ for example: <code>mick-jagger/2016-04-28_09:52:11_a1B2cc.jpeg</code></p>
         </li>
         
         
-        <li id="section-17">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-17">&#182;</a>
-              </div>
-              <p>asociate person with image</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>          Image.create person: person, path: path, <span class="hljs-function"><span class="hljs-params">(err)</span> -&gt;</span>
-            <span class="hljs-keyword">return</span> next err <span class="hljs-keyword">if</span> err</pre></div></div>
-            
-        </li>
-        
-        
         <li id="section-18">
             <div class="annotation">
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-18">&#182;</a>
               </div>
+              <p>asociate person with image</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          Image.create person: person, path: filename, <span class="hljs-function"><span class="hljs-params">(err)</span> -&gt;</span>
+            <span class="hljs-keyword">return</span> next err <span class="hljs-keyword">if</span> err</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
               <p>send relative path of image</p>
 
             </div>
             
             <div class="content"><div class='highlight'><pre>            res.status <span class="hljs-number">201</span>
-            res.send config.MEDIA_PATH + path</pre></div></div>
+            res.send config.MEDIA_PATH + filename</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-20">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-20">&#182;</a>
+              </div>
+              <h2 id="listimages">listImages</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-21">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-21">&#182;</a>
+              </div>
+              <p>Obtains the list of images associated with person</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  listImages: <span class="hljs-function"><span class="hljs-params">(req, res, next)</span> -&gt;</span>
+    Image.find person: req.params.id
+    .select <span class="hljs-string">'-person'</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-22">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-22">&#182;</a>
+              </div>
+              <p>success</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    .<span class="hljs-keyword">then</span> (list)-&gt;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-23">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-23">&#182;</a>
+              </div>
+              <p>append media path to path</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      object.path = config.MEDIA_PATH + object.path <span class="hljs-keyword">for</span> object <span class="hljs-keyword">in</span> list
+      res.send list</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-24">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-24">&#182;</a>
+              </div>
+              <p>error</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    , <span class="hljs-function"><span class="hljs-params">(err)</span>-&gt;</span> next err</pre></div></div>
             
         </li>
         
