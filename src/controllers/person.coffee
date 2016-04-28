@@ -60,11 +60,16 @@ module.exports =
   uploadImage: (req, res, next) ->
     # Get person
     Person.findOne slug: req.params.slug, (err, person)->
-      # remove uploaded file if error
-      fs.unlink req.files.file if err or not person?
-      return next err if err
       # get uploaded file
       file = req.files.file
+      is_image = /^image\/.*/.test file.headers['content-type']
+      # remove uploaded file if error
+      if err
+        fs.unlink file.path
+        return next err
+      if not person? or not is_image
+        fs.unlink file.path
+        next status: 400, message: "Invalid filetype"
       # get file extension
       ext = path.extname file.path
       # make new path
