@@ -1,0 +1,29 @@
+extends ../layouts/patient.jade
+
+prepend nav
+  -var section = 'gallery'
+
+block content
+  h2 Fotos
+  
+  //- ------------------------------------------------------------------------
+  //- Toolbar
+  .btn-toolbar(role="toolbar")
+    .btn-group
+      button.btn.btn-default(
+        type='file'
+        ngf-select="uploadPhoto($file, $invalidFiles)"
+        accept="image/*")
+        i.fa.fa-camera
+        |  Subir foto
+        
+  //- ------------------------------------------------------------------------
+  //- Gallery
+  .row
+    .col-md-6.col-lg-4.col-sm-12.gallery(ng-repeat="photo in gallery")
+      img.img-thumbnail.img-responsive.cursor-pointer(
+        ng-src="{{photo.path}}"
+        ng-click="open(photo)"
+        alt="{{photo.description}}"
+        title="{{photo.description}}"
+      )

@@ -1,0 +1,15 @@
+include ../mixins/form.jade
+
+.modal-header
+  button.close(type="button" ng-click="close()" aria-label="close")
+    span(aria-hidden="true") &times;
+  h4.modal-title Foto
+.modal-body
+  .row
+    .col-md-12
+      img.img-rounded.img-responsive.center-block(ng-src="{{photo.path}}"
+          alt="{{photo.description}}"
+          title="{{photo.description}}")
+.modal-footer
+  p.text-center(ng-bind="photo.description")
+  button.btn.btn-default(type="button" ng-click="close()") Cerrar

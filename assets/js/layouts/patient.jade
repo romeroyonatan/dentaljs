@@ -24,5 +24,6 @@ block nav
               section == 'treatment')
     +nav_item('Planilla de pago', "#/patients/{{patient.slug}}/payments",
               section == 'payments')
-    +nav_item('Fotos', "", section == 'photos')
+    +nav_item('Fotos', "#/patients/{{patient.slug}}/gallery", 
+              section == 'gallery')
 block content
