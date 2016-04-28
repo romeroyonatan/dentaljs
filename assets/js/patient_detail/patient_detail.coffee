@@ -7,8 +7,8 @@ angular.module('dentaljs.patient_detail', ['ngRoute', 'ngFileUpload'])
 ]
 
 .controller 'PatientDetailCtrl', [
-  "$scope", "$routeParams", "Upload", "Person", "Accounting",
-  ($scope, $routeParams, Upload, Person, Accounting) ->
+  "$scope", "$routeParams", "$location", "Upload", "Person", "Accounting",
+  ($scope, $routeParams, $location, Upload, Person, Accounting) ->
     $scope.patient = Person.get slug: $routeParams.slug
 
     $scope.uploadPhoto = (file, errFiles) ->
@@ -26,6 +26,7 @@ angular.module('dentaljs.patient_detail', ['ngRoute', 'ngFileUpload'])
           # On success
           toastr.success "Imagen subida con éxito"
           file.result = response.data
+          $location.path "/patients/#{$scope.patient.slug}/gallery"
         , (response) ->
           # On error
           if response.status > 0

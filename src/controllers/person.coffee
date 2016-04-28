@@ -91,7 +91,7 @@ module.exports =
   # Obtains the list of images associated with person
   listImages: (req, res, next) ->
     Image.find person: req.params.id
-    .select '_id path'
+    .select '-person'
     # success
     .then (list)->
       # append media path to path
