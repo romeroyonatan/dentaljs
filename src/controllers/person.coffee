@@ -67,7 +67,12 @@ module.exports =
       if err
         fs.unlink file.path
         return next err
-      if not person? or not is_image
+      # validate if persons exists
+      if not person?
+        fs.unlink file.path
+        next status: 404, message: "Person not found"
+      # validate file type
+      if not is_image
         fs.unlink file.path
         next status: 400, message: "Invalid filetype"
       # get file extension
