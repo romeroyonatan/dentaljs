@@ -4,9 +4,10 @@ controller = require '../controllers/person'
 
 router = express.Router()
 
-# Photo uploadPhoto
+# Images routes
 # --------------------------------------
-router.post '/:slug/photos', multipartMiddleware, controller.uploadPhoto
+router.post '/:slug/photos', multipartMiddleware, controller.uploadImage
+router.get '/:id/photos', controller.listImages
 
 # REST API
 # =======================================

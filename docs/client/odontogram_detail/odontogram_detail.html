@@ -60,9 +60,7 @@
             </div>
             
             <div class="content"><div class='highlight'><pre>    DISEASE = <span class="hljs-number">1</span>
-    FIX = <span class="hljs-number">2</span>
-
-    $scope.pieces = []</pre></div></div>
+    FIX = <span class="hljs-number">2</span></pre></div></div>
             
         </li>
         
@@ -73,8 +71,35 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
+              <p>Array that holds teeths information</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    $scope.pieces = []</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
               <h1 id="loading-odontogram-information">Loading odontogram information</h1>
-<p>Loading colors in SVG based in odontogram information</p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Loading colors in SVG based in odontogram information</p>
 
             </div>
             
@@ -86,11 +111,11 @@
         </li>
         
         
-        <li id="section-4">
+        <li id="section-6">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-4">&#182;</a>
+                <a class="pilcrow" href="#section-6">&#182;</a>
               </div>
               <p>Show strikethough if teeth is missed</p>
 
@@ -103,11 +128,11 @@
         </li>
         
         
-        <li id="section-5">
+        <li id="section-7">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-5">&#182;</a>
+                <a class="pilcrow" href="#section-7">&#182;</a>
               </div>
               <p>Show sectors with diseases or fixes</p>
 
@@ -116,11 +141,52 @@
             <div class="content"><div class='highlight'><pre>          <span class="hljs-keyword">for</span> sector <span class="hljs-keyword">in</span> piece.sectors <span class="hljs-keyword">when</span> sector?
             elem = angular.element <span class="hljs-string">"#<span class="hljs-subst">#{piece.id}</span> #<span class="hljs-subst">#{sector.id}</span>"</span>
             elem.addClass <span class="hljs-string">'disease'</span> <span class="hljs-keyword">if</span> sector.issue.type <span class="hljs-keyword">is</span> DISEASE
-            elem.addClass <span class="hljs-string">'fix'</span> <span class="hljs-keyword">if</span> sector.issue.type <span class="hljs-keyword">is</span> FIX
+            elem.addClass <span class="hljs-string">'fix'</span> <span class="hljs-keyword">if</span> sector.issue.type <span class="hljs-keyword">is</span> FIX</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>Get patient info</p>
 
-    $scope.patient = Person.get slug: $routeParams.slug, <span class="hljs-function">-&gt;</span>
-      $scope.odontogram = Odontogram.get id: $routeParams.id, <span class="hljs-function">-&gt;</span>
-        load($scope.odontogram)
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    $scope.patient = Person.get slug: $routeParams.slug, <span class="hljs-function">-&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>Get odontogram</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      $scope.odontogram = Odontogram.get id: $routeParams.id, <span class="hljs-function">-&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>loading odontogram information</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        load($scope.odontogram)
 ]</pre></div></div>
             
         </li>

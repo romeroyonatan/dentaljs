@@ -1,8 +1,15 @@
 # Person's Controller
 # ----------------------
 # This module implements CRUD methods for accounting's collection
-
+mv = require 'mv'
+fs = require 'fs'
+path = require 'path'
+mkdirp = require 'mkdirp'
+uuid = require 'node-uuid'
+moment = require 'moment'
 Person = require '../models/person'
+Image = require '../models/image'
+config = require '../config'
 
 module.exports =
   # Obtains a list of persons
@@ -47,13 +54,48 @@ module.exports =
       res.status 204
       res.end()
 
-  uploadPhoto: (req, res, next) ->
-    file = req.files.file
-    console.log file
-    path = file.path
-    # move foto a carpeta /media
-    # obtener nuevo path
-    # guardar en la base de datos nuevo registro con path
-    res.status 201
-    # enviar path relativo de la imagen
-    res.end()
+  # uploadImage
+  # -----------------
+  # Upload image and associate its with person
+  uploadImage: (req, res, next) ->
+    # Get person
+    Person.findOne slug: req.params.slug, (err, person)->
+      # remove uploaded file if error
+      fs.unlink req.files.file if err or not person?
+      return next err if err
+      # get uploaded file
+      file = req.files.file
+      # random salt to evite collisions
+      salt = uuid.v4()[1..4]
+      # get file extension
+      ext = path.extname file.path
+      # make new path
+      folder = req.params.slug + '/'
+      mkdirp config.MEDIA_ROOT + folder, ->
+        # generate filename based in timestamp
+        # for example: `mick-jagger/2016-04-28_09:52:11_a1B2.jpeg`
+        filename = folder + moment().format 'Y-MM-DD_HH:mm:ss_' + salt + ext
+        dest = config.MEDIA_ROOT + filename
+        # move image to new folder
+        mv file.path, dest, (err) ->
+          return next err if err
+          # asociate person with image
+          Image.create person: person, path: filename, (err) ->
+            return next err if err
+            # send relative path of image
+            res.status 201
+            res.send config.MEDIA_PATH + filename
+
+  # listImages
+  # -----------------
+  # Obtains the list of images associated with person
+  listImages: (req, res, next) ->
+    Image.find person: req.params.id
+    .select '_id path'
+    # success
+    .then (list)->
+      # append media path to path
+      object.path = config.MEDIA_PATH + object.path for object in list
+      res.send list
+    # error
+    , (err)-> next err

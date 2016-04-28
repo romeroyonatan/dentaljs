@@ -38,8 +38,10 @@ mongoose = <span class="hljs-built_in">require</span> <span class="hljs-string">
 cookieParser = <span class="hljs-built_in">require</span> <span class="hljs-string">'cookie-parser'</span>
 bodyParser = <span class="hljs-built_in">require</span> <span class="hljs-string">'body-parser'</span>
 compression = <span class="hljs-built_in">require</span> <span class="hljs-string">'compression'</span>
-routes = <span class="hljs-built_in">require</span> <span class="hljs-string">'./routes/index'</span>
-connectAssets = <span class="hljs-built_in">require</span> <span class="hljs-string">'connect-assets'</span></pre></div></div>
+routes = <span class="hljs-built_in">require</span> <span class="hljs-string">'./routes'</span>
+connectAssets = <span class="hljs-built_in">require</span> <span class="hljs-string">'connect-assets'</span>
+
+app = express()</pre></div></div>
             
         </li>
         
@@ -49,21 +51,6 @@ connectAssets = <span class="hljs-built_in">require</span> <span class="hljs-str
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-2">&#182;</a>
-              </div>
-              <p>Bootstrap models</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>app = express()</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-3">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
               <p>Define Port &amp; Environment</p>
 
@@ -75,11 +62,11 @@ env = process.env.NODE_ENV <span class="hljs-keyword">or</span> <span class="hlj
         </li>
         
         
-        <li id="section-4">
+        <li id="section-3">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-4">&#182;</a>
+                <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
               <p>Config module exports has <code>setEnvironment</code> function that sets app settings
 depending on environment.</p>
@@ -92,11 +79,11 @@ config.setEnvironment env</pre></div></div>
         </li>
         
         
-        <li id="section-5">
+        <li id="section-4">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-5">&#182;</a>
+                <a class="pilcrow" href="#section-4">&#182;</a>
               </div>
               <p>db_config</p>
 
@@ -107,32 +94,32 @@ config.setEnvironment env</pre></div></div>
         </li>
         
         
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>view engine setup</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>app.set <span class="hljs-string">'view engine'</span>, <span class="hljs-string">'jade'</span></pre></div></div>
+            
+        </li>
+        
+        
         <li id="section-6">
             <div class="annotation">
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-6">&#182;</a>
               </div>
-              <p>FIXME serve-favicon</p>
+              <p>Middleware</p>
 
             </div>
             
-        </li>
-        
-        
-        <li id="section-7">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-7">&#182;</a>
-              </div>
-              <p>view engine setup</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>app.set <span class="hljs-string">'view engine'</span>, <span class="hljs-string">'jade'</span>
-
-app.use compression()
+            <div class="content"><div class='highlight'><pre>app.use compression()
 app.use favicon path.join <span class="hljs-string">'public'</span>, <span class="hljs-string">'favicon.ico'</span>
 app.use logger(<span class="hljs-string">'dev'</span>)
 app.use bodyParser.json()
@@ -147,11 +134,11 @@ app.use <span class="hljs-string">'/'</span>, routes</pre></div></div>
         </li>
         
         
-        <li id="section-8">
+        <li id="section-7">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-8">&#182;</a>
+                <a class="pilcrow" href="#section-7">&#182;</a>
               </div>
               <p>catch 404 and forward to error handler</p>
 
@@ -166,11 +153,11 @@ app.use <span class="hljs-string">'/'</span>, routes</pre></div></div>
         </li>
         
         
-        <li id="section-9">
+        <li id="section-8">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-9">&#182;</a>
+                <a class="pilcrow" href="#section-8">&#182;</a>
               </div>
               <p>error handlers
 development error handler
@@ -188,11 +175,11 @@ will print stacktrace</p>
         </li>
         
         
-        <li id="section-10">
+        <li id="section-9">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-10">&#182;</a>
+                <a class="pilcrow" href="#section-9">&#182;</a>
               </div>
               <p>production error handler
 no stacktraces leaked to user</p>

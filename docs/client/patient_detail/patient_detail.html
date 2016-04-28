@@ -30,7 +30,7 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre>angular.<span class="hljs-built_in">module</span>(<span class="hljs-string">'dentaljs.patient_detail'</span>, [<span class="hljs-string">'ngRoute'</span>])
+            <div class="content"><div class='highlight'><pre>angular.<span class="hljs-built_in">module</span>(<span class="hljs-string">'dentaljs.patient_detail'</span>, [<span class="hljs-string">'ngRoute'</span>, <span class="hljs-string">'ngFileUpload'</span>])
 
 .config [<span class="hljs-string">'$routeProvider'</span>, <span class="hljs-function"><span class="hljs-params">($routeProvider)</span> -&gt;</span>
   $routeProvider.<span class="hljs-keyword">when</span> <span class="hljs-string">'/patients/:slug'</span>,
@@ -39,9 +39,84 @@
 ]
 
 .controller <span class="hljs-string">'PatientDetailCtrl'</span>, [
-  <span class="hljs-string">"$scope"</span>, <span class="hljs-string">"$routeParams"</span>, <span class="hljs-string">"Person"</span>, <span class="hljs-string">"Accounting"</span>,
-  <span class="hljs-function"><span class="hljs-params">($scope, $routeParams, Person, Accounting)</span> -&gt;</span>
+  <span class="hljs-string">"$scope"</span>, <span class="hljs-string">"$routeParams"</span>, <span class="hljs-string">"Upload"</span>, <span class="hljs-string">"Person"</span>, <span class="hljs-string">"Accounting"</span>,
+  <span class="hljs-function"><span class="hljs-params">($scope, $routeParams, Upload, Person, Accounting)</span> -&gt;</span>
     $scope.patient = Person.get slug: $routeParams.slug
+
+    $scope.uploadPhoto = <span class="hljs-function"><span class="hljs-params">(file, errFiles)</span> -&gt;</span>
+      $scope.f = file
+      $scope.errFile = errFiles &amp;&amp; errFiles[<span class="hljs-number">0</span>]</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>Upload photo</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">if</span> file
+        file.upload = Upload.upload
+          url: <span class="hljs-string">"/persons/<span class="hljs-subst">#{$routeParams.slug}</span>/photos"</span>
+          method: <span class="hljs-string">'POST'</span>
+          file: file
+
+        file.upload.<span class="hljs-keyword">then</span> (response) -&gt;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>On success</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          toastr.success <span class="hljs-string">"Imagen subida con éxito"</span>
+          file.result = response.data
+        , <span class="hljs-function"><span class="hljs-params">(response)</span> -&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>On error</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          <span class="hljs-keyword">if</span> response.status &gt; <span class="hljs-number">0</span>
+            toastr.error <span class="hljs-string">"Hubo un error al subir la imagen"</span>
+            <span class="hljs-built_in">console</span>.error response
+        , <span class="hljs-function"><span class="hljs-params">(evt)</span> -&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>While uploading is in progress</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          file.progress = Math.min <span class="hljs-number">100</span>, parseInt <span class="hljs-number">100.0</span> * evt.loaded / evt.total
 ]</pre></div></div>
             
         </li>

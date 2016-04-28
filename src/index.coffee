@@ -6,10 +6,9 @@ mongoose = require 'mongoose'
 cookieParser = require 'cookie-parser'
 bodyParser = require 'body-parser'
 compression = require 'compression'
-routes = require './routes/index'
+routes = require './routes'
 connectAssets = require 'connect-assets'
 
-# Bootstrap models
 app = express()
 
 # Define Port & Environment
@@ -24,19 +23,21 @@ config.setEnvironment env
 # db_config
 mongoose.connect config.MONGO_DB
 
-# FIXME serve-favicon
 
 # view engine setup
 app.set 'view engine', 'jade'
 
+# Middleware
 app.use compression()
 app.use favicon path.join 'public', 'favicon.ico'
 app.use logger('dev')
 app.use bodyParser.json()
 app.use bodyParser.urlencoded(extended: false)
 app.use cookieParser()
-app.use express.static(process.cwd() + '/public')
-app.use express.static(process.cwd() + '/bower_components')
+app.use express.static process.cwd() + '/public'
+app.use express.static process.cwd() + '/bower_components'
+# Configure media dir
+app.use config.MEDIA_PATH, express.static config.MEDIA_ROOT
 app.use connectAssets()
 
 app.use '/', routes
