@@ -1,0 +1,42 @@
+[
+  {
+    "type": 1,
+    "code": "A",
+    "description": "Enfermedad A"
+  },
+  {
+    "type": 1,
+    "code": "B",
+    "description": "Enfermedad B"
+  },
+  {
+    "type": 1,
+    "code": "C",
+    "description": "Enfermedad C"
+  },
+  {
+    "type": 1,
+    "code": "D",
+    "description": "Enfermedad D"
+  },
+  {
+    "type": 2,
+    "code": "X",
+    "description": "Arreglo X"
+  },
+  {
+    "type": 2,
+    "code": "Y",
+    "description": "Arreglo Y"
+  },
+  {
+    "type": 2,
+    "code": "Z",
+    "description": "Arreglo Z"
+  },
+  {
+    "type": 2,
+    "code": "W",
+    "description": "Arreglo W"
+  }
+]
