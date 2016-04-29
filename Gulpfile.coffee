@@ -114,7 +114,7 @@ gulp.task 'deploy', ['build'], ->
   execSync 'docker-compose up -d'
 
 # Backup application's data from mongo docker container
-gulp.task 'backup', ['build'], ->
+gulp.task 'backup', ->
   exec 'docker inspect --format
   "{{ .NetworkSettings.Networks.dentaljs_default.IPAddress }}" dentaljs_db_1',
   (error, stdout, stderr) ->
