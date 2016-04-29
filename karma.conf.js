@@ -27,6 +27,7 @@ module.exports = function(config){
       'bower_components/angular-resource/angular-resource.js',
       'bower_components/angular-mocks/angular-mocks.js',
       'bower_components/angular-bootstrap/ui-bootstrap.js',
+      'bower_components/angular-confirm-modal/angular-confirm.js',
       'assets/js/**/*.coffee'
     ],
 
