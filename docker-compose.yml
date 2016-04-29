@@ -9,6 +9,11 @@ services:
     links:
       - db
     restart: always
+    volumes:
+      # Si el SELinux no permite leer el directorio, habilitar con este
+      # comando
+      # sudo chcon -Rt svirt_sandbox_file_t ~/.dentaljs/media/
+      - "${HOME}/.dentaljs/media:/media"
 
   db:
     image: "mongo:latest"

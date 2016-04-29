@@ -107,7 +107,7 @@ gulp.task 'docs', ->
 
 # Deploy application into docker container
 gulp.task 'deploy', ['build'], ->
-  execSync 'git pull'
+  #execSync 'git pull'
   execSync 'npm install --production'
   execSync 'bower install --production'
   execSync 'docker-compose build'
