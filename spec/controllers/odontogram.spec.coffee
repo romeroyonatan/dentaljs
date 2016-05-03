@@ -5,12 +5,11 @@ xdescribe 'Odontogram controller tests', ->
   Issue = require '../../.app/models/issue'
   db = null
 
-#  beforeAll (done)->
-#    db = mongoose.createConnection 'mongodb://localhost/dentaljs-test', (err)->
-#      console.error err if err
-#      console.log "DB Connected"
-#      done()
-#  afterAll -> db.disconnect()
+  beforeEach ->
+    db = mongoose.createConnection 'mongodb://localhost/test'
+    db.on 'error', (err) -> console.error err
+    db.once 'open', done
+  afterEach (done) -> db.disconnect done
 
   fix = {}
   disease = {}

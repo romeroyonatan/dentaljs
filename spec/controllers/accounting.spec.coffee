@@ -76,11 +76,18 @@ describe 'Accounting controller tests', ->
     expect(Mock.remove).toHaveBeenCalledWith _id: 'abcxyz',
                                              jasmine.any Function
 
-  xdescribe 'Accounting controller tests without mock', ->
+  describe 'Accounting controller tests without mock', ->
 
-    beforeAll -> mongoose.connect 'mongodb://localhost/dentaljs-test',
-      (err) -> console.error err if err
-    afterAll -> mongoose.disconnect()
+    #beforeAll -> mongoose.connect 'mongodb://localhost/dentaljs-test', (err) ->
+    #  console.error err if err
+    #afterAll -> mongoose.disconnect()
+
+    db = null
+    beforeEach ->
+      db = mongoose.createConnection 'mongodb://localhost/test'
+      db.on 'error', (err) -> console.error err
+      db.once 'open', done
+    afterEach (done) -> db.disconnect done
 
     beforeEach (done) -> Accounting.remove {}, done
     afterEach (done) -> Accounting.remove {}, done
