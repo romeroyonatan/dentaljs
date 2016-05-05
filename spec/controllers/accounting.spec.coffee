@@ -76,18 +76,14 @@ describe 'Accounting controller tests', ->
     expect(Mock.remove).toHaveBeenCalledWith _id: 'abcxyz',
                                              jasmine.any Function
 
-  describe 'Accounting controller tests without mock', ->
+  xdescribe 'Accounting controller tests without mock', ->
 
-    #beforeAll -> mongoose.connect 'mongodb://localhost/dentaljs-test', (err) ->
-    #  console.error err if err
-    #afterAll -> mongoose.disconnect()
+    _controller= require '../../.app/controllers/accounting'
 
-    db = null
-    beforeEach ->
-      db = mongoose.createConnection 'mongodb://localhost/test'
-      db.on 'error', (err) -> console.error err
-      db.once 'open', done
-    afterEach (done) -> db.disconnect done
+    #beforeAll (done)->
+    #  return done() if mongoose.connection.db?
+    #  mongoose.connect 'mongodb://localhost/test', done
+    #afterAll (done)-> mongoose.disconnect done
 
     beforeEach (done) -> Accounting.remove {}, done
     afterEach (done) -> Accounting.remove {}, done
@@ -111,8 +107,9 @@ describe 'Accounting controller tests', ->
       # create parent accounting
       Accounting.create description: "Father", debit: 10, (err, father) ->
         # create child accounting
+        console.assert not err?
         req.body.parent = father._id
-        controller.create req, res
+        _controller.create req, res
 
     it 'should update father when child is removed', (done) ->
       # preparing request mock
@@ -130,7 +127,7 @@ describe 'Accounting controller tests', ->
         # create child accounting
         Accounting.create description: "Child", credit: 10, (err, child) ->
           req.params.id = child._id
-          controller.delete req, res
+          _controller.delete req, res
 
     it 'should calculate a balance', (done) ->
       # Prepare mock request and response
@@ -148,4 +145,4 @@ describe 'Accounting controller tests', ->
         {description: "test5", debit: 10, person: person},
         {description: "test6", assets: 20, person: person},
       ], (err, list) ->
-        controller.balance req, res
+        _controller.balance req, res
