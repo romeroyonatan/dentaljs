@@ -46,7 +46,14 @@ gulp.task 'test-client', (done)->
 # Run server-side tests
 gulp.task 'test-server', ['build-spec'], ->
   gulp.src('.spec/**/*[sS]pec.js')
-    .pipe jasmine verbose: on, includeStackTrace: on
+    .pipe jasmine
+      verbose: on
+      includeStackTrace: on
+      config:
+        spec_dir: '.spec'
+        helpers: [
+          'helpers/mongo_helper.js'
+        ]
 
 # get the binary of protractor
 getProtractorBinary = (binaryName) ->
@@ -80,16 +87,13 @@ gulp.task 'test', ['test-server', 'test-client'], ->
 server = gls.new 'bin/www'
 gulp.task 'run-server', ->
   server.start()
-  console.log "Server started"
 
 gulp.task 'stop-server', ->
   server.stop()
-  console.log "Server stopped"
 
 # Reload development server
 gulp.task 'reload', ->
   server.start.bind(server)()
-  console.log "Server reloaded"
 
 # Watch for changes in source code
 gulp.task 'watch', ->

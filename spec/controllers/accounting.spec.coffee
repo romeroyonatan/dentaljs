@@ -80,11 +80,6 @@ describe 'Accounting controller tests', ->
 describe 'Accounting controller tests without mock', ->
   controller= require '../../.app/controllers/accounting'
 
-  beforeAll (done)->
-    return done() if mongoose.connection.db?
-    mongoose.connect 'mongodb://localhost/test', done
-  #afterAll (done)-> mongoose.disconnect done
-
   beforeEach (done) -> Accounting.remove {}, done
   afterEach (done) -> Accounting.remove {}, done
 

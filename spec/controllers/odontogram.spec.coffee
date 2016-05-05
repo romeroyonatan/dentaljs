@@ -3,12 +3,6 @@ describe 'Odontogram controller tests', ->
   controller = require '../../.app/controllers/odontogram'
   Odontogram = require '../../.app/models/odontogram'
   Issue = require '../../.app/models/issue'
-  db = null
-
-  beforeAll (done)->
-    return done() if mongoose.connection.db?
-    mongoose.connect 'mongodb://localhost/test', done
-  afterAll (done)-> mongoose.disconnect done
 
   fix = {}
   disease = {}
