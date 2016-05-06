@@ -23,6 +23,7 @@ module.exports =
       res.status 201
       return res.send object if not object.parent
       Accounting.findOne _id: object.parent, (err, parent) ->
+        return next err if err
         if parent
           parent.childs.push object
           parent.save (err, parent)->
