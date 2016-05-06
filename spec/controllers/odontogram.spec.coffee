@@ -1,9 +1,9 @@
-describe 'Odontogram controller tests', ->
-  mongoose = require 'mongoose'
-  controller = require '../../.app/controllers/odontogram'
-  Odontogram = require '../../.app/models/odontogram'
-  Issue = require '../../.app/models/issue'
+mongoose = require 'mongoose'
+controller = require '../../.app/controllers/odontogram'
+Odontogram = require '../../.app/models/odontogram'
+Issue = require '../../.app/models/issue'
 
+describe 'Odontogram controller tests', ->
   fix = {}
   disease = {}
   odontogram = {}
