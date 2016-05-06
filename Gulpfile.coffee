@@ -52,7 +52,7 @@ gulp.task 'test-server', ['build-spec'], ->
       config:
         spec_dir: '.spec'
         helpers: [
-          'helpers/mongo_helper.js'
+          'helpers/*helper.js'
         ]
 
 # get the binary of protractor
