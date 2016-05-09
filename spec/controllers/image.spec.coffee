@@ -192,4 +192,23 @@ describe "Image uploads tests", ->
       # call controller
       controller.create req, res, (err) -> done.fail err
 
-  xit 'should remove user´s folder and remove all images inside it', (done)->
+  it 'should remove user´s folder and remove all images inside it', (done)->
+    controller = require '../../.app/controllers/folder'
+    # create an empty file
+    filepath = config.MEDIA_ROOT + "test.jpg"
+    fs.closeSync fs.openSync filepath, 'w'
+    # create folder
+    Folder.create person: person, name: 'foo', (err, folder) ->
+      # create image
+      Image.create person:person, path:filepath, folder:folder, (err, image)->
+        # prepare request
+        req.params.id = folder._id
+        # prepare response and expects
+        res.end = ->
+          # check if file exists in filesystem
+          Image.findOne {}, (err, image) ->
+            # check if image's path attribute is correct
+            expect(image?).toBe false
+            done()
+        # call controller
+        controller.remove req, res, (err) -> done.fail err

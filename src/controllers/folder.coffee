@@ -73,7 +73,7 @@ module.exports =
     Folder.findOneAndRemove _id: req.params.id, (err, folder) ->
       return next err if err
       return next status: 404, message: 'Not found' if not folder?
-      Image.remove(folder: folder._id).then (images) ->
+      Image.remove(folder: folder).then (images) ->
         res.status 204
         res.end()
       , (err) -> return next err
