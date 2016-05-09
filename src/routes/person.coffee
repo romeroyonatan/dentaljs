@@ -1,5 +1,4 @@
 express = require 'express'
-multipartMiddleware = require('connect-multiparty')()
 controller = require '../controllers/person'
 
 router = express.Router()
