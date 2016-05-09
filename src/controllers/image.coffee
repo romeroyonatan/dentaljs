@@ -115,7 +115,8 @@ module.exports =
   # update an exiting image
   update: (req, res, next) ->
     delete req.body._id
-    Image.findByIdAndUpdate req.params.id, req.body, new: true
+    Image.update _id: req.params.id, req.body, (err) ->
+    Image.findById req.params.id
     .populate('person folder')
     # success
     .then (image) ->
