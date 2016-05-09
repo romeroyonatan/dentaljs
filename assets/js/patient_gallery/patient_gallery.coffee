@@ -13,7 +13,7 @@ angular.module('dentaljs.patient_gallery', ['ngRoute', 'ngFileUpload',
 
     # Get patient gallery
     $scope.patient = Person.get slug: $routeParams.slug, ->
-      $http.get("/images/#{$scope.patient._id}").then (res)->
+      $http.get("/images/#{$scope.patient.slug}").then (res)->
         $scope.gallery = res.data
 
     # Upload photo to gallery

@@ -111,7 +111,7 @@ describe "Image uploads tests", ->
     ]
     Image.create images, ->
       # prepare request
-      req.params.id = person._id
+      req.params.slug = slug
       # prepare expects
       res.send = (data) ->
         # convert data to string

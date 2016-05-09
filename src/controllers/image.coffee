@@ -58,15 +58,22 @@ module.exports =
   # --------------------------------------------------------------------------
   # Obtains the list of images associated with person
   list: (req, res, next) ->
-    Image.find person: req.params.id
-    .select '-person'
-    # success
-    .then (list)->
-      # append media path to path
-      object.path = config.MEDIA_PATH + object.path for object in list
-      res.send list
-    # error
-    , (err)-> next err
+    console.log req.params
+    Person.findOne slug: req.params.slug, (err, person) ->
+      # handle errors
+      return next err if err
+      return next {status: 404, message: "Not found"} if not person?
+      console.log person
+      Image.find person: person._id
+      # remove person from list
+      .select '-person'
+      # success
+      .then (list) ->
+        # append media path to path
+        object.path = config.MEDIA_PATH + object.path for object in list
+        res.send list
+      # error
+      , (err)-> next err
 
   # remove
   # --------------------------------------------------------------------------

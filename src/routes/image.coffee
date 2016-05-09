@@ -7,6 +7,6 @@ router = express.Router()
 # Images routes
 # --------------------------------------
 router.post '/:slug', multipartMiddleware, controller.create
-router.get '/:id', controller.list
+router.get '/:slug', controller.list
 
 module.exports = router
