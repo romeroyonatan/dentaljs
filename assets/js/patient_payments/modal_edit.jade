@@ -12,8 +12,8 @@ include ../mixins/form.jade
         |  Modificar fecha
       #date.collapse: +form-date("Fecha", "account.date")
     +form-input("Descripción", "account.description", "Descripción", true)
-    +form-input("Debe", "account.debit")(type="number" min="0" value=0)
     +form-input("Haber", "account.assets")(type="number" min="0" value=0)
+    +form-input("Debe", "account.debit")(type="number" min="0" value=0)
     label Saldo
     p.form-control-static(
       ng-bind="(account.assets - account.debit)|currency"
