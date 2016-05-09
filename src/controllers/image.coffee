@@ -27,13 +27,15 @@ module.exports =
         fs.unlink file.path, ->
           return next err
       # validate if persons exists
-      if not person?
+      else if not person?
         fs.unlink file.path, ->
           next status: 404, message: "Person not found"
       # validate file type
-      if not is_image
+      else if not is_image
         fs.unlink file.path, ->
           next status: 400, message: "Invalid filetype"
+      else
+        next()
 
   # create
   # --------------------------------------------------------------------------
@@ -42,13 +44,13 @@ module.exports =
     # Get person
     Person.findOne slug: req.params.slug
     .then (person) ->
-      # error handle
+      # if person not found
       return next status: 404, message: "Person not found" if not person?
       # Get folder
       Folder.findOne person: person, name: req.params.foldername
       .then (folder) ->
-        # error handle
-        if req.params.foldername and not folder?
+        # if folder not found
+        if req.params.foldername? and not folder?
           return next status: 404, message: "Folder not found"
         # get uploaded file's path
         file = req.files.file
@@ -56,7 +58,7 @@ module.exports =
         ext = path.extname file.path
         # make new path
         dir = req.params.slug + "/"
-        dir += "#{folder.name}/" if folder?
+        dir += folder.name + "/" if folder?
         mkdirp config.MEDIA_ROOT + dir, ->
           # generate filename based in timestamp
           # for example: `mick-jagger/2016-04-28_09:52:11:123.jpeg`

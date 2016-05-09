@@ -26,10 +26,15 @@ module.exports =
       return next err if err
       return next status: 404, message: "Not found" if not person?
       req.body.person = person
-      Folder.create req.body, (err, object) ->
-        return next err if err
-        res.status 201
-        res.send object
+      Folder.count person: person, name: req.body.name
+      .then (count) ->
+        if count is 0
+          Folder.create req.body, (err, object) ->
+            return next err if err
+            res.status 201
+            res.send object
+        else
+          return next status: 400, message: "Folder exists"
 
   # update
   # --------------------------------------------------------------------------

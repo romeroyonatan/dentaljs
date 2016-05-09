@@ -192,4 +192,4 @@ describe "Image uploads tests", ->
       # call controller
       controller.create req, res, (err) -> done.fail err
 
-  xit 'should remove user´s folder and remove all images', (done)->
+  xit 'should remove user´s folder and remove all images inside it', (done)->
