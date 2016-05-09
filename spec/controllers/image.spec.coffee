@@ -126,7 +126,7 @@ describe "Image uploads tests", ->
       # call controller
       controller.list req, res, (err) -> done.fail err
 
-  xit 'should remove an image', ->
+  it 'should remove an image', ->
     # create empty file
     filepath = config.MEDIA_ROOT + "test.jpg"
     fs.closeSync fs.openSync filepath, 'w'
@@ -141,6 +141,5 @@ describe "Image uploads tests", ->
       # call controller
       controller.remove req, res, (err) -> done.fail err
 
-  it 'should create an user´s folder', ->
-  it 'should move image to an user´s folder', ->
-  it 'should remove user´s folder and remove all images', ->
+  xit 'should move image to an user´s folder', (done)->
+  xit 'should remove user´s folder and remove all images', (done)->

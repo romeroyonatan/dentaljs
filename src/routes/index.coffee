@@ -3,6 +3,7 @@ persons = require './person'
 accouting = require './accounting'
 odontograms = require './odontogram'
 images = require './image'
+folders = require './folder'
 
 router = express.Router()
 
@@ -15,6 +16,7 @@ router.use '/persons', persons
 router.use '/accounting', accouting
 router.use '/odontograms', odontograms
 router.use '/images', images
+router.use '/folders', folders
 
 # simple session authorization
 checkAuth = (req, res, next) ->

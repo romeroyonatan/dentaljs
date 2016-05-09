@@ -23,16 +23,16 @@ module.exports =
       is_image = /^image\/.*/.test file.headers['content-type']
       # remove uploaded file if error
       if err
-        fs.unlink file.path
-        return next err
+        fs.unlink file.path, ->
+          return next err
       # validate if persons exists
       if not person?
-        fs.unlink file.path
-        return next status: 404, message: "Person not found"
+        fs.unlink file.path, ->
+          next status: 404, message: "Person not found"
       # validate file type
       if not is_image
-        fs.unlink file.path
-        return next status: 400, message: "Invalid filetype"
+        fs.unlink file.path, ->
+          next status: 400, message: "Invalid filetype"
 
   # create
   # --------------------------------------------------------------------------
@@ -56,7 +56,7 @@ module.exports =
         mv file.path, dest, (err) ->
           return next err if err
           # asociate person with image
-          Image.create person: person, path: filename, (err) ->
+          Image.create person: person, path: filename, (err)->
             return next err if err
             # send relative path of image
             res.status 201
@@ -74,7 +74,7 @@ module.exports =
       # remove person from list
       .select '-person'
       # success
-      .then (list) ->
+      .then (list)->
         # append media path to path
         object.path = config.MEDIA_PATH + object.path for object in list
         res.send list
@@ -85,6 +85,11 @@ module.exports =
   # --------------------------------------------------------------------------
   # Remove a exiting person
   remove: (req, res, next) ->
-    Person.findOne(slug: req.params.slug).remove ->
-      res.status 204
-      res.end()
+    Image.remove _id: req.params.id
+    # success
+    .then (image) ->
+      fs.unlink image.path, ->
+        res.status 204
+        res.end()
+    # error
+    , (err) -> next err
