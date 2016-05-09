@@ -49,7 +49,6 @@ describe "Image uploads tests", ->
       file:
         path: filepath
         headers: 'content-type': 'image/png'
-
     # prepare response and expects
     res.send = (data) ->
       # extract filename from path returned into data
@@ -166,5 +165,31 @@ describe "Image uploads tests", ->
         # call controller
         controller.update req, res, (err) -> done.fail err
 
-  xit 'should upload an image into folder', (done)->
+  it 'should upload an image into folder', (done)->
+    # create an empty file
+    filepath = config.MEDIA_ROOT + "test.jpg"
+    fs.closeSync fs.openSync filepath, 'w'
+    # create folder
+    Folder.create person: person, name: 'foo', (err, folder) ->
+      # prepare request
+      req.params =
+        slug: person.slug
+        foldername: 'foo'
+      req.files = file: path: filepath
+      # prepare response and expects
+      res.send = (data) ->
+        # extract filename from path returned into data
+        filename = /.*\/(.*)$/.exec(data)[1]
+        path = "#{config.MEDIA_ROOT}#{slug}/foo/#{filename}"
+        # check if file exists in filesystem
+        expect(fs.statSync(path).isFile()).toBe true
+        expect(fs.existsSync(filepath)).toBe false
+        Image.findOne {}, (err, image) ->
+          # check if image's path attribute is correct
+          expect(config.MEDIA_ROOT + image.path).toEqual path
+          expect(image.folder).toEqual folder._id
+          done()
+      # call controller
+      controller.create req, res, (err) -> done.fail err
+
   xit 'should remove user´s folder and remove all images', (done)->

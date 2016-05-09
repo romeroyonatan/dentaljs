@@ -8,6 +8,8 @@ router = express.Router()
 # --------------------------------------
 router.post '/:slug', multipartMiddleware, controller.validate,
                       controller.create
+router.post '/:slug/:foldername', multipartMiddleware, controller.validate,
+                                  controller.create
 router.get '/:slug', controller.list
 router.remove '/:id', controller.remove
 router.put '/:id', controller.update

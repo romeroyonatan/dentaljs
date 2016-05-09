@@ -9,6 +9,7 @@ uuid = require 'node-uuid'
 moment = require 'moment'
 Person = require '../models/person'
 Image = require '../models/image'
+Folder = require '../models/folder'
 config = require '../config'
 
 module.exports =
@@ -39,28 +40,41 @@ module.exports =
   # Upload image and associate its with person
   create: (req, res, next) ->
     # Get person
-    Person.findOne slug: req.params.slug, (err, person)->
-      # get uploaded file
-      file = req.files.file
-      # get file extension
-      ext = path.extname file.path
-      # make new path
-      folder = req.params.slug + '/' # + req.params.folder?.name
-      mkdirp config.MEDIA_ROOT + folder, ->
-        # generate filename based in timestamp
-        # for example: `mick-jagger/2016-04-28_09:52:11.jpeg`
-        # TODO Ojo con las colisiones
-        filename = folder + moment().format 'Y-MM-DD_HH:mm:ss' + ext
-        dest = config.MEDIA_ROOT + filename
-        # move image to new folder
-        mv file.path, dest, (err) ->
-          return next err if err
-          # asociate person with image
-          Image.create person: person, path: filename, (err)->
+    Person.findOne slug: req.params.slug
+    .then (person) ->
+      # error handle
+      return next status: 404, message: "Person not found" if not person?
+      # Get folder
+      Folder.findOne person: person, name: req.params.foldername
+      .then (folder) ->
+        # error handle
+        if req.params.foldername and not folder?
+          return next status: 404, message: "Folder not found"
+        # get uploaded file's path
+        file = req.files.file
+        # get file extension
+        ext = path.extname file.path
+        # make new path
+        dir = req.params.slug + "/"
+        dir += "#{folder.name}/" if folder?
+        mkdirp config.MEDIA_ROOT + dir, ->
+          # generate filename based in timestamp
+          # for example: `mick-jagger/2016-04-28_09:52:11:123.jpeg`
+          filename = dir + moment().format 'Y-MM-DD_HH:mm:ss:SSS' + ext
+          dest = config.MEDIA_ROOT + filename
+          # move image to new folder
+          mv file.path, dest, (err) ->
             return next err if err
-            # send relative path of image
-            res.status 201
-            res.send config.MEDIA_PATH + filename
+            # asociate person with image
+            image = new Image
+              person: person
+              path: filename
+              folder: folder if folder?
+            image.save().then ->
+              # send relative path of image
+              res.status 201
+              res.send config.MEDIA_PATH + filename
+    , (err) -> next err
 
   # list
   # --------------------------------------------------------------------------
