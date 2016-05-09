@@ -116,27 +116,28 @@ module.exports =
   update: (req, res, next) ->
     delete req.body._id
     Image.update _id: req.params.id, req.body, (err) ->
-    Image.findById req.params.id
-    .populate('person folder')
-    # success
-    .then (image) ->
-      if image.folder?
-        # update the image's path in filesystem
-        filename = /.*\/(.*)$/.exec(image.path)[1]
-        dir = "#{image.person.slug}/#{image.folder.name}/"
-        dest = config.MEDIA_ROOT + dir + filename
-        mkdirp config.MEDIA_ROOT + dir, ->
-          mv image.path, dest, (err) ->
-            return next err if err
-            # save the new path
-            image.path = dir + filename
-            image.save (err)->
-              # send updated image
+      return next err if err
+      Image.findById req.params.id
+      .populate('person folder')
+      # success
+      .then (image) ->
+        if image.folder?
+          # update the image's path in filesystem
+          filename = /.*\/(.*)$/.exec(image.path)[1]
+          dir = "#{image.person.slug}/#{image.folder.name}/"
+          dest = config.MEDIA_ROOT + dir + filename
+          mkdirp config.MEDIA_ROOT + dir, ->
+            mv image.path, dest, (err) ->
               return next err if err
-              res.status 204
-              res.send(image)
-      else
-        res.status 204
-        res.send(image)
-    # error
-    , (err) -> next err
+              # save the new path
+              image.path = dir + filename
+              image.save (err)->
+                # send updated image
+                return next err if err
+                res.status 204
+                res.send(image)
+        else
+          res.status 204
+          res.send(image)
+      # error
+      , (err) -> next err
