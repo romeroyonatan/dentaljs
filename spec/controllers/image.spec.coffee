@@ -154,6 +154,7 @@ describe "Image uploads tests", ->
         req.params.id = image._id
         req.body = image
         req.body.folder = folder._id
+        delete req.body._id
         # prepare expects
         res.send = (data) ->
           Image.findOne _id = data._id, (err, image) ->
