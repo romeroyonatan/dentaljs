@@ -12,11 +12,10 @@ Image = require '../models/image'
 config = require '../config'
 
 module.exports =
-
-  # create
+  # validate
   # --------------------------------------------------------------------------
-  # Upload image and associate its with person
-  create: (req, res, next) ->
+  # Validate upload file
+  validate: (req, res, next) ->
     # Get person
     Person.findOne slug: req.params.slug, (err, person)->
       # get uploaded file
@@ -34,6 +33,15 @@ module.exports =
       if not is_image
         fs.unlink file.path
         return next status: 400, message: "Invalid filetype"
+
+  # create
+  # --------------------------------------------------------------------------
+  # Upload image and associate its with person
+  create: (req, res, next) ->
+    # Get person
+    Person.findOne slug: req.params.slug, (err, person)->
+      # get uploaded file
+      file = req.files.file
       # get file extension
       ext = path.extname file.path
       # make new path
@@ -58,12 +66,10 @@ module.exports =
   # --------------------------------------------------------------------------
   # Obtains the list of images associated with person
   list: (req, res, next) ->
-    console.log req.params
     Person.findOne slug: req.params.slug, (err, person) ->
       # handle errors
       return next err if err
       return next {status: 404, message: "Not found"} if not person?
-      console.log person
       Image.find person: person._id
       # remove person from list
       .select '-person'

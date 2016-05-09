@@ -76,7 +76,7 @@ describe "Image uploads tests", ->
         headers: 'content-type': 'application/javascript'
 
     # call controller
-    controller.create req, res, (err) ->
+    controller.validate req, res, (err) ->
       # check error
       expect(err.status).toEqual 400
       expect(fs.existsSync(filepath)).toBe false
@@ -94,7 +94,7 @@ describe "Image uploads tests", ->
         headers: 'content-type': 'image/jpeg'
 
     # call controller
-    controller.create req, res, (err) ->
+    controller.validate req, res, (err) ->
       # check error
       expect(err.status).toEqual 404
       expect(fs.existsSync(filepath)).toBe false
