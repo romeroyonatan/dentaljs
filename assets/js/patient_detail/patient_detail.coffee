@@ -18,7 +18,7 @@ angular.module('dentaljs.patient_detail', ['ngRoute', 'ngFileUpload'])
       # Upload photo
       if file
         file.upload = Upload.upload
-          url: "/persons/#{$routeParams.slug}/photos"
+          url: "/images/#{$routeParams.slug}"
           method: 'POST'
           file: file
 

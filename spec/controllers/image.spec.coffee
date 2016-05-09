@@ -1,6 +1,6 @@
 fs = require 'fs'
 mkdirp = require 'mkdirp'
-controller = require '../../.app/controllers/person'
+controller = require '../../.app/controllers/image'
 Person = require  '../../.app/models/person'
 Image = require  '../../.app/models/image'
 config = require "../../.app/config"
@@ -62,7 +62,7 @@ describe "Image uploads tests", ->
         expect(config.MEDIA_ROOT + image.path).toEqual path
         done()
     # call controller
-    controller.uploadImage req, res, (err) -> done.fail err
+    controller.create req, res, (err) -> done.fail err
 
   it 'should upload a non image file', (done) ->
     # create an empty file
@@ -76,7 +76,7 @@ describe "Image uploads tests", ->
         headers: 'content-type': 'application/javascript'
 
     # call controller
-    controller.uploadImage req, res, (err) ->
+    controller.create req, res, (err) ->
       # check error
       expect(err.status).toEqual 400
       expect(fs.existsSync(filepath)).toBe false
@@ -94,7 +94,7 @@ describe "Image uploads tests", ->
         headers: 'content-type': 'image/jpeg'
 
     # call controller
-    controller.uploadImage req, res, (err) ->
+    controller.create req, res, (err) ->
       # check error
       expect(err.status).toEqual 404
       expect(fs.existsSync(filepath)).toBe false
@@ -124,7 +124,7 @@ describe "Image uploads tests", ->
         expect(data.indexOf 'test5.jpg').toEqual -1
         done()
       # call controller
-      controller.listImages req, res, (err) -> done.fail err
+      controller.list req, res, (err) -> done.fail err
 
   xit 'should remove an image', ->
     # create empty file
