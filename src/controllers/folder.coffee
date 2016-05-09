@@ -62,17 +62,18 @@ module.exports =
         # get childs
         folder.childs = []
         # find for images
-        Image.find folder: folder._id
-        .then (images) ->
+        Image.find(folder: folder._id).then (images) ->
           folder.childs = folder.childs.concat images
           res.send folder
 
   # remove
   # --------------------------------------------------------------------------
-  # Remove a exiting folder
+  # Remove a exiting folder and its childs
   remove: (req, res, next) ->
-    Folder.findOneAndRemove _id: req.params.id, (err, object) ->
+    Folder.findOneAndRemove _id: req.params.id, (err, folder) ->
       return next err if err
-      return next status: 404, message: 'Not found' if not object?
-      res.status 204
-      res.end()
+      return next status: 404, message: 'Not found' if not folder?
+      Image.remove(folder: folder._id).then (images) ->
+        res.status 204
+        res.end()
+      , (err) -> return next err
