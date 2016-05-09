@@ -45,7 +45,7 @@ module.exports =
       # get file extension
       ext = path.extname file.path
       # make new path
-      folder = req.params.slug + '/'
+      folder = req.params.slug + '/' # + req.params.folder?.name
       mkdirp config.MEDIA_ROOT + folder, ->
         # generate filename based in timestamp
         # for example: `mick-jagger/2016-04-28_09:52:11.jpeg`
@@ -83,7 +83,7 @@ module.exports =
 
   # remove
   # --------------------------------------------------------------------------
-  # Remove a exiting person
+  # Remove an exiting image
   remove: (req, res, next) ->
     Image.remove _id: req.params.id
     # success
@@ -91,5 +91,34 @@ module.exports =
       fs.unlink image.path, ->
         res.status 204
         res.end()
+    # error
+    , (err) -> next err
+
+  # update
+  # --------------------------------------------------------------------------
+  # update an exiting image
+  update: (req, res, next) ->
+    Image.findByIdAndUpdate req.params.id, req.body, new: true
+    .populate('person folder')
+    # success
+    .then (image) ->
+      if image.folder?
+        # update the image's path in filesystem
+        filename = /.*\/(.*)$/.exec(image.path)[1]
+        dir = "#{image.person.slug}/#{image.folder.name}/"
+        dest = config.MEDIA_ROOT + dir + filename
+        mkdirp config.MEDIA_ROOT + dir, ->
+          mv image.path, dest, (err) ->
+            return next err if err
+            # save the new path
+            image.path = dir + filename
+            image.save (err)->
+              # send updated image
+              return next err if err
+              res.status 204
+              res.send(image)
+      else
+        res.status 204
+        res.send(image)
     # error
     , (err) -> next err

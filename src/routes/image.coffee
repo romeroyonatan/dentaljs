@@ -10,5 +10,6 @@ router.post '/:slug', multipartMiddleware, controller.validate,
                       controller.create
 router.get '/:slug', controller.list
 router.remove '/:id', controller.remove
+router.put '/:id', controller.update
 
 module.exports = router

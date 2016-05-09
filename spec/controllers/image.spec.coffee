@@ -3,6 +3,7 @@ mkdirp = require 'mkdirp'
 controller = require '../../.app/controllers/image'
 Person = require  '../../.app/models/person'
 Image = require  '../../.app/models/image'
+Folder = require  '../../.app/models/folder'
 config = require "../../.app/config"
 
 describe "Image uploads tests", ->
@@ -141,5 +142,28 @@ describe "Image uploads tests", ->
       # call controller
       controller.remove req, res, (err) -> done.fail err
 
-  xit 'should move image to an user´s folder', (done)->
+  it 'should move image to an user´s folder', (done)->
+    # create empty file
+    filepath = config.MEDIA_ROOT + "test.jpg"
+    fs.closeSync fs.openSync filepath, 'w'
+    # create image
+    Image.create person: person, path: filepath, (err, image)->
+      # create folder
+      Folder.create person: person, name: 'foo', (err, folder)->
+        # prepare request
+        req.params.id = image._id
+        req.body = image
+        req.body.folder = folder._id
+        # prepare expects
+        res.send = (data) ->
+          Image.findOne _id = data._id, (err, image) ->
+            expect(image.folder).toEqual folder._id
+            expect(image.path.indexOf 'foo').toBeGreaterThan 0
+            expect(fs.existsSync(filepath)).toBe false
+            expect(fs.existsSync(config.MEDIA_ROOT + image.path)).toBe true
+            done()
+        # call controller
+        controller.update req, res, (err) -> done.fail err
+
+  xit 'should upload an image into folder', (done)->
   xit 'should remove user´s folder and remove all images', (done)->
