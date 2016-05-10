@@ -5,16 +5,21 @@ angular.module('dentaljs.patient_gallery', ['ngRoute', 'ngFileUpload',
   $routeProvider.when '/patients/:slug/gallery',
     templateUrl: '/partials/patient_gallery/patient_gallery.html'
     controller: 'PatientGalleryCtrl'
+  $routeProvider.when '/patients/:slug/gallery/:folder*',
+    templateUrl: '/partials/patient_gallery/patient_gallery.html'
+    controller: 'PatientGalleryCtrl'
 ]
 
 .controller 'PatientGalleryCtrl', [
   "$scope", "$routeParams", "$http", "$route", "$uibModal", "Upload", "Person",
   ($scope, $routeParams, $http, $route, $uibModal, Upload, Person) ->
+    folder = $routeParams.folder
 
     # Get patient gallery
     $scope.patient = Person.get slug: $routeParams.slug, ->
-      $http.get("/images/#{$scope.patient.slug}").then (res)->
-        $scope.gallery = res.data
+      url = "/images/#{$scope.patient.slug}"
+      url += "/" + folder if folder?
+      $http.get(url).then (res)-> $scope.gallery = res.data
 
     # Upload photo to gallery
     $scope.uploadPhoto = (file, errFiles) ->

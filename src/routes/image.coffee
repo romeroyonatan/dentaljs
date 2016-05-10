@@ -12,6 +12,7 @@ router.post '/:slug/:foldername', multipartMiddleware,
                                   controller.validate,
                                   controller.create
 router.get '/:slug', controller.list
+router.get '/:slug/:foldername', controller.list
 router.delete '/:id', controller.remove
 router.put '/:id', controller.update
 

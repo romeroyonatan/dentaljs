@@ -86,14 +86,22 @@ module.exports =
       # handle errors
       return next err if err
       return next {status: 404, message: "Not found"} if not person?
-      Image.find person: person._id
-      # remove person from list
-      .select '-person'
-      # success
-      .then (list)->
-        # append media path to path
-        object.path = config.MEDIA_PATH + object.path for object in list
-        res.send list
+      Folder.findOne person: person, name: req.params.foldername
+      .then (folder) ->
+        # Folder doesnt exists
+        if req.params.foldername and not folder?
+          return next status: 404, message: "Folder not found"
+        filter =
+          person: person
+          folder: folder if folder?
+        Image.find filter
+        # remove person from list
+        .select '-person'
+        # success
+        .then (list)->
+          # append media path to path
+          object.path = config.MEDIA_PATH + object.path for object in list
+          res.send list
       # error
       , (err)-> next err
 
