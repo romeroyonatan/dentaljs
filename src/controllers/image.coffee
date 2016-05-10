@@ -115,10 +115,17 @@ module.exports =
   # update an exiting image
   update: (req, res, next) ->
     req.body._id = undefined
+    # get folder object
     Folder.findById(req.body.folder).then (folder) ->
+      # update image
       Image.findByIdAndUpdate req.params.id, req.body
       .populate('person folder')
       .then (image) ->
+        # error handle
+        return next status: 404, message: "Image not found" if not image?
+        if req.body.folder and not folder?
+          return next status: 404, message: "Folder not found"
+        # if folder change, move file in filesystem
         if req.body.folder isnt image.folder
           # update the image's path in filesystem
           filename = /.*\/(.*)$/.exec(image.path)[1]

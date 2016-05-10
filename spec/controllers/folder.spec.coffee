@@ -30,6 +30,15 @@ describe "Folder tests", ->
     # call controller
     controller.create req, res, (err) -> done.fail err
 
+  it 'should fail when name contains illegal characters', (done)->
+    # prepare request
+    req.body = name: "../../folder"
+    req.params.slug = person.slug
+    # call controller
+    controller.create req, res, (err) ->
+      expect(err.name).toEqual "ValidationError"
+      done()
+
   it 'should list folders', (done)->
     # create folders
     folders = [
