@@ -115,27 +115,28 @@ module.exports =
   # update an exiting image
   update: (req, res, next) ->
     req.body._id = undefined
-    Image.findByIdAndUpdate req.params.id, req.body, new: true
-    .populate('person folder')
-    # success
-    .then (image) ->
-      if image.folder?
-        # update the image's path in filesystem
-        filename = /.*\/(.*)$/.exec(image.path)[1]
-        dir = "#{image.person.slug}/#{image.folder.name}/"
-        dest = config.MEDIA_ROOT + dir + filename
-        mkdirp config.MEDIA_ROOT + dir, ->
-          mv image.path, dest, (err) ->
-            return next err if err
-            # save the new path
-            image.path = dir + filename
-            image.save (err)->
-              # send updated image
+    Folder.findById(req.body.folder).then (folder) ->
+      Image.findByIdAndUpdate req.params.id, req.body
+      .populate('person folder')
+      .then (image) ->
+        if req.body.folder isnt image.folder
+          # update the image's path in filesystem
+          filename = /.*\/(.*)$/.exec(image.path)[1]
+          relative_path = image.person.slug + "/"
+          relative_path += folder.name + "/" if folder?
+          absolute_path = config.MEDIA_ROOT + relative_path + filename
+          mkdirp config.MEDIA_ROOT + relative_path, ->
+            mv image.path, absolute_path, (err) ->
               return next err if err
-              res.status 204
-              res.send(image)
-      else
-        res.status 204
-        res.send(image)
+              # save the new path
+              image.path = relative_path + filename
+              image.save (err)->
+                # send updated image
+                return next err if err
+                res.status 204
+                res.send(image)
+        else
+          res.status 204
+          res.send(image)
     # error
     , (err) -> next err
