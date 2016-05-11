@@ -16,9 +16,9 @@ describe 'dentaljs.patient_gallery module', ->
     $httpBackend.whenGET("/persons/foo").respond 200, _id: 'abcxyz'
     $httpBackend.whenGET("/images/foo").respond 200, _id: 'abcxyz'
     $httpBackend.whenGET("/folders/foo").respond 200, _id: 'abcxyz'
-    controller = $controller 'PatientGalleryCtrl',
-                             '$routeParams': slug: 'foo'
-                             '$scope': $scope
+    $controller 'PatientGalleryCtrl',
+                '$routeParams': slug: 'foo'
+                '$scope': $scope
     $scope.patient = slug: 'foo'
 
   it 'should upload a photo', ->
@@ -54,7 +54,10 @@ describe 'dentaljs.patient_gallery module', ->
     $scope.move [_id: 'bar'], 'biz'
     $httpBackend.flush()
 
-  xit 'should show image of determinated folder', ->
-    $httpBackend.expectGET("/folder/foo/foldername").respond 201
-    $scope.folder = _id: 'biz', name: 'foldername'
+  it 'should show image of determinated folder', ->
+    $httpBackend.expectGET("/images/foo/test").respond 201
+    $controller 'PatientGalleryCtrl',
+                '$routeParams': slug: 'foo', folder: 'test'
+                '$scope': $scope
+    $scope.patient = slug: 'foo'
     $httpBackend.flush()
