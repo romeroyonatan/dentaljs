@@ -18,6 +18,12 @@ angular.module('dentaljs.patient_gallery', ['ngRoute', 'ngFileUpload',
   ($scope, $routeParams, $http, $route, $uibModal, Upload, Person) ->
     foldername = $scope.foldername = $routeParams.folder
 
+    # Get folder details
+    if foldername
+      $http.get "/folders/#{$routeParams.slug}/#{$routeParams.folder}"
+      .then (res) ->
+        $scope.folder = res.data
+
     # get patient
     patient = $scope.patient = Person.get slug: $routeParams.slug, ->
       url = "/images/#{$scope.patient.slug}"
@@ -39,13 +45,18 @@ angular.module('dentaljs.patient_gallery', ['ngRoute', 'ngFileUpload',
 
     # Upload photo to gallery
     $scope.uploadPhoto = (file, errFiles) ->
+      console.log file
       $scope.f = file
       $scope.errFile = errFiles && errFiles[0]
 
       # Upload photo
       if file
+        if $scope.folder?
+          url = "/images/#{$routeParams.slug}/#{$scope.folder._id}"
+        else
+          url = "/images/#{$routeParams.slug}"
         file.upload = Upload.upload
-          url: "/images/#{$routeParams.slug}"
+          url: url
           method: 'POST'
           file: file
 

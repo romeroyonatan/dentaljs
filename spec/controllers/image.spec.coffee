@@ -174,7 +174,7 @@ describe "Image uploads tests", ->
       # prepare request
       req.params =
         slug: person.slug
-        foldername: 'foo'
+        folderId: folder._id
       req.files = file: path: filepath
       # prepare response and expects
       res.send = (data) ->

@@ -55,6 +55,7 @@ describe 'dentaljs.patient_gallery module', ->
     $httpBackend.flush()
 
   it 'should show image of determinated folder', ->
+    $httpBackend.expectGET("/folders/foo/test").respond 201
     $httpBackend.expectGET("/images/foo/test").respond 201
     $controller 'PatientGalleryCtrl',
                 '$routeParams': slug: 'foo', folder: 'test'

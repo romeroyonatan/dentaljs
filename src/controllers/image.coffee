@@ -47,10 +47,10 @@ module.exports =
       # if person not found
       return next status: 404, message: "Person not found" if not person?
       # Get folder
-      Folder.findOne person: person, name: req.params.foldername
+      Folder.findOne person: person, _id: req.params.folderId
       .then (folder) ->
         # if folder not found
-        if req.params.foldername? and not folder?
+        if req.params.foldernId? and not folder?
           return next status: 404, message: "Folder not found"
         # get uploaded file's path
         file = req.files.file

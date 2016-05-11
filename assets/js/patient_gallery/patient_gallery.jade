@@ -19,7 +19,7 @@ block content
     .btn-group
       button.btn.btn-default(
         type='file'
-        ngf-select="uploadphoto($file, $invalidfiles)"
+        ngf-select="uploadPhoto($file, $invalidfiles)"
         accept="image/*")
         i.fa.fa-camera
         |  Subir foto
@@ -36,10 +36,11 @@ block content
   //- XXX Por ahora solamente voy a soportar carpetas en un solo nivel  xxx
   //- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
   .row
-    .col-md-12(ng-if="foldername")
-      a(ng-href="#/patients/{{patient.slug}}/gallery/{{folder.name}}")
+    .col-md-3(ng-if="foldername")
+      a(ng-href="#/patients/{{patient.slug}}/gallery/")
         i.fa.fa-arrow-left
-    .col-md-12(ng-repeat="folder in folders|orderBy:'name'" ng-if="!foldername")
+        |  Volver
+    .col-md-3(ng-repeat="folder in folders|orderBy:'name'" ng-if="!foldername")
       a(ng-href="#/patients/{{patient.slug}}/gallery/{{folder.name}}")
         i.fa.fa-folder
         |  {{ folder.name }}
