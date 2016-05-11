@@ -19,11 +19,34 @@ block content
     .btn-group
       button.btn.btn-default(
         type='file'
-        ngf-select="uploadPhoto($file, $invalidFiles)"
+        ngf-select="uploadphoto($file, $invalidfiles)"
         accept="image/*")
         i.fa.fa-camera
         |  Subir foto
-        
+      //- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+      //- XXX Por ahora solamente voy a soportar carpetas en un solo nivel  xxx
+      //- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+      button.btn.btn-default(ng-click="createFolder()" ng-disabled="foldername")
+        i.fa.fa-folder
+        |  Crear carpeta
+  hr
+  //- ------------------------------------------------------------------------
+  //- Folders
+  //- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  //- XXX Por ahora solamente voy a soportar carpetas en un solo nivel  xxx
+  //- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  .row
+    .col-md-12(ng-if="foldername")
+      a(ng-href="#/patients/{{patient.slug}}/gallery/{{folder.name}}")
+        i.fa.fa-arrow-left
+    .col-md-12(ng-repeat="folder in folders|orderBy:'name'" ng-if="!foldername")
+      a(ng-href="#/patients/{{patient.slug}}/gallery/{{folder.name}}")
+        i.fa.fa-folder
+        |  {{ folder.name }}
+  hr
+  .row
+    .col-md-12
+      h3(ng-bind="foldername|uppercase")
   //- ------------------------------------------------------------------------
   //- Gallery
   .row

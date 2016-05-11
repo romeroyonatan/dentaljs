@@ -15,6 +15,7 @@ describe 'dentaljs.patient_gallery module', ->
 
     $httpBackend.whenGET("/persons/foo").respond 200, _id: 'abcxyz'
     $httpBackend.whenGET("/images/foo").respond 200, _id: 'abcxyz'
+    $httpBackend.whenGET("/folders/foo").respond 200, _id: 'abcxyz'
     controller = $controller 'PatientGalleryCtrl',
                              '$routeParams': slug: 'foo'
                              '$scope': $scope
@@ -37,7 +38,7 @@ describe 'dentaljs.patient_gallery module', ->
     $scope.removePhoto _id: 'bar'
     $httpBackend.flush()
 
-  xit 'should create a folder', ->
+  it 'should create a folder', ->
     $httpBackend.expectPOST("/folders/foo").respond 201
     $scope.createFolder 'foldername'
     $httpBackend.flush()

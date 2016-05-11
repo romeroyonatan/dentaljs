@@ -1,3 +1,6 @@
+###
+# XXX Por ahora solamente voy a soportar carpetas en un solo nivel
+###
 angular.module('dentaljs.patient_gallery', ['ngRoute', 'ngFileUpload',
                                             'ui.bootstrap'])
 
@@ -13,13 +16,26 @@ angular.module('dentaljs.patient_gallery', ['ngRoute', 'ngFileUpload',
 .controller 'PatientGalleryCtrl', [
   "$scope", "$routeParams", "$http", "$route", "$uibModal", "Upload", "Person",
   ($scope, $routeParams, $http, $route, $uibModal, Upload, Person) ->
-    folder = $routeParams.folder
+    foldername = $scope.foldername = $routeParams.folder
 
-    # Get patient gallery
-    $scope.patient = Person.get slug: $routeParams.slug, ->
+    # get patient
+    patient = $scope.patient = Person.get slug: $routeParams.slug, ->
       url = "/images/#{$scope.patient.slug}"
-      url += "/" + folder if folder?
-      $http.get(url).then (res)-> $scope.gallery = res.data
+      url += "/" + foldername if foldername?
+      # Get patient's gallery
+      $http.get(url).then (res) -> $scope.gallery = res.data
+      # Get patient's folders
+      $http.get("/folders/#{$routeParams.slug}").then (res) ->
+        $scope.folders = res.data
+
+    # Create a folder
+    $scope.createFolder = (foldername) ->
+      if not foldername
+        foldername = window.prompt "Ingrese nombre de la carpeta"
+      $http.post "/folders/#{$routeParams.slug}", name: foldername
+      .then (res) ->
+        $http.get("/folders/#{$routeParams.slug}").then (res) ->
+          $scope.folders = res.data
 
     # Upload photo to gallery
     $scope.uploadPhoto = (file, errFiles) ->
