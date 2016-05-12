@@ -143,12 +143,12 @@ describe "Image uploads tests", ->
       # call controller
       controller.remove req, res, (err) -> done.fail err
 
-  it 'should move image to an user´s folder', (done)->
+  xit 'should move image to an user´s folder', (done)->
     # create empty file
     filepath = config.MEDIA_ROOT + "test.jpg"
     fs.closeSync fs.openSync filepath, 'w'
     # create image
-    Image.create person: person, path: filepath, (err, image)->
+    Image.create person: person, path: "test.jpg", (err, image)->
       # create folder
       Folder.create person: person, name: 'foo', (err, folder)->
         # prepare request
@@ -159,6 +159,7 @@ describe "Image uploads tests", ->
         # prepare expects
         res.send = (data) ->
           Image.findOne _id = data._id, (err, image) ->
+            return done.fail err if err
             expect(image.folder).toEqual folder._id
             expect(image.path.indexOf 'foo').toBeGreaterThan 0
             expect(fs.existsSync(filepath)).toBe false

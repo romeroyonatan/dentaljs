@@ -120,17 +120,21 @@ module.exports =
   # --------------------------------------------------------------------------
   # update an exiting image
   update: (req, res, next) ->
+    # delete id for update
     req.body._id = undefined
+    delete req.body._id
     # get folder object
-    Folder.findById(req.body.folder).then (folder) ->
+    Folder.findById req.body.folder, (err, folder) ->
+      # error handle
+      return next err if err
+      if req.body.folder and not folder?
+        return next status: 404, message: "Folder not found"
       # update image
       Image.findByIdAndUpdate req.params.id, req.body
       .populate('person folder')
       .then (image) ->
         # error handle
         return next status: 404, message: "Image not found" if not image?
-        if req.body.folder and not folder?
-          return next status: 404, message: "Folder not found"
         # if folder change, move file in filesystem
         if req.body.folder isnt image.folder
           # update the image's path in filesystem
@@ -138,8 +142,9 @@ module.exports =
           relative_path = image.person.slug + "/"
           relative_path += folder.name + "/" if folder?
           absolute_path = config.MEDIA_ROOT + relative_path + filename
-          mkdirp config.MEDIA_ROOT + relative_path, ->
-            mv image.path, absolute_path, (err) ->
+          mkdirp config.MEDIA_ROOT + relative_path, (err) ->
+            return next err if err
+            mv config.MEDIA_ROOT + image.path, absolute_path, (err) ->
               return next err if err
               # save the new path
               image.path = relative_path + filename
@@ -147,9 +152,9 @@ module.exports =
                 # send updated image
                 return next err if err
                 res.status 204
-                res.send(image)
+                res.send image
         else
           res.status 204
-          res.send(image)
-    # error
-    , (err) -> next err
+          res.send image
+      # error handle
+      , (err) -> return next err

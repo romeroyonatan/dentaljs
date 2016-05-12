@@ -47,10 +47,10 @@ describe 'dentaljs.patient_gallery module', ->
     $scope.removeFolder _id: 'biz'
     $httpBackend.flush()
 
-  xit 'should move image to folder', ->
-    $httpBackend.expectPUT("/images/foo", (data) -> /folder=biz/.test data)
+  it 'should move image to folder', ->
+    $httpBackend.expectPUT("/images/id_image", (data) -> /id_folder/.test data)
                 .respond 201
-    $scope.move [_id: 'bar'], 'biz'
+    $scope.move {_id: 'id_image'}, {_id: 'id_folder'}
     $httpBackend.flush()
 
   it 'should show image of determinated folder', ->

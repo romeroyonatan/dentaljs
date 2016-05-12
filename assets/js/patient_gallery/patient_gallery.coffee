@@ -1,8 +1,8 @@
 ###
 # XXX Por ahora solamente voy a soportar carpetas en un solo nivel
 ###
-angular.module('dentaljs.patient_gallery', ['ngRoute', 'ngFileUpload',
-                                            'ui.bootstrap', 'angular-confirm'])
+angular.module('dentaljs.patient_gallery',
+  ['ngRoute', 'ngFileUpload', 'ui.bootstrap', 'angular-confirm'])
 
 .config ['$routeProvider', ($routeProvider) ->
   $routeProvider.when '/patients/:slug/gallery',
@@ -14,8 +14,9 @@ angular.module('dentaljs.patient_gallery', ['ngRoute', 'ngFileUpload',
 ]
 
 .controller 'PatientGalleryCtrl', [
-  "$scope", "$routeParams", "$http", "$route", "$uibModal", "Upload", "Person",
-  ($scope, $routeParams, $http, $route, $uibModal, Upload, Person) ->
+  "$scope", "$routeParams", "$http", "$route", "$location", "$uibModal",
+  "Upload", "Person",
+  ($scope, $routeParams, $http, $route, $location, $uibModal, Upload, Person)->
     foldername = $scope.foldername = $routeParams.folder
 
     # Get folder details
@@ -94,26 +95,69 @@ angular.module('dentaljs.patient_gallery', ['ngRoute', 'ngFileUpload',
     # remove selected photos
     # ----------------------------------------------------------------------
     $scope.removePhoto = (photos) ->
-      if photos instanceof Object
-        photos = [photos]
+      # convert photos into array
+      photos = [photos] if photos instanceof Object
       for photo in photos
         $http.delete("/images/#{photo._id}").then ->
           toastr.success "Se eliminó la foto: #{photo.path}"
           $route.reload()
+        .catch ->
+          toastr.error "Hubo un problema al eliminar la foto" + photo.path
 
     # remove selected folders
     # ----------------------------------------------------------------------
     $scope.removeFolder = (folders) ->
-      if folders instanceof Object
-        folders = [folders]
+      # convert folders into array
+      folders = [folders] if folders instanceof Object
       for folder in folders
         $http.delete("/folders/#{folder._id}").then ->
           toastr.success "Se eliminó la carpeta: #{folder.name}"
           $route.reload()
+
+    # Choose folder where photo will be moved
+    # ----------------------------------------------------------------------
+    $scope.movePhoto = (photo) ->
+      # open modal to select destination folder
+      modal = $uibModal.open
+        templateUrl: 'partials/patient_gallery/modal_folder.html'
+        controller: 'ModalFolderCtrl',
+        size: 'lg'
+        resolve:
+          folders: -> $scope.folders
+      # after select folder, move photo
+      modal.result.then (folder)-> $scope.move photo, folder
+
+    # Move photo to folder
+    # ----------------------------------------------------------------------
+    $scope.move = (photos, folder) ->
+      # Convert photo into array if it is necesary
+      photos = [photos] if photos instanceof Object
+      # Update photo objects
+      for photo in photos
+        photo.folder = folder._id
+        $http.put("/images/" + photo._id, photo).then ->
+          toastr.success "#{photo.path} movida a la carpeta #{folder.name}"
+      $route.reload()
 ]
 
+# Modal: View photo
+# ========================================================================
 .controller 'ModalPhotoCtrl', ['$scope', '$uibModalInstance', 'photo',
   ($scope, $uibModalInstance, photo) ->
+    # Set photo to show
     $scope.photo = photo
+    # Dismiss modal
+    $scope.close = -> $uibModalInstance.dismiss 'close'
+]
+
+# Modal: Select folder
+# =========================================================================
+.controller 'ModalFolderCtrl', ['$scope', '$uibModalInstance', 'folders',
+  ($scope, $uibModalInstance, folders) ->
+    # Set folders
+    $scope.folders = folders
+    # When select a item return folder
+    $scope.select = (folder)-> $uibModalInstance.close folder
+    # Dismiss modal
     $scope.close = -> $uibModalInstance.dismiss 'close'
 ]
