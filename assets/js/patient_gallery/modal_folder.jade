@@ -6,6 +6,10 @@ include ../mixins/form.jade
   h4.modal-title Seleccione la carpeta de destino
 .modal-body
   ul
+    li
+      i.fa.fa-folder
+      a(ng-click="select('root')") Principal
+  ul
     li(ng-repeat="folder in folders|orderBy:'name'")
       i.fa.fa-folder
       a(ng-click="select(folder)" ng-bind="' ' + folder.name")

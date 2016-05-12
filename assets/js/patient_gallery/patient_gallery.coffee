@@ -50,6 +50,7 @@ angular.module('dentaljs.patient_gallery',
             toastr.success "Se creó la carpeta #{foldername}"
         .catch ->
           toastr.error "No se pudo crear la carpeta #{foldername}"
+          $route.reload()
 
     # Upload photo to gallery
     # ----------------------------------------------------------------------
@@ -103,6 +104,7 @@ angular.module('dentaljs.patient_gallery',
           $route.reload()
         .catch ->
           toastr.error "Hubo un problema al eliminar la foto" + photo.path
+          $route.reload()
 
     # remove selected folders
     # ----------------------------------------------------------------------
@@ -112,6 +114,9 @@ angular.module('dentaljs.patient_gallery',
       for folder in folders
         $http.delete("/folders/#{folder._id}").then ->
           toastr.success "Se eliminó la carpeta: #{folder.name}"
+          $route.reload()
+        .catch ->
+          toastr.error "Hubo un problema al eliminar la foto" + photo.path
           $route.reload()
 
     # Choose folder where photo will be moved
@@ -132,6 +137,10 @@ angular.module('dentaljs.patient_gallery',
     $scope.move = (photos, folder) ->
       # Convert photo into array if it is necesary
       photos = [photos] if photos instanceof Object
+      if folder is 'root'
+        folder =
+          _id: undefined
+          name: "principal"
       # Update photo objects
       for photo in photos
         photo.folder = folder._id

@@ -120,25 +120,26 @@ module.exports =
   # --------------------------------------------------------------------------
   # update an exiting image
   update: (req, res, next) ->
-    # delete id for update
-    req.body._id = undefined
-    delete req.body._id
+    # preparing for update
+    object =
+      folder: req.body.folder
+      description: req.body.description
     # get folder object
-    Folder.findById req.body.folder, (err, folder) ->
+    Folder.findById object.folder, (err, folder) ->
       # error handle
       return next err if err
-      if req.body.folder and not folder?
+      if object.folder and not folder?
         return next status: 404, message: "Folder not found"
       # update image
-      Image.findByIdAndUpdate req.params.id, req.body
-      .populate('person folder')
+      Image.findByIdAndUpdate req.params.id, object
+      .populate('person')
       .then (image) ->
         # error handle
         return next status: 404, message: "Image not found" if not image?
         # if folder change, move file in filesystem
-        if req.body.folder isnt image.folder
+        if object.folder isnt image.folder
           # update the image's path in filesystem
-          filename = /.*\/(.*)$/.exec(image.path)[1]
+          filename = /\/?(.*)$/.exec(image.path)[1]
           relative_path = image.person.slug + "/"
           relative_path += folder.name + "/" if folder?
           absolute_path = config.MEDIA_ROOT + relative_path + filename
@@ -151,10 +152,10 @@ module.exports =
               image.save (err)->
                 # send updated image
                 return next err if err
-                res.status 204
+                res.status 200
                 res.send image
         else
-          res.status 204
+          res.status 200
           res.send image
       # error handle
       , (err) -> return next err

@@ -143,7 +143,7 @@ describe "Image uploads tests", ->
       # call controller
       controller.remove req, res, (err) -> done.fail err
 
-  xit 'should move image to an user´s folder', (done)->
+  it 'should move image to an user´s folder', (done)->
     # create empty file
     filepath = config.MEDIA_ROOT + "test.jpg"
     fs.closeSync fs.openSync filepath, 'w'
@@ -155,7 +155,6 @@ describe "Image uploads tests", ->
         req.params.id = image._id
         req.body = image
         req.body.folder = folder._id
-        delete req.body._id
         # prepare expects
         res.send = (data) ->
           Image.findOne _id = data._id, (err, image) ->
