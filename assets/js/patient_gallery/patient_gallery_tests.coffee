@@ -26,9 +26,8 @@ describe 'dentaljs.patient_gallery module', ->
     $scope.uploadPhoto {}
     $httpBackend.flush()
 
-  xit 'should upload a photo into folder', ->
-    $httpBackend.expectPOST("/images/foo", (data) -> /folder=biz/.test data)
-                .respond 201
+  it 'should upload a photo into folder', ->
+    $httpBackend.expectPOST("/images/foo/biz").respond 201
     $scope.folder = _id: 'biz', name: 'foldername'
     $scope.uploadPhoto {}
     $httpBackend.flush()
