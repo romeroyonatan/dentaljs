@@ -109,14 +109,12 @@ module.exports =
   # --------------------------------------------------------------------------
   # Remove an exiting image
   remove: (req, res, next) ->
-    Image.remove _id: req.params.id
-    # success
-    .then (image) ->
-      fs.unlink config.MEDIA_ROOT + image.path, ->
+    Image.findByIdAndRemove req.params.id, (err, image) ->
+      return next err if err
+      fs.unlink config.MEDIA_ROOT + image.path, (err) ->
+        return next err if err
         res.status 204
         res.end()
-    # error
-    , (err) -> next err
 
   # update
   # --------------------------------------------------------------------------

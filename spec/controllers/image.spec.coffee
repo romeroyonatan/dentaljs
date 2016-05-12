@@ -126,17 +126,19 @@ describe "Image uploads tests", ->
       # call controller
       controller.list req, res, (err) -> done.fail err
 
-  it 'should remove an image', ->
+  it 'should remove an image', (done)->
     # create empty file
     filepath = config.MEDIA_ROOT + "test.jpg"
     fs.closeSync fs.openSync filepath, 'w'
     # create image
-    Image.create person: person, path: filepath, (err, image)->
+    Image.create person: person, path: "test.jpg", (err, image)->
       # prepare request
       req.params.id = image._id
       # prepare expects
-      res.send = (data) ->
+      res.end = () ->
         expect(fs.existsSync(filepath)).toBe false
+        Image.findById image._id, (err, image) ->
+          expect(image?).toBe false
         done()
       # call controller
       controller.remove req, res, (err) -> done.fail err
