@@ -112,7 +112,7 @@ module.exports =
     Image.remove _id: req.params.id
     # success
     .then (image) ->
-      fs.unlink image.path, ->
+      fs.unlink config.MEDIA_ROOT + image.path, ->
         res.status 204
         res.end()
     # error

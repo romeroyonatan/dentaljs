@@ -11,5 +11,10 @@ include ../mixins/form.jade
           alt="{{photo.description}}"
           title="{{photo.description}}")
 .modal-footer
-  p.text-center(ng-bind="photo.description")
-  button.btn.btn-default(type="button" ng-click="close()") Cerrar
+  .row
+    .col-md-3
+      strong(ng-bind="photo.date|date:'medium'")
+    .col-md-7
+      span.text-center(ng-bind="photo.description")
+    .col-md-2
+      button.btn.btn-default(type="button" ng-click="close()") Cerrar

@@ -54,9 +54,25 @@ block content
     .col-md-6.col-lg-4.col-sm-12.gallery(
       ng-repeat="photo in gallery|orderBy:'-date'"
     )
-      img.img-thumbnail.img-responsive.cursor-pointer(
-        ng-src="{{photo.path}}"
-        ng-click="open(photo)"
-        alt="{{photo.description}}"
-        title="{{photo.description}}"
-      )
+      .row
+        .col-md-9
+          h4(ng-bind="photo.date|date:'short'")
+        .col-md-3
+          .btn-group
+            button.btn.btn-xs.btn-default(
+              ng-click="movePhoto(photo)"
+              title="Mover a otra carpeta"
+            ) Mover
+            button.btn.btn-xs.btn-danger(
+              ng-click="removePhoto(photo)"
+              confirm="¿Está seguro que quiere eliminar esta foto?"
+              title="Eliminar"
+            ) x
+        .col-md-12
+          img.img-thumbnail.img-responsive.cursor-pointer(
+            ng-src="{{photo.path}}"
+            ng-click="open(photo)"
+            alt="{{photo.description}}"
+            title="{{photo.description}}"
+          )
+          

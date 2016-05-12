@@ -2,7 +2,7 @@
 # XXX Por ahora solamente voy a soportar carpetas en un solo nivel
 ###
 angular.module('dentaljs.patient_gallery', ['ngRoute', 'ngFileUpload',
-                                            'ui.bootstrap'])
+                                            'ui.bootstrap', 'angular-confirm'])
 
 .config ['$routeProvider', ($routeProvider) ->
   $routeProvider.when '/patients/:slug/gallery',
@@ -19,12 +19,14 @@ angular.module('dentaljs.patient_gallery', ['ngRoute', 'ngFileUpload',
     foldername = $scope.foldername = $routeParams.folder
 
     # Get folder details
+    # ----------------------------------------------------------------------
     if foldername
       $http.get "/folders/#{$routeParams.slug}/#{$routeParams.folder}"
       .then (res) ->
         $scope.folder = res.data
 
     # get patient
+    # ----------------------------------------------------------------------
     patient = $scope.patient = Person.get slug: $routeParams.slug, ->
       url = "/images/#{$scope.patient.slug}"
       url += "/" + foldername if foldername?
@@ -35,17 +37,22 @@ angular.module('dentaljs.patient_gallery', ['ngRoute', 'ngFileUpload',
         $scope.folders = res.data
 
     # Create a folder
+    # ----------------------------------------------------------------------
     $scope.createFolder = (foldername) ->
       if not foldername
         foldername = window.prompt "Ingrese nombre de la carpeta"
-      $http.post "/folders/#{$routeParams.slug}", name: foldername
-      .then (res) ->
-        $http.get("/folders/#{$routeParams.slug}").then (res) ->
-          $scope.folders = res.data
+      if foldername? and foldername.length > 0
+        $http.post "/folders/#{$routeParams.slug}", name: foldername
+        .then (res) ->
+          $http.get("/folders/#{$routeParams.slug}").then (res) ->
+            $scope.folders = res.data
+            toastr.success "Se creó la carpeta #{foldername}"
+        .catch ->
+          toastr.error "No se pudo crear la carpeta #{foldername}"
 
     # Upload photo to gallery
+    # ----------------------------------------------------------------------
     $scope.uploadPhoto = (file, errFiles) ->
-      console.log file
       $scope.f = file
       $scope.errFile = errFiles && errFiles[0]
 
@@ -74,6 +81,8 @@ angular.module('dentaljs.patient_gallery', ['ngRoute', 'ngFileUpload',
           # While uploading is in progress
           file.progress = Math.min 100, parseInt 100.0 * evt.loaded / evt.total
 
+    # open photo in modal window
+    # ----------------------------------------------------------------------
     $scope.open = (photo) ->
       $uibModal.open
         templateUrl: 'partials/patient_gallery/modal_photo.html'
@@ -81,6 +90,26 @@ angular.module('dentaljs.patient_gallery', ['ngRoute', 'ngFileUpload',
         size: 'lg'
         resolve:
           photo: photo
+
+    # remove selected photos
+    # ----------------------------------------------------------------------
+    $scope.removePhoto = (photos) ->
+      if photos instanceof Object
+        photos = [photos]
+      for photo in photos
+        $http.delete("/images/#{photo._id}").then ->
+          toastr.success "Se eliminó la foto: #{photo.path}"
+          $route.reload()
+
+    # remove selected folders
+    # ----------------------------------------------------------------------
+    $scope.removeFolder = (folders) ->
+      if folders instanceof Object
+        folders = [folders]
+      for folder in folders
+        $http.delete("/folders/#{folder._id}").then ->
+          toastr.success "Se eliminó la carpeta: #{folder.name}"
+          $route.reload()
 ]
 
 .controller 'ModalPhotoCtrl', ['$scope', '$uibModalInstance', 'photo',

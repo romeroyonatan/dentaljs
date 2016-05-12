@@ -33,7 +33,7 @@ describe 'dentaljs.patient_gallery module', ->
     $scope.uploadPhoto {}
     $httpBackend.flush()
 
-  xit 'should remove a photo', ->
+  it 'should remove a photo', ->
     $httpBackend.expectDELETE("/images/bar").respond 201
     $scope.removePhoto _id: 'bar'
     $httpBackend.flush()
@@ -43,8 +43,8 @@ describe 'dentaljs.patient_gallery module', ->
     $scope.createFolder 'foldername'
     $httpBackend.flush()
 
-  xit 'should remove a folder', ->
-    $httpBackend.expectDELETE("/folders/foo/biz").respond 201
+  it 'should remove a folder', ->
+    $httpBackend.expectDELETE("/folders/biz").respond 201
     $scope.removeFolder _id: 'biz'
     $httpBackend.flush()
 
