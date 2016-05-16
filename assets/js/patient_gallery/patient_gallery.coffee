@@ -103,7 +103,7 @@ angular.module('dentaljs.patient_gallery',
           toastr.success "Se eliminó la foto: #{photo.path}"
           $route.reload()
         .catch ->
-          toastr.error "Hubo un problema al eliminar la foto" + photo.path
+          toastr.error "Hubo un problema al eliminar la foto " + photo.path
           $route.reload()
 
     # remove selected folders
@@ -114,11 +114,11 @@ angular.module('dentaljs.patient_gallery',
       for folder in folders
         $http.delete("/folders/#{folder._id}").then ->
           toastr.success "Se eliminó la carpeta: #{folder.name}"
-          $route.reload()
+          $location.path "/patients/#{$routeParams.slug}/gallery",
         .catch ->
-          toastr.error "Hubo un problema al eliminar la foto" + photo.path
+          toastr.error "Hubo un problema al eliminar la carpeta " + photo.path
           $route.reload()
-
+          
     # Choose folder where photo will be moved
     # ----------------------------------------------------------------------
     $scope.movePhoto = (photo) ->

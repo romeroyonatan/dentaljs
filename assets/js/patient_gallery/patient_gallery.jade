@@ -29,6 +29,9 @@ block content
       button.btn.btn-default(ng-click="createFolder()" ng-disabled="foldername")
         i.fa.fa-folder
         |  Crear carpeta
+      button.btn.btn-danger(ng-click="removeFolder(folder)" ng-show="foldername")
+        i.fa.fa-trash
+        |  Eliminar carpeta
   hr
   //- ------------------------------------------------------------------------
   //- Folders
@@ -75,4 +78,3 @@ block content
             alt="{{photo.description}}"
             title="{{photo.description}}"
           )
-          

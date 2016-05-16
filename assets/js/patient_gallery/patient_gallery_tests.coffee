@@ -16,6 +16,8 @@ describe 'dentaljs.patient_gallery module', ->
     $httpBackend.whenGET("/persons/foo").respond 200, _id: 'abcxyz'
     $httpBackend.whenGET("/images/foo").respond 200, _id: 'abcxyz'
     $httpBackend.whenGET("/folders/foo").respond 200, _id: 'abcxyz'
+    $httpBackend.whenGET "/partials/patient_gallery/patient_gallery.html"
+                .respond 200, _id: 'abcxyz'
     $controller 'PatientGalleryCtrl',
                 '$routeParams': slug: 'foo'
                 '$scope': $scope

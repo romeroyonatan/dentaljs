@@ -139,7 +139,7 @@ module.exports =
         # if folder change, move file in filesystem
         if object.folder isnt image.folder
           # update the image's path in filesystem
-          filename = /\/?(.*)$/.exec(image.path)[1]
+          filename = /([\w\._:-]*)$/.exec(image.path)[1]
           relative_path = image.person.slug + "/"
           relative_path += folder.name + "/" if folder?
           absolute_path = config.MEDIA_ROOT + relative_path + filename
