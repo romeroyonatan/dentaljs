@@ -29,7 +29,10 @@ block content
       button.btn.btn-default(ng-click="createFolder()" ng-disabled="foldername")
         i.fa.fa-folder
         |  Crear carpeta
-      button.btn.btn-danger(ng-click="removeFolder(folder)" ng-show="foldername")
+      button.btn.btn-danger(
+        ng-click="removeFolder(folder)"
+        confirm="¿Está seguro que quiere eliminar esta carpeta?"
+        ng-show="foldername")
         i.fa.fa-trash
         |  Eliminar carpeta
   hr

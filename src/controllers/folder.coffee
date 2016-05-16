@@ -5,6 +5,7 @@ Person = require '../models/person'
 Folder = require '../models/folder'
 Image = require '../models/image'
 config = require '../config'
+rmdir = require('./helpers').rmdir
 
 module.exports =
   # list
@@ -70,10 +71,16 @@ module.exports =
   # --------------------------------------------------------------------------
   # Remove a exiting folder and its childs
   remove: (req, res, next) ->
-    Folder.findOneAndRemove _id: req.params.id, (err, folder) ->
-      return next err if err
+    Folder.findOneAndRemove _id: req.params.id
+    .populate("person")
+    .then (folder) ->
       return next status: 404, message: 'Not found' if not folder?
+      # Remove folder in filesystem
+      debugger
+      path = config.MEDIA_ROOT + folder.person.slug + "/" + folder.name
+      rmdir path
+      # Remove images associated with folder
       Image.remove(folder: folder).then (images) ->
         res.status 204
         res.end()
-      , (err) -> return next err
+    , (err) -> return next err

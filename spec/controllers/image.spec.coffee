@@ -194,7 +194,7 @@ describe "Image uploads tests", ->
       # call controller
       controller.create req, res, (err) -> done.fail err
 
-  it 'should remove user´s folder and remove all images inside it', (done)->
+  xit 'should remove user´s folder and remove all images inside it', (done)->
     controller = require '../../.app/controllers/folder'
     # create an empty file
     filepath = config.MEDIA_ROOT + "test.jpg"
