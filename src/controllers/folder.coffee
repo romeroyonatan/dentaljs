@@ -76,11 +76,10 @@ module.exports =
     .then (folder) ->
       return next status: 404, message: 'Not found' if not folder?
       # Remove folder in filesystem
-      debugger
       path = config.MEDIA_ROOT + folder.person.slug + "/" + folder.name
-      rmdir path
-      # Remove images associated with folder
-      Image.remove(folder: folder).then (images) ->
-        res.status 204
-        res.end()
+      rmdir path, (err) ->
+        # Remove images associated with folder
+        Image.remove(folder: folder).then (images) ->
+          res.status 204
+          res.end()
     , (err) -> return next err
