@@ -52,6 +52,21 @@ angular.module('dentaljs.patient_gallery',
           toastr.error "No se pudo crear la carpeta #{foldername}"
           $route.reload()
 
+    # Rename folder
+    # ----------------------------------------------------------------------
+    $scope.renameFolder = (folder, name) ->
+      if not name
+        name = window.prompt "Ingrese el nuevo nombre de la carpeta"
+      if name? and name.length > 0
+        folder.name = name
+        $http.put "/folders/#{folder._id}", folder
+        .then (res) ->
+          toastr.success "Se renombró exitosamente la carpeta #{name}"
+          $location.path "/patients/#{$routeParams.slug}/gallery/#{name}"
+        .catch ->
+          toastr.error "No se pudo renombrar la carpeta #{foldername}"
+          $route.reload()
+
     # Upload photo to gallery
     # ----------------------------------------------------------------------
     $scope.uploadPhoto = (file, errFiles) ->
@@ -118,7 +133,7 @@ angular.module('dentaljs.patient_gallery',
         .catch ->
           toastr.error "Hubo un problema al eliminar la carpeta " + photo.path
           $route.reload()
-          
+
     # Choose folder where photo will be moved
     # ----------------------------------------------------------------------
     $scope.movePhoto = (photo) ->

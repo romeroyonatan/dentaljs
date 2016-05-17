@@ -45,8 +45,14 @@ describe 'dentaljs.patient_gallery module', ->
     $httpBackend.flush()
 
   it 'should remove a folder', ->
-    $httpBackend.expectDELETE("/folders/biz").respond 201
+    $httpBackend.expectDELETE("/folders/biz").respond 204
     $scope.removeFolder _id: 'biz'
+    $httpBackend.flush()
+
+  it 'should rename a folder', ->
+    $httpBackend.expectPUT("/folders/biz", (data)-> /fulano/.test data)
+                .respond 200
+    $scope.renameFolder _id: 'biz', 'fulano'
     $httpBackend.flush()
 
   it 'should move image to folder', ->

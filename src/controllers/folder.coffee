@@ -1,6 +1,7 @@
 # Folder's Controller
 # ----------------------
 # This module implements CRUD methods for folder's collection
+fs = require 'fs'
 Person = require '../models/person'
 Folder = require '../models/folder'
 Image = require '../models/image'
@@ -41,11 +42,18 @@ module.exports =
   # --------------------------------------------------------------------------
   # Updates data of a folder
   update: (req, res, next) ->
-    Folder.update _id: req.params.id, req.body, (err, rawResponse) ->
-      return next err if err
-      if not rawResponse.ok
-        return next status: 404, message: 'Not found'
-      res.send req.body
+    Folder.findById req.params.id, (err, old) ->
+      # folder not found
+      return next status: 404, message: 'Not found' if not old?
+      changeName = old.name != req.body.name
+      Folder.findOne person: old.person, name: req.body.name, (err, exists) ->
+        # if change name verify if folder doesnt exists
+        if exists? and changeName
+          return next status: 400, message: "Folder name already exists"
+        # update object
+        Folder.findByIdAndUpdate req.params.id, req.body, new: true,
+        (err, _new) ->
+          res.send _new
 
   # detail
   # --------------------------------------------------------------------------
