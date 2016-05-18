@@ -19,7 +19,8 @@ block content
     .btn-group
       button.btn.btn-default(
         type='file'
-        ngf-select="uploadPhoto($file, $invalidfiles)"
+        ngf-select="uploadPhoto($files)"
+        multiple='true'
         accept="image/*")
         i.fa.fa-camera
         |  Subir foto

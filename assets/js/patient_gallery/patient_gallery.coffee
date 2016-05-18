@@ -69,34 +69,34 @@ angular.module('dentaljs.patient_gallery',
 
     # Upload photo to gallery
     # ----------------------------------------------------------------------
-    $scope.uploadPhoto = (file, errFiles) ->
-      $scope.f = file
-      $scope.errFile = errFiles && errFiles[0]
-
+    $scope.uploadPhoto = (files) ->
       # Upload photo
-      if file
+      if files and files.length
         if $scope.folder?
           url = "/images/#{$routeParams.slug}/#{$scope.folder._id}"
         else
           url = "/images/#{$routeParams.slug}"
-        file.upload = Upload.upload
-          url: url
-          method: 'POST'
-          file: file
+        for file in files
+          file.upload = Upload.upload
+            url: url
+            method: 'POST'
+            file: file
 
-        file.upload.then (response) ->
+          file.upload.then (response) ->
           # On success
-          toastr.success "Imagen subida con éxito"
-          file.result = response.data
-          $route.reload()
-        , (response) ->
+            toastr.success "Imagen subida con éxito"
+            file.result = response.data
+            $route.reload()
+          , (response) ->
           # On error
-          if response.status > 0
-            toastr.error "Hubo un error al subir la imagen"
-            console.error response
-        , (evt) ->
+            if response.status > 0
+              toastr.error "Hubo un error al subir la imagen"
+              console.error response
+          , (evt) ->
           # While uploading is in progress
-          file.progress = Math.min 100, parseInt 100.0 * evt.loaded / evt.total
+            file.progress = (
+              Math.min 100, parseInt 100.0 * evt.loaded / evt.total
+            )
 
     # open photo in modal window
     # ----------------------------------------------------------------------

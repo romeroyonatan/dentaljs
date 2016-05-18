@@ -25,13 +25,13 @@ describe 'dentaljs.patient_gallery module', ->
 
   it 'should upload a photo', ->
     $httpBackend.expectPOST("/images/foo").respond 201
-    $scope.uploadPhoto {}
+    $scope.uploadPhoto [{}]
     $httpBackend.flush()
 
   it 'should upload a photo into folder', ->
     $httpBackend.expectPOST("/images/foo/biz").respond 201
     $scope.folder = _id: 'biz', name: 'foldername'
-    $scope.uploadPhoto {}
+    $scope.uploadPhoto [{}]
     $httpBackend.flush()
 
   it 'should remove a photo', ->
