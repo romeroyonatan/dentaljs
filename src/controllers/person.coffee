@@ -12,6 +12,8 @@ Image = require '../models/image'
 config = require '../config'
 
 module.exports =
+  # list
+  # --------------------------------------------------------------------------
   # Obtains a list of persons
   list: (req, res, next) ->
     Person.find (err, list)->
@@ -19,6 +21,8 @@ module.exports =
         return next err
       res.send list
 
+  # create
+  # --------------------------------------------------------------------------
   # Creates a new person
   create: (req, res, next) ->
     object = new Person req.body
@@ -28,6 +32,8 @@ module.exports =
       res.status 201
       res.send object
 
+  # update
+  # --------------------------------------------------------------------------
   # Updates data of a person
   update: (req, res, next) ->
     object = req.body
@@ -38,6 +44,8 @@ module.exports =
         return next status: 404, message: 'Person not found'
       res.send req.body
 
+  # detail
+  # --------------------------------------------------------------------------
   # Get details of a person
   detail: (req, res, next) ->
     Person.findOne slug: req.params.slug, (err, object) ->
@@ -48,63 +56,10 @@ module.exports =
         return next status: 404, message: 'Person not found'
       res.send object
 
+  # remove
+  # --------------------------------------------------------------------------
   # Remove a exiting person
   remove: (req, res, next) ->
     Person.findOne(slug: req.params.slug).remove ->
       res.status 204
       res.end()
-
-  # uploadImage
-  # -----------------
-  # Upload image and associate its with person
-  uploadImage: (req, res, next) ->
-    # Get person
-    Person.findOne slug: req.params.slug, (err, person)->
-      # get uploaded file
-      file = req.files.file
-      is_image = /^image\/.*/.test file.headers['content-type']
-      # remove uploaded file if error
-      if err
-        fs.unlink file.path
-        return next err
-      # validate if persons exists
-      if not person?
-        fs.unlink file.path
-        next status: 404, message: "Person not found"
-      # validate file type
-      if not is_image
-        fs.unlink file.path
-        next status: 400, message: "Invalid filetype"
-      # get file extension
-      ext = path.extname file.path
-      # make new path
-      folder = req.params.slug + '/'
-      mkdirp config.MEDIA_ROOT + folder, ->
-        # generate filename based in timestamp
-        # for example: `mick-jagger/2016-04-28_09:52:11.jpeg`
-        # TODO Ojo con las colisiones
-        filename = folder + moment().format 'Y-MM-DD_HH:mm:ss' + ext
-        dest = config.MEDIA_ROOT + filename
-        # move image to new folder
-        mv file.path, dest, (err) ->
-          return next err if err
-          # asociate person with image
-          Image.create person: person, path: filename, (err) ->
-            return next err if err
-            # send relative path of image
-            res.status 201
-            res.send config.MEDIA_PATH + filename
-
-  # listImages
-  # -----------------
-  # Obtains the list of images associated with person
-  listImages: (req, res, next) ->
-    Image.find person: req.params.id
-    .select '-person'
-    # success
-    .then (list)->
-      # append media path to path
-      object.path = config.MEDIA_PATH + object.path for object in list
-      res.send list
-    # error
-    , (err)-> next err

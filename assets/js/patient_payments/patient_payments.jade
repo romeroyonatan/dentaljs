@@ -24,8 +24,8 @@ block content
           tr
             th(colspan=2) Fecha
             th Descripción
-            th Debe
             th Haber
+            th Debe
             th Saldo
           tr.active
             td(colspan=2) Ahora mismo
@@ -36,12 +36,12 @@ block content
                )
             td
               input.form-control(
-                ng-model="account.debit" name="debit" type="number"
+                ng-model="account.assets" name="credit" type="number"
                 placeholder="$ 100" value=0
               )
             td
               input.form-control(
-                ng-model="account.assets" name="credit" type="number"
+                ng-model="account.debit" name="debit" type="number"
                 placeholder="$ 100" value=0
               )
             td
@@ -62,8 +62,8 @@ block content
                i.fa.fa-plus
             td(ng-bind="account.date|date")
             td(ng-bind="account.description")
-            td(ng-bind="account.debit|currency")
             td(ng-bind="account.assets|currency")
+            td(ng-bind="account.debit|currency")
             td(ng-bind="account.balance|currency")
             td
               .btn-group(role="group")
@@ -82,8 +82,8 @@ block content
             td: i.fa.fa-angle-double-right
             td(ng-bind="child.date|date")
             td(ng-bind="child.description")
-            td(ng-bind="child.debit|currency")
             td(ng-bind="child.assets|currency")
+            td(ng-bind="child.debit|currency")
             td(ng-bind="child.balance|currency")
             td
               .btn-group(role="group")

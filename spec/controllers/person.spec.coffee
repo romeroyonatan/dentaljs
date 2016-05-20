@@ -1,8 +1,8 @@
 rewire = require 'rewire'
 {Mock, spies} = require '../helpers/mongoose-mock'
-controller = rewire '../../.app/controllers/person'
 
 describe 'Person´s controller tests', ->
+  controller = rewire '../../.app/controllers/person'
   req = {}
   res = send: ->
   revert = null

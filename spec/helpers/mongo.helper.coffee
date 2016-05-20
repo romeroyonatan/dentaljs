@@ -1,8 +1,9 @@
 mongoose = require 'mongoose'
+config = require "../../.app/config"
 
 beforeAll (done) ->
   return done() if mongoose.connection.readyState is 1
-  mongoose.connect 'mongodb://localhost/test', (err) ->
+  mongoose.connect config.MONGO_DB, (err) ->
     done.fail err if err
     done()
 

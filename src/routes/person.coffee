@@ -1,13 +1,7 @@
 express = require 'express'
-multipartMiddleware = require('connect-multiparty')()
 controller = require '../controllers/person'
 
 router = express.Router()
-
-# Images routes
-# --------------------------------------
-router.post '/:slug/photos', multipartMiddleware, controller.uploadImage
-router.get '/:id/photos', controller.listImages
 
 # REST API
 # =======================================
