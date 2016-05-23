@@ -1,15 +1,17 @@
 extends ../layouts/patient.jade
+
 prepend nav
   - var section = 'payments'
 
 block breadcrumb
   +breadcrumb(
     {href:"#/patients", name:"Lista de pacientes"},
-    {href:"#/patients/{{patient.slug}}", name:"{{ patient.first_name }} {{ patient.last_name }}"},
+    {href:"#/patients/{{ patient.slug }}", name:"{{ patient.first_name }} {{ patient.last_name }}"},
     {name:"Planilla de pago"}
   )
   
 block content
+  - var pieces = [11, 12, 13, 14, 15, 16, 17, 18, 21, 22, 23, 24, 25, 26, 27, 28, 31, 32, 33, 34, 35, 36, 37, 38, 41, 42, 43, 44, 45, 46, 47, 48];
   h2 Planilla de pagos
   
   .alert.alert-danger(ng-if="balance < 0")
@@ -23,12 +25,26 @@ block content
         thead
           tr
             th(colspan=2) Fecha
+            th Pieza
+            th Cara
             th Descripción
             th Haber
             th Debe
             th Saldo
           tr.active
             td(colspan=2) Ahora mismo
+            td
+               select.form-control(ng-model="account.piece" name="piece")
+                - each piece in pieces
+                  option(value=piece)=piece
+            td
+               select.form-control(ng-model="account.side" name="side")
+                option(value="D") Distal
+                option(value="L") Lingual
+                option(value="M") Mesial
+                option(value="O") Oclusal
+                option(value="P") Palatino
+                option(value="V") Vestibular
             td
                input.form-control(
                  ng-model="account.description" name="description"
@@ -49,7 +65,7 @@ block content
               button.btn(ng-click="new(account)" ng-disabled="!form.$valid")
                 | Guardar
           tr.active(ng-class="{'success': balance > 0, 'danger': balance < 0}")
-            td(colspan=5): strong Balance
+            td(colspan=7): strong Balance
             td(colspan=2 ng-bind="balance|currency")
 
         //- -----------------------------------------------------------------
@@ -61,6 +77,8 @@ block content
                                            title="Crear registro dependiente")
                i.fa.fa-plus
             td(ng-bind="account.date|date")
+            td(ng-bind="account.piece")
+            td(ng-bind="getSide(account.side)")
             td(ng-bind="account.description")
             td(ng-bind="account.assets|currency")
             td(ng-bind="account.debit|currency")
@@ -81,6 +99,8 @@ block content
           tr.child(ng-repeat="child in account.childs|orderBy:'-date'")
             td: i.fa.fa-angle-double-right
             td(ng-bind="child.date|date")
+            td(ng-bind="child.piece")
+            td(ng-bind="getSide(child.side)")
             td(ng-bind="child.description")
             td(ng-bind="child.assets|currency")
             td(ng-bind="child.debit|currency")
@@ -99,5 +119,5 @@ block content
           //- -----------------------------------------------------------------
         tfoot
           tr.active(ng-class="{'success': balance > 0, 'danger': balance < 0}")
-            td(colspan=5): strong Balance
+            td(colspan=7): strong Balance
             td(colspan=2 ng-bind="balance|currency")

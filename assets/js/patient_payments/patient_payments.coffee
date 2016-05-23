@@ -79,11 +79,22 @@ angular.module('dentaljs.patient_payments',
       .result.then (account) ->
         $scope.new account
         $route.reload()
+
+    # Show friendly side display
+    $scope.getSide = (side) -> switch side
+      when "D" then "Distal"
+      when "L" then "Lingual"
+      when "M" then "Mesial"
+      when "O" then "Oclusal"
+      when "P" then "Palatino"
+      when "V" then "Vestibular"
 ]
 
 .controller 'ModalUpdateCtrl', ['$scope', '$uibModalInstance', 'account',
   ($scope, $uibModalInstance, account) ->
     $scope.account = account
+    # convert number to string
+    $scope.account.piece = $scope.account.piece.toString()
     $scope.ok = -> $uibModalInstance.close $scope.account
     $scope.cancel = -> $uibModalInstance.dismiss 'cancel'
 ]

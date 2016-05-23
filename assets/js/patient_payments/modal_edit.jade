@@ -1,5 +1,7 @@
 include ../mixins/form.jade
 
+- var pieces = [11, 12, 13, 14, 15, 16, 17, 18, 21, 22, 23, 24, 25, 26, 27, 28, 31, 32, 33, 34, 35, 36, 37, 38, 41, 42, 43, 44, 45, 46, 47, 48];
+
 .modal-header
   button.close(type="button" ng-click="cancel()" aria-label="close")
     span(aria-hidden="true") &times;
@@ -11,6 +13,22 @@ include ../mixins/form.jade
         i.fa.fa-calendar
         |  Modificar fecha
       #date.collapse: +form-date("Fecha", "account.date")
+    .form-group
+      label(for="id_piece") Pieza
+      select.form-control(
+        id="id_piece"
+        name="account.piece"
+        ng-model="account.piece")
+        - each piece in pieces
+          option(value=piece)=piece
+    +form-select("Cara", "account.side", [
+      {value:"D", label:"Distal"},
+      {value:"L", label:"Lingual"},
+      {value:"M", label:"Mesial"},
+      {value:"O", label:"Oclusal"},
+      {value:"P", label:"Palatino"},
+      {value:"V", label:"Vestibular"}
+    ])
     +form-input("Descripción", "account.description", "Descripción", true)
     +form-input("Haber", "account.assets")(type="number" min="0" value=0)
     +form-input("Debe", "account.debit")(type="number" min="0" value=0)

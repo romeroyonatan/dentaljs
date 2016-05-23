@@ -37,8 +37,9 @@ mixin form-select(label, model, items)
       ng-model=model
       required=required
     )&attributes(attributes)
-      for item in items
-        option(value=item.value)=item.label
+      if items
+        for item in items
+          option(value=item.value)=item.label
 
 //- creates a datepicker
 mixin form-date(label, model, required)
