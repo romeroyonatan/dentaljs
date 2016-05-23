@@ -141,3 +141,19 @@ describe 'Accounting controller tests without mock', ->
       {description: "test6", assets: 20, person: person},
     ], (err, list) ->
       controller.balance req, res
+
+  it 'should validate a piece as invalid', ->
+    # should be invalid
+    controller.create {body: piece: 0}, {}, (err) ->
+      expect(err?).toBe true
+
+  it 'should validate a piece as valid', (done)->
+    # should be invalid
+    res =
+      status: (code)->
+        expect(code).toEqual 201
+      send: (data) ->
+        expect(data?).toBe true
+        done()
+    controller.create {body: piece: 11}, res, (err) ->
+      expect(err).toBe false

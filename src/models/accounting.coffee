@@ -3,6 +3,17 @@ mongoose = require 'mongoose'
 # Person model
 Accounting = new mongoose.Schema
   person: mongoose.Schema.Types.ObjectId
+  side: String
+  piece:
+    type: Number
+    require: false
+    validate:
+      validator: (v)->
+        11 <= v <= 18 or
+        21 <= v <= 28 or
+        31 <= v <= 38 or
+        41 <= v <= 48
+      message: "Invalid piece."
   description: String
   debit: {type: Number, default: 0, min: 0}
   assets: {type: Number, default: 0, min: 0}
