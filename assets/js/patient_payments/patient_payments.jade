@@ -76,7 +76,8 @@ block content
              button.btn.btn-default.btn-sm(ng-click="showDependant(account)"
                                            title="Crear registro dependiente")
                i.fa.fa-plus
-            td(ng-bind="account.date|date")
+            td(ng-bind="account.date|date"
+               title="{{account.date|date:'medium'}}")
             td(ng-bind="account.piece")
             td(ng-bind="getSide(account.side)")
             td(ng-bind="account.description")
