@@ -6,6 +6,11 @@ block breadcrumb
 block content  
   h1 Pacientes
 
+  
+  ul.nav.nav-pills
+    li(role="presentation" ng-class="{'active':tag==activeTag}"
+       ng-repeat="tag in tags")
+      a(href="#/patients" ng-bind="tag" ng-click="selectTag(tag)")
   input.col-xs-12(ng-model="search" placeholder="Teclee para buscar")
 
   table.table.table-striped
@@ -17,11 +22,12 @@ block content
           i.fa.fa-plus
           |  Nuevo paciente
     tbody
-      tr(ng-repeat="patient in patients|orderBy:'last_name'|filter:search")
+      tr(ng-repeat="patient in patients|orderBy:'last_name'|filter:filterByTags|filter:search")
         td
           a(ng-href="#/patients/{{patient.slug}}")
             strong(ng-bind='patient.last_name|uppercase')
-            span.text-capitalize(ng-bind='" " + patient.first_name')
+            span.text-capitalize(ng-bind='" " + patient.first_name+" "')
+            span.badge(ng-repeat="tag in patient.tags" ng-bind="tag")
         td
           ul.unstyled
             //- FIXME Se puede eliminar cuando se migren los telefonos viejos

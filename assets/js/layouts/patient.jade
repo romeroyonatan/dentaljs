@@ -6,11 +6,11 @@ block breadcrumb
     {href:"#/patients", name:"Lista de pacientes"},
     {href:"#/patients", name:"{{ patient.first_name }} {{ patient.last_name }}"}
 )
-
 h1
   span(ng-bind="patient.last_name|uppercase")
   small.text-capitalize(ng-bind='" "+ patient.first_name')
   .btn-group.pull-right
+  span.badge(ng-repeat="tag in patient.tags" ng-bind="tag")
 
 block nav
   ul.nav.nav-tabs
