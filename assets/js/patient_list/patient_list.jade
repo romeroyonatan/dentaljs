@@ -25,7 +25,7 @@ block content
           i.fa.fa-plus
           |  Nuevo paciente
     tbody
-      tr(ng-repeat="patient in patients|orderBy:'last_name'|filter:filterByTags|filter:search")
+      tr.patient-list-item(ng-repeat="patient in patients|orderBy:'last_name'|filter:filterByTags|filter:search")
         td
           a(ng-href="#/patients/{{patient.slug}}")
             strong(ng-bind='patient.last_name|uppercase')

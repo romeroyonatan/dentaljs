@@ -51,3 +51,30 @@
   from { opacity: 1; }
   to { opacity: 0; }
 }
+
+.patient-list-item.ng-enter,
+.patient-list-item.ng-leave,
+.patient-list-item.ng-move {
+  overflow: hidden;
+  transition: 0.3s linear all;
+}
+
+.patient-list-item.ng-enter,
+.patient-list-item.ng-leave.ng-leave-active,
+.patient-list-item.ng-move {
+  height: 0;
+  margin-bottom: 0;
+  opacity: 0;
+  padding-bottom: 0;
+  padding-top: 0;
+}
+
+.patient-list-item.ng-enter.ng-enter-active,
+.patient-list-item.ng-leave,
+.patient-list-item.ng-move.ng-move-active {
+  height: 51px;
+  margin-bottom: 20px;
+  opacity: 1;
+  padding-bottom: 4px;
+  padding-top: 10px;
+}
