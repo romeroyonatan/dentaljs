@@ -12,8 +12,8 @@ angular.module('dentaljs.patient_form',
 
 .controller 'PatientFormCtrl', ["$scope", "Person", "$location",
   "$routeParams", ($scope, Person, $location, $routeParams) ->
-    # Patient's types
-    $scope.types = ['Ortodoncia', 'Tratamiento', 'Ocasional']
+    # Available tag
+    $scope.tags = ['Ortodoncia', 'Tratamiento', 'Ocasional']
 
     # Load person
     if $routeParams.slug
