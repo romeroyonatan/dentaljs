@@ -38,13 +38,9 @@ block content
                 - each piece in pieces
                   option(value=piece)=piece
             td
-               select.form-control(ng-model="account.side" name="side")
-                option(value="D") Distal
-                option(value="L") Lingual
-                option(value="M") Mesial
-                option(value="O") Oclusal
-                option(value="P") Palatino
-                option(value="V") Vestibular
+              input.form-control(
+                ng-model="account.side" name="side" placeholder="Mesial" 
+              )
             td
                input.form-control(
                  ng-model="account.description" name="description"
@@ -79,7 +75,7 @@ block content
             td(ng-bind="account.date|date"
                title="{{account.date|date:'medium'}}")
             td(ng-bind="account.piece")
-            td(ng-bind="getSide(account.side)")
+            td(ng-bind="account.side")
             td(ng-bind="account.description")
             td(ng-bind="account.assets|currency")
             td(ng-bind="account.debit|currency")
@@ -101,7 +97,7 @@ block content
             td: i.fa.fa-angle-double-right
             td(ng-bind="child.date|date")
             td(ng-bind="child.piece")
-            td(ng-bind="getSide(child.side)")
+            td(ng-bind="child.side")
             td(ng-bind="child.description")
             td(ng-bind="child.assets|currency")
             td(ng-bind="child.debit|currency")

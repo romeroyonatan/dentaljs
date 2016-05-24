@@ -21,14 +21,7 @@ include ../mixins/form.jade
         ng-model="account.piece")
         - each piece in pieces
           option(value=piece)=piece
-    +form-select("Cara", "account.side", [
-      {value:"D", label:"Distal"},
-      {value:"L", label:"Lingual"},
-      {value:"M", label:"Mesial"},
-      {value:"O", label:"Oclusal"},
-      {value:"P", label:"Palatino"},
-      {value:"V", label:"Vestibular"}
-    ])
+    +form-input("Cara", "account.side", "Mesial")
     +form-input("Descripción", "account.description", "Descripción", true)
     +form-input("Haber", "account.assets")(type="number" min="0" value=0)
     +form-input("Debe", "account.debit")(type="number" min="0" value=0)
