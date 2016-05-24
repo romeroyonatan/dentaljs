@@ -25,6 +25,7 @@ Person = new mongoose.Schema
     place: String
     hour: String
   consultation_reason: String
+  tags: [String]
 
 # Generate slug
 Person.plugin URLSlugs 'first_name last_name'

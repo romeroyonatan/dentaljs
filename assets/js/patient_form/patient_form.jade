@@ -32,6 +32,15 @@ block content
           ])
         +form-textarea("Motivo de la consulta", "patient.consultation_reason", 
                        "Escribir lo que desea cambiar de su boca")
+                       
+        //- Patient type
+        .form-group
+          label Tipo de paciente
+          .checkbox(ng-repeat="type in types")
+            label
+              input(type="checkbox" checklist-model="patient.tags" 
+                    checklist-value="type")
+              |  {{ type }}
         
       formset.col-md-5
         legend Contacto
