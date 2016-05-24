@@ -13,7 +13,8 @@ angular.module('dentaljs.patient_form',
 .controller 'PatientFormCtrl', ["$scope", "Person", "$location",
   "$routeParams", ($scope, Person, $location, $routeParams) ->
     # Available tag
-    $scope.tags = ['Ortodoncia', 'Tratamiento', 'Ocasional']
+    $scope.tags = ['Ortodoncia', 'Rehabilitación profética',
+                   'Odontología general']
 
     # Load person
     if $routeParams.slug

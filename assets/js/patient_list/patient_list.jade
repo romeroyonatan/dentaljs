@@ -6,13 +6,16 @@ block breadcrumb
 block content  
   h1 Pacientes
 
-  
-  ul.nav.nav-pills
+  //- Filter section
+  //- ------------------------------------------------------------------------
+  ul.sm.nav.nav-pills
     li(role="presentation" ng-class="{'active':tag==activeTag}"
        ng-repeat="tag in tags")
       a(href="#/patients" ng-bind="tag" ng-click="selectTag(tag)")
   input.col-xs-12(ng-model="search" placeholder="Teclee para buscar")
 
+  //- Patient's list
+  //- ------------------------------------------------------------------------
   table.table.table-striped
     thead
       tr
