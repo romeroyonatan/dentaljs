@@ -4,8 +4,8 @@ Issue = require './issue'
 
 # ## Piece model
 Piece = new mongoose.Schema
-  id: Number
-  removed: Boolean
+  id: type: Number, required: yes
+  issue: String
   sectors: [
     id: Number,
     issue:

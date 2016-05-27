@@ -172,7 +172,7 @@ describe 'Odontogram widget', ->
         expect(fixed.count()).toEqual 40 # 8 pieces * 5 sectors
 
   it "multiple fixes click even", ->
-    for i in [1..6]
+    for i in [0...6]
       sector.click()
       btn_fix.click()
     # sector should be marked
@@ -180,10 +180,10 @@ describe 'Odontogram widget', ->
     expect(fix.isPresent()).toBe false
     # should not be a selected sector
     selected = element By.css '.sector.selected'
-    expect(selected.isPresent()).toBe true
+    expect(selected.isPresent()).toBe false
 
   it "multiple fixes click odd", ->
-    for i in [1..5]
+    for i in [0...5]
       sector.click()
       btn_fix.click()
     # sector should be marked
