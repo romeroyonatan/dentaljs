@@ -42,13 +42,16 @@ angular.module('dentaljs.odontogram_edit', ['ngRoute'])
       if odontogram.pieces?
         for piece in odontogram.pieces
           $scope.pieces[piece.id] = piece
-          # Show strikethough if teeth is missed
-          if piece.removed
-            strikethough = angular.element "##{piece.id} .removed"
-            strikethough.show()
+          # Show piece's issues
+          id = "##{piece.id} "
+          switch piece.issue
+            when "removed" then angular.element(id + ".removed").show()
+            when "missed" then angular.element(id + ".missed").show()
+            when "rotate-left" then angular.element(id + ".rotate-left").show()
+            when "rotate-right" then angular.element(id+".rotate-right").show()
           # Show sectors with diseases or fixes
           for sector in piece.sectors when sector?
-            elem = angular.element "##{piece.id} ##{sector.id}"
+            elem = angular.element id + "##{sector.id}"
             elem.addClass 'disease' if sector.issue.type is DISEASE
             elem.addClass 'fix' if sector.issue.type is FIX
 
@@ -69,6 +72,7 @@ angular.module('dentaljs.odontogram_edit', ['ngRoute'])
     # * issue.issue: the fix or disease
     # * issue.removed: if teeth was removed
     $scope.attachIssue = (issue) ->
+      console.assert issue.id?
       # if piece exists
       if $scope.pieces[issue.id]?
         piece = $scope.pieces[issue.id]
@@ -76,13 +80,23 @@ angular.module('dentaljs.odontogram_edit', ['ngRoute'])
       else
         piece = id: issue.id, sectors: []
         $scope.pieces[issue.id] = piece
-      piece.sectors[issue.sector] =
-        id: issue.sector,
-        issue: issue.issue if issue.issue?
-      if issue.removed?
+
+      # ### Sector's issues
+      if issue.sector?
+        piece.sectors[issue.sector] =
+          id: issue.sector,
+          issue: issue.issue if issue.issue?
+
+      # ### Piece's issues
+      else
+        # reset issues
         piece.sectors = []
-        # toggle remove attr
-        piece.removed = piece.removed isnt true
+        delete piece.issue
+        # set issue to piece
+        piece.issue = "removed" if issue.removed
+        piece.issue = "missed" if issue.missed
+        piece.issue = "rotate-right" if issue.rotateRight
+        piece.issue = "rotate-left" if issue.rotateLeft
 
     # when user clicks over a fix button, mark all selected sectors as fixed
     $scope.setFix = (fix) ->
@@ -127,11 +141,61 @@ angular.module('dentaljs.odontogram_edit', ['ngRoute'])
       # reset sectors
       # XXX findbyCssSelector
       $("##{id} .sector").removeClass().addClass('sector').attr('title', '')
+      $("##{id} .missed,
+         ##{id} .rotate-right,
+         ##{id} .rotate-left").hide()
       # show/hide strikethough
       # XXX findbyCssSelector
       $("##{id} .removed").toggle()
       # mark teeth as removed
-      $scope.attachIssue id: id, removed: true
+      $scope.attachIssue
+        id: id
+        removed: $("##{id} .removed").is(":visible")
+
+    # setRotateRight
+    # ------------------------------------------------------------------------
+    # fires when when user clicks over rotate-right button.
+    $scope.setRotateRight = (id) ->
+      # reset sectors
+      $("##{id} .sector").removeClass().addClass('sector').attr('title', '')
+      $("##{id} .removed,
+         ##{id} .missed,
+         ##{id} .rotate-left").hide()
+      $("##{id} .rotate-right").toggle()
+      # mark teeth as rotated
+      $scope.attachIssue
+        id: id
+        rotateRight: $("##{id} .rotate-right").is(":visible")
+
+    # setRotateLeft
+    # ------------------------------------------------------------------------
+    # fires when when user clicks over rotate-left button.
+    $scope.setRotateLeft = (id) ->
+      # reset sectors
+      $("##{id} .sector").removeClass().addClass('sector').attr('title', '')
+      $("##{id} .removed,
+         ##{id} .missed,
+         ##{id} .rotate-right").hide()
+      $("##{id} .rotate-left").toggle()
+      # mark teeth as rotated
+      $scope.attachIssue
+        id: id
+        rotateLeft: $("##{id} .rotate-left").is(":visible")
+
+    # setMissed
+    # ------------------------------------------------------------------------
+    # fires when when user clicks over missed button.
+    $scope.setMissed = (id) ->
+      # reset sectors
+      $("##{id} .sector").removeClass().addClass('sector').attr('title', '')
+      $("##{id} .removed,
+         ##{id} .rotate-right,
+         ##{id} .rotate-left").hide()
+      # mark teeth as missed
+      $("##{id} .missed").toggle()
+      $scope.attachIssue
+        id: id
+        missed: $("##{id} .missed").is(":visible")
 
     # when user clicks over a clean button, clean selected sectors to default
     # value. If teeth is marked as removed, the mark will be clean

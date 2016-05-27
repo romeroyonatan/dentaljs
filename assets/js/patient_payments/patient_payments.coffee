@@ -84,6 +84,8 @@ angular.module('dentaljs.patient_payments',
 .controller 'ModalUpdateCtrl', ['$scope', '$uibModalInstance', 'account',
   ($scope, $uibModalInstance, account) ->
     $scope.account = account
+    # convert number to string
+    $scope.account.piece = $scope.account.piece.toString()
     $scope.ok = -> $uibModalInstance.close $scope.account
     $scope.cancel = -> $uibModalInstance.dismiss 'cancel'
 ]

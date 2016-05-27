@@ -23,18 +23,21 @@ angular.module('dentaljs.odontogram_detail', ['ngRoute'])
     # ================================
     # Loading colors in SVG based in odontogram information
     load = (odontogram) ->
+      $scope.title = odontogram.title
+      $scope.comments = odontogram.comments
       if odontogram.pieces?
         for piece in odontogram.pieces
           $scope.pieces[piece.id] = piece
-
-          # Show strikethough if teeth is missed
-          if piece.removed
-            strikethough = angular.element "##{piece.id} .removed"
-            strikethough.show()
-
+          # Show piece's issues
+          id = "##{piece.id} "
+          switch piece.issue
+            when "removed" then angular.element(id + ".removed").show()
+            when "missed" then angular.element(id + ".missed").show()
+            when "rotate-left" then angular.element(id + ".rotate-left").show()
+            when "rotate-right" then angular.element(id+".rotate-right").show()
           # Show sectors with diseases or fixes
           for sector in piece.sectors when sector?
-            elem = angular.element "##{piece.id} ##{sector.id}"
+            elem = angular.element id + "##{sector.id}"
             elem.addClass 'disease' if sector.issue.type is DISEASE
             elem.addClass 'fix' if sector.issue.type is FIX
 

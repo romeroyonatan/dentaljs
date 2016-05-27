@@ -2,7 +2,7 @@ describe 'Odontogram widget', ->
 
   pieces = element.all By.css '.piece'
   # piece 18
-  piece18 = pieces.get 7
+  piece18 = pieces.get 0
   # sector 0
   sector = piece18.all(By.css '.sector').get(4)
   # first fix
@@ -12,7 +12,8 @@ describe 'Odontogram widget', ->
   # clear button
   btn_clear = element By.xpath '/html/body/div/div[1]/div[3]/div[3]/button'
   # remove button
-  btn_remove = piece18.element By.css(".btn-disease")
+  btn_remove = piece18.element By.xpath "/html/body/div/div[1]/div[4]/div[1]
+/table/thead/tr[1]/th/div/button[4]"
 
 # TODO Ver como mockear las respuestas del server
   beforeEach ->
@@ -172,20 +173,22 @@ describe 'Odontogram widget', ->
         expect(fixed.count()).toEqual 40 # 8 pieces * 5 sectors
 
   it "multiple fixes click even", ->
-    for i in [1..6]
+    for i in [0...6]
       sector.click()
-      btn_fix.click()
+      btn_fix.click() if i % 2 == 0 # even
+      btn_clear.click() if i % 2 == 1 # odd
     # sector should be marked
     fix = element By.css '.sector.fix'
     expect(fix.isPresent()).toBe false
     # should not be a selected sector
     selected = element By.css '.sector.selected'
-    expect(selected.isPresent()).toBe true
+    expect(selected.isPresent()).toBe false
 
   it "multiple fixes click odd", ->
-    for i in [1..5]
+    for i in [0...5]
       sector.click()
-      btn_fix.click()
+      btn_fix.click() if i % 2 == 0 # even
+      btn_clear.click() if i % 2 == 1 # odd
     # sector should be marked
     fix = element By.css '.sector.fix'
     expect(fix.isPresent()).toBe true

@@ -21,6 +21,14 @@ block content
         +form-input("Nombre", "patient.first_name", "Pedro", "required")
         +form-input("Apellido", "patient.last_name", "Gonzalez", "required")
         +form-input("DNI", "patient.identification", "11223445")
+        //- Patient type
+        .form-group
+          label Tipo de paciente
+          .checkbox(ng-repeat="tag in tags")
+            label
+              input(type="checkbox" checklist-model="patient.tags" 
+                    checklist-value="tag")
+              |  {{ tag }}
         +form-date("Fecha de nacimiento", "patient.born.date")
         +form-input("Ciudad de nacimiento", "patient.born.city", "La Rioja")
         +form-input("País de nacimiento", "patient.born.country", "Argentina")
@@ -32,6 +40,7 @@ block content
           ])
         +form-textarea("Motivo de la consulta", "patient.consultation_reason", 
                        "Escribir lo que desea cambiar de su boca")
+                       
         
       formset.col-md-5
         legend Contacto

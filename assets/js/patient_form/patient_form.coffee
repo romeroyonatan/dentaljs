@@ -1,4 +1,5 @@
-angular.module('dentaljs.patient_form', ['ngRoute', 'ui.bootstrap'])
+angular.module('dentaljs.patient_form',
+['ngRoute', 'ui.bootstrap', 'checklist-model'])
 
 .config ['$routeProvider', ($routeProvider) ->
   $routeProvider.when '/patients/create',
@@ -11,6 +12,9 @@ angular.module('dentaljs.patient_form', ['ngRoute', 'ui.bootstrap'])
 
 .controller 'PatientFormCtrl', ["$scope", "Person", "$location",
   "$routeParams", ($scope, Person, $location, $routeParams) ->
+    # Available tag
+    $scope.tags = ['Ortodoncia', 'Rehabilitación profética',
+                   'Odontología general']
 
     # Load person
     if $routeParams.slug
@@ -23,12 +27,10 @@ angular.module('dentaljs.patient_form', ['ngRoute', 'ui.bootstrap'])
         patient.civil_status = parseInt patient.civil_status
       person = new Person patient
       if not $routeParams.slug
-        person.$save ->
-          $location.path "/patients/#{person.slug}"
+        person.$save -> $location.path "/patients/#{person.slug}"
       else
         person.slug = $routeParams.slug
-        person.$update ->
-          $location.path "/patients/#{person.slug}"
+        person.$update -> $location.path "/patients/#{person.slug}"
 
     # Cancel button
     $scope.cancel = () ->
