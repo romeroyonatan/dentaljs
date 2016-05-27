@@ -10,6 +10,7 @@ $disease-color ?= $brand-danger
 $fix-color ?= $brand-primary
 $bg-color ?= white
 $selected-color ?= #8CD58C
+$piece-width = 57px
 
 .btn-toolbar
   margin-bottom: 0.5em;
@@ -28,10 +29,10 @@ $selected-color ?= #8CD58C
 
   .piece
     display: inline-block
-    width: 69px
+    width: $piece-width
     margin-bottom: 2em
     @media screen and (max-width: 1024px)
-      width: 57px
+      width: 46px
     @media screen and (max-width: 800px)
       width: 88px
     @media screen and (max-width: 400px)
@@ -39,9 +40,9 @@ $selected-color ?= #8CD58C
       margin-bottom: 3em
 
     svg
-      width: 69px
+      width: $piece-width
       @media screen and (max-width: 1024px)
-        width: 58px
+        width: 46px
       @media screen and (max-width: 800px)
         width: 88px
       @media screen and (max-width: 400px)
@@ -73,7 +74,12 @@ $selected-color ?= #8CD58C
 
     .removed, .rotate-right, .rotate-left, .missed
       display: none
+
+    .removed
       fill: $disease-color
+
+    .rotate-right, .rotate-left, .missed
+      fill: $fix-color
 
     table
       border: 1px solid $gray-darker

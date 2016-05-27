@@ -21,30 +21,32 @@ block content
   +form-input("Título", "title", "Odontograma inicial")
   +form-textarea("Comentarios", "comments")
   
-  //- ------------------------------------------------------------------------
-  //- Toolbar
-  .btn-toolbar(role="toolbar")
-    //- Diseases buttons
-    .btn-group
-      button.btn.btn-disease(ng-click="setDisease(disease)" 
-                             ng-repeat="disease in diseases"
-                             ng-disabled="!sector_selected"
-                             ng-bind="disease.description")
-    //- Fixes buttons
-    .btn-group
-      button.btn.btn-fix(ng-click="setFix(fix)"
-                         ng-repeat="fix in fixes"
-                         ng-disabled="!sector_selected"
-                         ng-bind="fix.description")
-    //- Utils buttons
-    .btn-group
-      button.btn.btn-default(ng-click="clean()" ng-disabled="!sector_selected")
-        i.fa.fa-eraser
-        |  Limpiar
+  .row
+    //- -----------------------------------------------------------------------
+    //- Odontogram SVG widget  
+    .col-md-10
+      +odontogram({issuesBar: true})
   
-  //- ------------------------------------------------------------------------
-  //- Odontogram SVG widget  
-  +odontogram({issuesBar: true})
+    //- -----------------------------------------------------------------------
+    //- Toolbar
+    .col-md-2
+      .btn-group-vertical
+        //- Diseases buttons
+        button.btn.btn-disease(ng-click="setDisease(disease)" 
+                               ng-repeat="disease in diseases"
+                               ng-disabled="!sector_selected"
+                               ng-bind="disease.description")
+        //- Fixes buttons
+        button.btn.btn-fix(ng-click="setFix(fix)"
+                           ng-repeat="fix in fixes"
+                           ng-disabled="!sector_selected"
+                           ng-bind="fix.description")
+        //- Utils buttons
+        button.btn.btn-default(ng-click="clean()"
+                               ng-disabled="!sector_selected")
+          i.fa.fa-eraser
+          |  Limpiar
+  
   
   //- ------------------------------------------------------------------------
   //- Save button
