@@ -1,4 +1,4 @@
-describe 'dentaljs.patient_form module', ->
+xdescribe 'dentaljs.patient_form module', ->
   $httpBackend = null
   $rootScope = null
   createController = null
