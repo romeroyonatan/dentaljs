@@ -31,3 +31,11 @@ gulp deploy
 ```/bin/bash
 gulp backup
 ```
+
+
+Importing fixtures
+-----------------------------------------------------------------------------
+```sh
+mongoimport fixtures/issues.json --jsonArray -d dentaljs
+mongoimport fixtures/accountingcategories.json --jsonArray -d dentaljs
+```

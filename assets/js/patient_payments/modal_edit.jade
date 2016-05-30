@@ -29,6 +29,13 @@ include ../mixins/form.jade
     p.form-control-static(
       ng-bind="(account.assets - account.debit)|currency"
     )
+    label(for="id_category") Categoría
+    select.form-control(
+      id="id_category"
+      name="account.category"
+      ng-model="account.category")
+        option(ng-repeat="cat in categories" ng-value="cat._id" 
+               ng-bind="cat.description")
 .modal-footer
   button.btn.btn-default(type="button" ng-click="cancel()")
     | Cancelar

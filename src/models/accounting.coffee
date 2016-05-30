@@ -22,6 +22,7 @@ Accounting = new mongoose.Schema
   # parent id
   parent: type: mongoose.Schema.Types.ObjectId, ref: 'Accounting'
   childs: [type: mongoose.Schema.Types.ObjectId, ref: 'Accounting']
+  category: type: mongoose.Schema.Types.ObjectId, ref: 'AccountingCategory'
 
 # Pre-save Hook that calculates balance amount
 Accounting.pre 'save', (next) ->

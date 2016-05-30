@@ -2,20 +2,24 @@
 # ----------------------
 # This module implements CRUD methods for accounting's collection
 Accounting = require '../models/accounting'
+AccountingCategory = require '../models/accounting_category'
 mongoose = require 'mongoose'
 
 module.exports =
 
-  # ## list
+  # list
+  # --------------------------------------------------------------------------
   # Get a list of accounting filtered by person _id
   list: (req, res, next) ->
     req.query.parent = null
-    Accounting.find(req.query).populate('childs').exec (err, list) ->
-      if err
-        next err
-      res.send list
+    Accounting.find(req.query)
+      .populate('childs')
+      .exec (err, list) ->
+        return next err if err
+        res.send list
 
-  # ## create
+  # create
+  # --------------------------------------------------------------------------
   # Create a new accounting
   create: (req, res, next) ->
     Accounting.create req.body, (err, object) ->
@@ -29,7 +33,8 @@ module.exports =
           parent.save (err, parent)->
             res.send object
 
-  # ## update
+  # update
+  # --------------------------------------------------------------------------
   # Update an existing accounting
   update: (req, res, next) ->
     object = req.body
@@ -40,13 +45,15 @@ module.exports =
         res.status = 200
         res.send object
 
-  # ## detail
+  # detail
+  # --------------------------------------------------------------------------
   # Get details from an accounting
   detail: (req, res, next) ->
-    Accounting.findOne _id: req.params.id, (err, object) ->
+    Accounting.findById req.params.id, (err, object) ->
       res.send object
 
-  # ## delete
+  # delete
+  # --------------------------------------------------------------------------
   # Delete a accounting
   delete: (req, res, next) ->
     Accounting.remove _id: req.params.id, (err, account)->
@@ -56,17 +63,24 @@ module.exports =
         Accounting.update { _id: account.parent },
                           {$pull: 'childs': _id: account._id}
       res.status 204
-      res.send ""
+      res.end()
 
-  # ## balance
+  # balance
+  # --------------------------------------------------------------------------
   # Calculate the person's balance
   balance: (req, res, next) ->
     Accounting.find person: req.params.person, (err, list)->
-      if err
-        console.error err
-        return next err
+      return next err if err
       balance = 0
       for account in list
         balance += account.assets
         balance -= account.debit
       res.send balance: balance
+
+  # categories
+  # --------------------------------------------------------------------------
+  # Get list of availables categories
+  categories: (req, res, next) ->
+    AccountingCategory.find {}, (err, list) ->
+      return next err if err
+      res.send list

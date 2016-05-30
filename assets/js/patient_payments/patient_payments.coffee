@@ -5,6 +5,9 @@ angular.module('dentaljs.patient_payments',
   $routeProvider.when '/patients/:slug/payments',
     templateUrl: '/partials/patient_payments/patient_payments.html'
     controller: 'PatientPaymentsCtrl'
+  $routeProvider.when '/patients/:slug/payments/:category',
+    templateUrl: '/partials/patient_payments/patient_payments.html'
+    controller: 'PatientPaymentsCtrl'
 ]
 
 .controller 'PatientPaymentsCtrl', ["$scope", "$routeParams", "$route",
@@ -14,11 +17,25 @@ angular.module('dentaljs.patient_payments',
     $scope.accounting = []
     $scope.balance = 0
 
-    # get patient and its accounting
-    $scope.patient = Person.get slug: $routeParams.slug, ->
-      $scope.accounting = Accounting.query person: $scope.patient._id, ->
-        $http.get("/accounting/balance/" + $scope.patient._id).then (res) ->
-          $scope.balance = res.data.balance
+    # get list of categories
+    $http.get("/accounting/categories").then (res) ->
+      $scope.categories = res.data
+
+      # get patient and its accounting
+      $scope.patient = Person.get slug: $routeParams.slug, ->
+        # get selected category
+        $scope.category = null
+        if $routeParams.category?
+          for cat in $scope.categories
+            if cat.slug is $routeParams.category
+              $scope.category = cat
+        # get payments list
+        $scope.accounting = Accounting.query
+          person: $scope.patient._id
+          category: $scope.category._id if $scope.category?
+          , ->
+            $http.get("/accounting/balance/" + $scope.patient._id).then (res) ->
+              $scope.balance = res.data.balance
 
     # add new accounting to list and add mounts to balance
     add = (account)->
@@ -40,6 +57,7 @@ angular.module('dentaljs.patient_payments',
     # create new account
     $scope.new = (account) ->
       account.person = $scope.patient._id
+      account.category = $scope.category
       accounting = new Accounting account
       accounting.$save().then ->
         add(accounting)
@@ -81,11 +99,14 @@ angular.module('dentaljs.patient_payments',
         $route.reload()
 ]
 
-.controller 'ModalUpdateCtrl', ['$scope', '$uibModalInstance', 'account',
-  ($scope, $uibModalInstance, account) ->
+.controller 'ModalUpdateCtrl', ['$scope', '$uibModalInstance', '$http',
+  'account', ($scope, $uibModalInstance, $http, account) ->
     $scope.account = account
     # convert number to string
-    $scope.account.piece = $scope.account.piece.toString()
+    if $scope.account.piece?
+      $scope.account.piece = $scope.account.piece.toString()
+    $http.get("/accounting/categories").then (res) ->
+      $scope.categories = res.data
     $scope.ok = -> $uibModalInstance.close $scope.account
     $scope.cancel = -> $uibModalInstance.dismiss 'cancel'
 ]
