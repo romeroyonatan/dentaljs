@@ -22,6 +22,7 @@ angular.module('dentaljs.patient_payments',
       # get list of categories
       $http.get("/accounting/categories").then (res) ->
         $scope.categories = res.data
+
         # get selected category
         $scope.category = null
         if $routeParams.category?

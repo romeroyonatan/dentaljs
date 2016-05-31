@@ -2,6 +2,7 @@ rewire = require 'rewire'
 mongoose = require 'mongoose'
 {Mock, spies} = require '../helpers/mongoose-mock'
 Accounting = require '../../.app/models/accounting'
+AccountingCategory = require '../../.app/models/accounting_category'
 
 describe 'Accounting controller tests', ->
   controller = rewire '../../.app/controllers/accounting'
@@ -150,15 +151,30 @@ describe 'Accounting controller tests without mock', ->
     controller.create {body: piece: 11}, res, (err) ->
       expect(err).toBe false
 
-  it "Should retrieve details of an accounting", ->
+  it "Should retrieve details of an accounting", (done)->
     # create accounting
     Accounting.create description: "foo", debit: 10, (err, accounting) ->
-      # create child accounting
       req = params: id: accounting._id
       res = send: (data) ->
         expect(data.description).toEqual 'foo'
         expect(data._id).toEqual accounting._id
         expect(data.debit).toEqual 10
         expect(data.balance).toEqual -10
+        done()
       # call controller
       controller.detail req, res, (err) -> done.fail err
+
+  it "Should retrieve details of an accounting category", (done)->
+    # create category
+    AccountingCategory.create description: "foo", (err, category) ->
+      # create accounting
+      Accounting.create description: "bar", debit: 10, category: category._id,
+      (err, accounting) ->
+        req = params: id: category._id
+        res = send: (data) ->
+          expect(data.description).toEqual 'foo'
+          expect(data._id).toEqual category._id
+          expect(data.childs_count).toEqual 1
+          done()
+        # call controller
+        controller.category_detail req, res, (err) -> done.fail err

@@ -84,3 +84,19 @@ module.exports =
     AccountingCategory.find {}, (err, list) ->
       res.send list
       return next err if err
+
+  # categories_detail
+  # --------------------------------------------------------------------------
+  # Get details of category with the number of accounting which its type is
+  # equal to category
+  category_detail: (req, res, next) ->
+    AccountingCategory.findById req.params.id, (err, category) ->
+      return next err if err
+      return next status: 404, message: 'Not found' if not category?
+      Accounting.count category: category._id, (err, count) ->
+        return next err if err
+        res.send
+          _id: category._id
+          description: category.description
+          slug: category.slug
+          childs_count:count

@@ -23,8 +23,9 @@ block content
     li(role="presentation"
        ng-repeat="cat in categories"
        ng-class="{'active':cat._id==category._id}")
-      a(ng-href="#/patients/{{patient.slug}}/payments/{{cat.slug}}" 
-        ng-bind="cat.description")
+      a(ng-href="#/patients/{{patient.slug}}/payments/{{cat.slug}}")
+        span(ng-bind="cat.description")
+        span.badge(ng-show="cat.childs_count > 0" ng-bind="cat.childs_count")
   
   //- Debt section
   //- ------------------------------------------------------------------------
