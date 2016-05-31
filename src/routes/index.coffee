@@ -4,12 +4,18 @@ accouting = require './accounting'
 odontograms = require './odontogram'
 images = require './image'
 folders = require './folder'
+exec = require('child_process').exec
 
 router = express.Router()
+version = ''
+
+exec 'git describe --tags', (err, stdout) ->
+  version = stdout
 
 ### GET home page. ###
 router.get '/', (req, res, next) ->
-  res.render 'index', title: ''
+  console.log version
+  res.render 'index', {title: 'Alejandro Lezcano', version: version}
 
 # Call person routes
 router.use '/persons', persons

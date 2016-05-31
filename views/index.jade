@@ -3,8 +3,8 @@ block content
   nav.navbar.navbar-default
     .container-fluid
       .navbar-header
-        a.navbar-brand(href="#") Alejandro Lezcano
+        a.navbar-brand(href="#")= title
         p.navbar-text Odontólogo
   .container.view-container
     .view-frame(ng-view)
-    .footer: p Version 0.0.8
+    .footer: p Version #{version}
