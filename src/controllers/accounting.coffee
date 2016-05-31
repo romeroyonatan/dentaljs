@@ -82,5 +82,5 @@ module.exports =
   # Get list of availables categories
   categories: (req, res, next) ->
     AccountingCategory.find {}, (err, list) ->
-      return next err if err
       res.send list
+      return next err if err

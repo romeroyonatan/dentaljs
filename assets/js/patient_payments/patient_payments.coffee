@@ -17,12 +17,11 @@ angular.module('dentaljs.patient_payments',
     $scope.accounting = []
     $scope.balance = 0
 
-    # get list of categories
-    $http.get("/accounting/categories").then (res) ->
-      $scope.categories = res.data
-
-      # get patient and its accounting
-      $scope.patient = Person.get slug: $routeParams.slug, ->
+    # get patient and its accounting
+    $scope.patient = Person.get slug: $routeParams.slug, ->
+      # get list of categories
+      $http.get("/accounting/categories").then (res) ->
+        $scope.categories = res.data
         # get selected category
         $scope.category = null
         if $routeParams.category?

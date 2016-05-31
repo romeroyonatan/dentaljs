@@ -7,7 +7,9 @@ describe 'Accounting controller tests', ->
   controller = rewire '../../.app/controllers/accounting'
 
   req = {}
-  res = send: ->
+  res =
+    send: ->
+    end: ->
   revert = null
 
   beforeEach ->
@@ -56,18 +58,8 @@ describe 'Accounting controller tests', ->
     expect(Mock.update).toHaveBeenCalledWith _id:'abcxyz', accounting,
                                              jasmine.any Function
 
-  it "Should retrieve details of an accounting", ->
-    spyOn(res, 'send')
-    # Parameters
-    req.params =
-      id: 'abcxyz'
-    # Exec tests
-    controller.detail req, res
-    expect(spies.findOne).toHaveBeenCalledWith _id: 'abcxyz'
-    expect(res.send).toHaveBeenCalledWith jasmine.any Object
 
   it "Should delete an accounting", ->
-    spyOn(res, 'send')
     spyOn(Mock, 'remove')
     # Parameters
     req.params =
@@ -112,7 +104,7 @@ describe 'Accounting controller tests without mock', ->
     # preparing response mock
     res =
       status: ->
-      send: (child) ->
+      end: ->
         Accounting.findOne description: 'Father', (err, father)->
           expect(father?).toBe true
           expect(father.childs.length).toEqual 0
@@ -157,3 +149,16 @@ describe 'Accounting controller tests without mock', ->
         done()
     controller.create {body: piece: 11}, res, (err) ->
       expect(err).toBe false
+
+  it "Should retrieve details of an accounting", ->
+    # create accounting
+    Accounting.create description: "foo", debit: 10, (err, accounting) ->
+      # create child accounting
+      req = params: id: accounting._id
+      res = send: (data) ->
+        expect(data.description).toEqual 'foo'
+        expect(data._id).toEqual accounting._id
+        expect(data.debit).toEqual 10
+        expect(data.balance).toEqual -10
+      # call controller
+      controller.detail req, res, (err) -> done.fail err
