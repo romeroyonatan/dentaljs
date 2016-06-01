@@ -41,9 +41,9 @@ module.exports =
     # update balance because Mongoose doesnt do in pre-save hook
     object.balance = object.assets - object.debit
     Accounting.update _id: req.params.id, object, (err)->
-      if not err
-        res.status = 200
-        res.send object
+      return next err if not err
+      res.status = 200
+      res.send object
 
   # detail
   # --------------------------------------------------------------------------
@@ -75,7 +75,7 @@ module.exports =
       for account in list
         balance += account.assets
         balance -= account.debit
-      res.send balance: balance
+      res.send balance: balance, size: list.length
 
   # categories
   # --------------------------------------------------------------------------
@@ -95,8 +95,6 @@ module.exports =
       return next status: 404, message: 'Not found' if not category?
       Accounting.count category: category._id, (err, count) ->
         return next err if err
-        res.send
-          _id: category._id
-          description: category.description
-          slug: category.slug
-          childs_count:count
+        obj = category.toObject()
+        obj.childs_count = count
+        res.send obj

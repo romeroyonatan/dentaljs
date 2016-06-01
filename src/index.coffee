@@ -44,7 +44,7 @@ app.use '/', routes
 
 # catch 404 and forward to error handler
 app.use (req, res, next) ->
-  err = new Error('Not Found')
+  err = new Error('Page Not Found')
   err.status = 404
   next err
   return

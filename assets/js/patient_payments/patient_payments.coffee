@@ -16,19 +16,22 @@ angular.module('dentaljs.patient_payments',
     # initialize scope vars
     $scope.accounting = []
     $scope.balance = 0
+    $scope.categories = []
+    $scope.category = null
 
+    # Get patient's payments
+    # ------------------------------------------------------------------------
     # get patient and its accounting
     $scope.patient = Person.get slug: $routeParams.slug, ->
       # get list of categories
       $http.get("/accounting/categories").then (res) ->
-        $scope.categories = res.data
+        for cat in res.data
+          # get active category
+          $scope.category = cat if cat.slug is $routeParams.category
+          # get category details
+          $http.get("/accounting/categories/" + cat._id).then (res) ->
+            $scope.categories.push res.data
 
-        # get selected category
-        $scope.category = null
-        if $routeParams.category?
-          for cat in $scope.categories
-            if cat.slug is $routeParams.category
-              $scope.category = cat
         # get payments list
         $scope.accounting = Accounting.query
           person: $scope.patient._id
@@ -36,7 +39,10 @@ angular.module('dentaljs.patient_payments',
           , ->
             $http.get("/accounting/balance/" + $scope.patient._id).then (res) ->
               $scope.balance = res.data.balance
+              $scope.size = res.data.size # payments' lenght
 
+    #  add()
+    # ------------------------------------------------------------------------
     # add new accounting to list and add mounts to balance
     add = (account)->
       $scope.accounting.push account
@@ -46,6 +52,8 @@ angular.module('dentaljs.patient_payments',
       # clean scope's account
       $scope.account = {}
 
+    #  subtract()
+    # ------------------------------------------------------------------------
     # remove accounting from list and subtract from balance
     subtract = (account)->
       $scope.accounting = (
@@ -54,6 +62,8 @@ angular.module('dentaljs.patient_payments',
       $scope.balance += account.debit if account.debit?
       $scope.balance -= account.assets if account.assets?
 
+    #  new()
+    # ------------------------------------------------------------------------
     # create new account
     $scope.new = (account) ->
       account.person = $scope.patient._id
@@ -63,6 +73,8 @@ angular.module('dentaljs.patient_payments',
         add(accounting)
         toastr.success "Registro creado con éxito"
 
+    #  delete()
+    # ------------------------------------------------------------------------
     # remove accounting
     $scope.delete = (account) ->
       account = new Accounting account if account not instanceof Accounting
@@ -70,6 +82,8 @@ angular.module('dentaljs.patient_payments',
         $route.reload()
         toastr.success "Registro eliminado con éxito"
 
+    #  update()
+    # ------------------------------------------------------------------------
     # edit existing accounting
     $scope.update = (account) ->
       account.person = $scope.patient._id
@@ -79,6 +93,8 @@ angular.module('dentaljs.patient_payments',
         $route.reload()
         toastr.success "Registro actualizado con éxito"
 
+    #  showEdit()
+    # ------------------------------------------------------------------------
     # shows a modal with update's form
     $scope.showEdit = (account) ->
       $uibModal.open
@@ -88,6 +104,8 @@ angular.module('dentaljs.patient_payments',
           account: account
       .result.then (account) -> $scope.update account
 
+    #  showDependant()
+    # ------------------------------------------------------------------------
     # shows a modal to create a dependant account
     $scope.showDependant = (account) ->
       $uibModal.open

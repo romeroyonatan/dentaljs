@@ -14,7 +14,6 @@ exec 'git describe --tags', (err, stdout) ->
 
 ### GET home page. ###
 router.get '/', (req, res, next) ->
-  console.log version
   res.render 'index', {title: 'Alejandro Lezcano', version: version}
 
 # Call person routes

@@ -33,9 +33,10 @@ include ../mixins/form.jade
     select.form-control(
       id="id_category"
       name="account.category"
-      ng-model="account.category")
-        option(ng-repeat="cat in categories" ng-value="cat._id" 
-               ng-bind="cat.description")
+      ng-model="account.category"
+      ng-options="cat._id as cat.description for cat in categories"
+    )
+        option(value="") Seleccionar
 .modal-footer
   button.btn.btn-default(type="button" ng-click="cancel()")
     | Cancelar

@@ -19,7 +19,9 @@ block content
   ul.sm.nav.nav-pills
     li(role="presentation"
        ng-class="{'active':!category}")
-      a(ng-href="#/patients/{{patient.slug}}/payments") Todos
+      a(ng-href="#/patients/{{patient.slug}}/payments")
+        span Todos
+        span.badge(ng-show="size > 0" ng-bind="size")
     li(role="presentation"
        ng-repeat="cat in categories"
        ng-class="{'active':cat._id==category._id}")
