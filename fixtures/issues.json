@@ -1,42 +1,132 @@
 [
   {
     "type": 1,
-    "code": "A",
-    "description": "Enfermedad A"
+    "code": "SPC",
+    "description": "SPC"
   },
   {
     "type": 1,
-    "code": "B",
-    "description": "Enfermedad B"
+    "code": "NP",
+    "description": "NP"
   },
   {
     "type": 1,
-    "code": "C",
-    "description": "Enfermedad C"
+    "code": "P",
+    "description": "P"
   },
   {
     "type": 1,
-    "code": "D",
-    "description": "Enfermedad D"
+    "code": "RR",
+    "description": "RR"
   },
   {
-    "type": 2,
+    "type": 1,
+    "code": "Am",
+    "description": "Am"
+  },
+  {
+    "type": 1,
+    "code": "Comp",
+    "description": "Comp"
+  },
+  {
+    "type": 1,
+    "code": "Iv",
+    "description": "Iv"
+  },
+  {
+    "type": 1,
+    "code": "Co",
+    "description": "Co"
+  },
+  {
+    "type": 1,
     "code": "X",
-    "description": "Arreglo X"
+    "description": "X"
+  },
+  {
+    "type": 1,
+    "code": "Inc",
+    "description": "Inc"
+  },
+  {
+    "type": 1,
+    "code": "CA",
+    "description": "CA"
   },
   {
     "type": 2,
-    "code": "Y",
-    "description": "Arreglo Y"
+    "code": "SPP",
+    "description": "SPP"
   },
   {
     "type": 2,
-    "code": "Z",
-    "description": "Arreglo Z"
+    "code": "SP",
+    "description": "SP"
   },
   {
     "type": 2,
-    "code": "W",
-    "description": "Arreglo W"
+    "code": "Am",
+    "description": "Am"
+  },
+  {
+    "type": 2,
+    "code": "Comp",
+    "description": "Comp"
+  },
+  {
+    "type": 2,
+    "code": "Iv",
+    "description": "Iv"
+  },
+  {
+    "type": 2,
+    "code": "OPro",
+    "description": "OPro"
+  },
+  {
+    "type": 2,
+    "code": "CO",
+    "description": "CO"
+  },
+  {
+    "type": 2,
+    "code": "PM",
+    "description": "PM"
+  },
+  {
+    "type": 2,
+    "code": "Imp",
+    "description": "Imp"
+  },
+  {
+    "type": 2,
+    "code": "=",
+    "description": "="
+  },
+  {
+    "type": 2,
+    "code": "Inc",
+    "description": "Inc"
+  },
+  {
+    "type": 2,
+    "code": "CA",
+    "description": "CA"
+  },
+  {
+    "type": 2,
+    "code": "↓",
+    "description": "↓"
+  },
+  {
+    "type": 2,
+    "code": "↷",
+    "description": "↷"
+  },
+  {
+    "type": 2,
+    "code": "↻",
+    "description": "↻"
   }
 ]
