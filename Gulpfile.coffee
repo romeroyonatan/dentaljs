@@ -114,7 +114,8 @@ gulp.task 'deploy', ['build'], ->
   #execSync 'git pull'
   execSync 'npm install --production'
   execSync 'bower install --production'
-  execSync 'docker-compose build'
+  version = execSync 'git describe --tags'
+  execSync 'docker-compose build', env: DENTALJS_VERSION: version
   execSync 'docker-compose up -d'
 
 # Backup application's data from mongo docker container

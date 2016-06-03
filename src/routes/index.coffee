@@ -7,10 +7,11 @@ folders = require './folder'
 exec = require('child_process').exec
 
 router = express.Router()
-version = ''
 
-exec 'git describe --tags', (err, stdout) ->
-  version = stdout
+# get build's version
+version = "0.1.0"
+if not version?
+  exec 'git describe --tags', (err, stdout) -> version = stdout
 
 ### GET home page. ###
 router.get '/', (req, res, next) ->
