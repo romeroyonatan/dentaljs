@@ -41,7 +41,7 @@ module.exports =
     # update balance because Mongoose doesnt do in pre-save hook
     object.balance = object.assets - object.debit
     Accounting.update _id: req.params.id, object, (err)->
-      return next err if not err
+      return next err if err
       res.status = 200
       res.send object
 
