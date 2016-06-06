@@ -13,7 +13,7 @@ angular.module('dentaljs.patient_list', ['ngRoute'])
   # Patient list
   $scope.patients = Person.query()
   # List of available tags
-  $scope.tags = [ALL, 'Ortodoncia', 'Rehabilitación profética',
+  $scope.tags = [ALL, 'Ortodoncia', 'Rehabilitación protética',
                  'Odontología general']
   # Current selected tag
   $scope.activeTag = ALL
