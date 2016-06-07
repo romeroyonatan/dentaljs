@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/romeroyonatan/dentaljs.svg?branch=master)](https://travis-ci.org/romeroyonatan/dentaljs)
+[![GitHub release](https://img.shields.io/github/release/romeroyonatan/dentaljs.svg?maxAge=2592000?style=flat-square)]()
 
 # Dentaljs
 
