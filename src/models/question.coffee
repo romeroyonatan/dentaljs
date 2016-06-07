@@ -8,9 +8,10 @@ Question = new mongoose.Schema
   choices: [[title: String]] # support for grouped choices
   multiple_choice: Boolean
   can_comment: Boolean
+  yes_no: Boolean
   comment_title: String # text that will showed before comment input
   help_text: String
   category: String
-  depends: type: Schema.Types.ObjectId, ref: 'Question'
+  childs: [type: Schema.Types.ObjectId, ref: 'Question']
 
 module.exports = mongoose.model 'Question', Question

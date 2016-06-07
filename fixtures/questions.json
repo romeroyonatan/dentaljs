@@ -1,5 +1,6 @@
 {
-"statement":"Alergia a",
+  "_id": 1,
+  "statement":"Alergia a",
   "choices": [
     [
       {"title": "Penicilina"},
@@ -14,45 +15,31 @@
   "category": "Antecedentes médicos"
 }
 {
+  "_id": 2,
   "statement":"Broncoespasmos",
-  "choices": [
-    [
-      {"title": "Sí"},
-      {"title": "No"}
-    ]
-  ],
-  "multiple_choice": false,
+  "yes_no": true,
   "can_comment": false,
   "help_text": "",
   "category": "Antecedentes médicos"
 }
 {
-  "statement":"Asma",
-  "choices": [
-    [
-      {"title": "Sí"},
-      {"title": "No"}
-    ]
-  ],
+  "_id": 3,
+  "yes_no": true,
   "multiple_choice": false,
   "can_comment": true,
   "comment_title": "En tratamiento con",
   "category": "Antecedentes médicos"
 }
 {
+  "_id": 4,
   "statement":"Aneia",
-  "choices": [
-    [
-      {"title": "Sí"},
-      {"title": "No"}
-    ]
-  ],
-  "multiple_choice": false,
+  "yes_no": true,
   "can_comment": true,
   "comment_title": "En tratamiento con",
   "category": "Antecedentes médicos"
 }
 {
+  "_id": 5,
   "statement":"Hepatitis",
   "choices": [
     [
@@ -67,457 +54,304 @@
   "category": "Antecedentes médicos"
 }
 {
+  "_id": 6,
   "statement": "Diabetes",
-  "choices": [
-    [
-      {"title": "Sí"},
-      {"title": "No"}
-    ]
-  ],
-  "multiple_choice": false,
+  "yes_no": true,
   "can_comment": true,
   "comment_title": "Antecedentes familiares",
+  "childs": [7],
   "category": "Antecedentes médicos"
 }
 {
+  "_id": 7,
   "statement": "Insulino-dependiente",
-  "choices": [
-    [
-      {"title": "Sí"},
-      {"title": "No"}
-    ]
-  ],
-  "multiple_choice": false,
+  "yes_no": true,
   "can_comment": false,
   "category": "Antecedentes médicos"
 }
 {
+  "_id": 8,
   "statement": "Anemia",
-  "choices": [
-    [
-      {"title": "Sí"},
-      {"title": "No"}
-    ]
-  ],
-  "multiple_choice": false,
+  "yes_no": true,
   "can_comment": true,
   "comment_title": "Tratamiento",
   "category": "Antecedentes médicos"
 }
 {
+  "_id": 9,
   "statement": "Artritis",
-  "choices": [
-    [
-      {"title": "Sí"},
-      {"title": "No"}
-    ]
-  ],
-  "multiple_choice": false,
+  "yes_no": true,
   "can_comment": true,
   "comment_title": "Tratamiento",
   "category": "Antecedentes médicos"
 }
 {
+  "_id": 10,
   "statement": "Cáncer",
-  "choices": [
-    [
-      {"title": "Sí"},
-      {"title": "No"}
-    ]
-  ],
-  "multiple_choice": false,
+  "yes_no": true,
   "can_comment": true,
   "comment_title": "Tipo",
+  "childs": [11, 12],
   "category": "Antecedentes médicos"
 }
 {
+  "_id": 11,
   "statement": "Radiación",
-  "choices": [
-    [
-      {"title": "Sí"},
-      {"title": "No"}
-    ]
-  ],
-  "multiple_choice": false,
+  "yes_no": true,
   "can_comment": true,
   "comment_title": "Número de veces",
   "category": "Antecedentes médicos"
 }
 {
+  "_id": 12,
   "statement": "Quimio",
-  "choices": [
-    [
-      {"title": "Sí"},
-      {"title": "No"}
-    ]
-  ],
-  "multiple_choice": false,
+  "yes_no": true,
   "can_comment": true,
   "comment_title": "Número de veces",
   "category": "Antecedentes médicos"
 }
 {
+  "_id": 13,
   "statement": "Epilepsia",
-  "choices": [
-    [
-      {"title": "Sí"},
-      {"title": "No"}
-    ]
-  ],
-  "multiple_choice": false,
+  "yes_no": true,
   "can_comment": true,
   "comment_title": "Tratamiento",
   "category": "Antecedentes médicos"
 }
 {
+  "_id": 14,
   "statement": "Fiebre reumática infantil",
-  "choices": [
-    [
-      {"title": "Sí"},
-      {"title": "No"}
-    ]
-  ],
-  "multiple_choice": false,
+  "yes_no": true,
   "can_comment": true,
   "comment_title": "Secuelas",
   "category": "Antecedentes médicos"
 }
 {
+  "_id": 15,
   "statement": "Enfermedad cardiovascular",
-  "choices": [
-    [
-      {"title": "Sí"},
-      {"title": "No"}
-    ]
-  ],
-  "multiple_choice": false,
+  "yes_no": true,
   "can_comment": true,
   "comment_title": "¿Cuál?",
+  "childs": [16],
   "category": "Antecedentes médicos"
 }
 {
-  "statement": "Enfermedad cardiovascular",
+  "_id": 16,
+  "statement": "Tratamiento",
   "can_comment": true,
-  "comment_title": "Tratamiento",
   "category": "Antecedentes médicos"
 }
 {
+  "_id": 17,
   "statement": "Enfermedad venérea",
-  "choices": [
-    [
-      {"title": "Sí"},
-      {"title": "No"}
-    ]
-  ],
-  "multiple_choice": false,
+  "yes_no": true,
   "can_comment": true,
   "comment_title": "¿Cuál?",
+  "childs": [18],
   "category": "Antecedentes médicos"
 }
 {
-  "statement": "Enfermedad venérea",
+  "_id": 18,
+  "statement": "Tratamiento",
   "can_comment": true,
-  "comment_title": "Tratamiento",
   "category": "Antecedentes médicos"
 }
 {
+  "_id": 19,
   "statement": "Hipertensión",
-  "choices": [
-    [
-      {"title": "Sí"},
-      {"title": "No"}
-    ]
-  ],
-  "multiple_choice": false,
+  "yes_no": true,
   "can_comment": true,
   "comment_title": "Tratamiento",
   "category": "Antecedentes médicos"
 }
 {
+  "_id": 20,
   "statement": "Enfermedad neurológica",
-  "choices": [
-    [
-      {"title": "Sí"},
-      {"title": "No"}
-    ]
-  ],
-  "multiple_choice": false,
+  "yes_no": true,
   "can_comment": true,
   "comment_title": "¿Cuál?",
+  "childs": [21],
   "category": "Antecedentes médicos"
 }
 {
-  "statement": "Enfermedad neurológica",
+  "_id": 21,
+  "statement": "Tratamiento",
   "can_comment": true,
-  "comment_title": "Tratamiento",
   "category": "Antecedentes médicos"
 }
 {
+  "_id": 22,
   "statement": "Enfermedad renal",
-  "choices": [
-    [
-      {"title": "Sí"},
-      {"title": "No"}
-    ]
-  ],
-  "multiple_choice": false,
+  "yes_no": true,
   "can_comment": true,
   "comment_title": "¿Cuál?",
+  "childs": [23],
   "category": "Antecedentes médicos"
 }
 {
-  "statement": "Enfermedad renal",
+  "_id": 23,
+  "statement": "Tratamiento",
   "can_comment": true,
-  "comment_title": "Tratamiento",
   "category": "Antecedentes médicos"
 }
 {
+  "_id": 24,
   "statement": "Tratamiento psicológico",
-  "choices": [
-    [
-      {"title": "Sí"},
-      {"title": "No"}
-    ]
-  ],
-  "multiple_choice": false,
+  "yes_no": true,
   "can_comment": false,
   "category": "Antecedentes médicos"
 }
 {
+  "_id": 25,
   "statement": "Tratamiento psiquiátrico",
-  "choices": [
-    [
-      {"title": "Sí"},
-      {"title": "No"}
-    ]
-  ],
-  "multiple_choice": false,
+  "yes_no": true,
   "can_comment": true,
   "comment_title": "Medicación",
   "category": "Antecedentes médicos"
 }
 {
+  "_id": 26,
   "statement": "SIDA",
-  "choices": [
-    [
-      {"title": "Sí"},
-      {"title": "No"}
-    ]
-  ],
-  "multiple_choice": false,
+  "yes_no": true,
   "can_comment": true,
   "comment_title": "Tratamiento",
   "category": "Antecedentes médicos"
 }
 {
+  "_id": 27,
   "statement": "Tiroides",
-  "choices": [
-    [
-      {"title": "Sí"},
-      {"title": "No"}
-    ]
-  ],
-  "multiple_choice": false,
+  "yes_no": true,
   "can_comment": true,
   "comment_title": "Tratamiento",
   "category": "Antecedentes médicos"
 }
 {
+  "_id": 28,
   "statement": "Tuberculosis",
-  "choices": [
-    [
-      {"title": "Sí"},
-      {"title": "No"}
-    ]
-  ],
-  "multiple_choice": false,
+  "yes_no": true,
   "can_comment": true,
   "comment_title": "Tratamiento",
   "category": "Antecedentes médicos"
 }
 {
+  "_id": 29,
   "statement": "Úlcera gástrica",
-  "choices": [
-    [
-      {"title": "Sí"},
-      {"title": "No"}
-    ]
-  ],
-  "multiple_choice": false,
+  "yes_no": true,
   "can_comment": true,
   "comment_title": "Tratamiento",
   "category": "Antecedentes médicos"
 }
 {
+  "_id": 30,
   "statement": "Operaciones",
-  "choices": [
-    [
-      {"title": "Sí"},
-      {"title": "No"}
-    ]
-  ],
-  "multiple_choice": false,
+  "yes_no": true,
   "can_comment": true,
+  "childs": [31, 32],
   "category": "Antecedentes médicos"
 }
 {
+  "_id": 31,
   "statement": "Anestesia local",
-  "choices": [
-    [
-      {"title": "Sí"},
-      {"title": "No"}
-    ]
-  ],
-  "multiple_choice": false,
+  "yes_no": true,
   "can_comment": false,
   "category": "Antecedentes médicos"
 }
 {
+  "_id": 32,
   "statement": "Anestesia total",
-  "choices": [
-    [
-      {"title": "Sí"},
-      {"title": "No"}
-    ]
-  ],
-  "multiple_choice": false,
+  "yes_no": true,
   "can_comment": false,
   "category": "Antecedentes médicos"
 }
 {
+  "_id": 33,
   "statement": "Problemas de coagulación",
-  "choices": [
-    [
-      {"title": "Sí"},
-      {"title": "No"}
-    ]
-  ],
-  "multiple_choice": false,
+  "yes_no": true,
   "can_comment": true,
   "comment_title": "Tratamiento",
   "category": "Antecedentes médicos"
 }
 {
+  "_id": 34,
   "statement": "Accidentes",
-  "choices": [
-    [
-      {"title": "Sí"},
-      {"title": "No"}
-    ]
-  ],
-  "multiple_choice": false,
+  "yes_no": true,
   "category": "Antecedentes médicos"
 }
 {
+  "_id": 35,
   "statement": "Internaciones",
-  "choices": [
-    [
-      {"title": "Sí"},
-      {"title": "No"}
-    ]
-  ],
-  "multiple_choice": false,
+  "yes_no": true,
   "category": "Antecedentes médicos"
 }
 {
+  "_id": 36,
   "statement": "¿Actualmente padece alguna enfermedad?",
   "can_comment": true,
   "category": "Antecedentes médicos"
 }
 {
+  "_id": 37,
   "statement": "Medicación actual",
   "can_comment": true,
   "category": "Antecedentes médicos"
 }
 {
+  "_id": 38,
   "statement": "Anticoagulantes",
-  "choices": [
-    [
-      {"title": "Sí"},
-      {"title": "No"}
-    ]
-  ],
-  "multiple_choice": false,
+  "yes_no": true,
   "category": "Antecedentes médicos"
 }
 {
+  "_id": 39,
   "statement": "Tranquilizantes",
-  "choices": [
-    [
-      {"title": "Sí"},
-      {"title": "No"}
-    ]
-  ],
-  "multiple_choice": false,
+  "yes_no": true,
   "category": "Antecedentes médicos"
 }
 {
+  "_id": 40,
   "statement": "Anticonceptivos orales",
-  "choices": [
-    [
-      {"title": "Sí"},
-      {"title": "No"}
-    ]
-  ],
-  "multiple_choice": false,
+  "yes_no": true,
   "category": "Antecedentes médicos"
 }
 {
+  "_id": 41,
   "statement": "Otros medicamentos",
   "can_comment": true
 }
 {
+  "_id": 42,
   "statement": "¿Ha estado o se encuentra bajo tratamiento con bi-fosfonatos o con fijadores de calcio?",
-  "choices": [
-    [
-      {"title": "Sí"},
-      {"title": "No"}
-    ]
-  ],
-  "multiple_choice": false,
+  "yes_no": true,
   "can_comment": true,
   "comment_title": "¿Cuál?",
   "category": "Antecedentes médicos"
 }
 {
+  "_id": 43,
   "statement": "¿Existe probabilidad que esté embarazada?",
-  "choices": [
-    [
-      {"title": "Sí"},
-      {"title": "No"}
-    ]
-  ],
-  "multiple_choice": false,
+  "yes_no": true,
   "category": "Antecedentes médicos"
 }
 {
+  "_id": 44,
   "statement": "Fecha de última consulta",
   "can_comment": true,
   "category": "Antecedentes odontológicos"
 }
 {
+  "_id": 45,
   "statement": "¿Terminó el tratamiento?",
-  "choices": [
-    [
-      {"title": "Sí"},
-      {"title": "No"}
-    ]
-  ],
-  "multiple_choice": false,
+  "yes_no": true,
   "category": "Antecedentes odontológicos"
 }
 {
+  "_id": 46,
   "statement": "¿Concurre periódicamente?",
-  "choices": [
-    [
-      {"title": "Sí"},
-      {"title": "No"}
-    ]
-  ],
-  "multiple_choice": false,
+  "yes_no": true,
   "category": "Antecedentes odontológicos"
 }
 {
+  "_id": 47,
   "statement": "¿Qué tratamiento le realizaron?",
   "choices": [
     [
@@ -534,6 +368,7 @@
   "category": "Antecedentes odontológicos"
 }
 {
+  "_id": 48,
   "statement": "¿Qué experiencia tuvo?",
   "choices": [
     [
@@ -548,43 +383,29 @@
   "category": "Antecedentes odontológicos"
 }
 {
+  "_id": 49,
   "statement": "¿Tiene miedo?",
-  "choices": [
-    [
-      {"title": "Sí"},
-      {"title": "No"}
-    ]
-  ],
-  "multiple_choice": false,
+  "yes_no": true,
   "can_comment": true,
   "comment_title": "¿A qué?",
   "category": "Antecedentes odontológicos"
 }
 {
+  "_id": 50,
   "statement": "¿Recibió información sobre prevención?",
-  "choices": [
-    [
-      {"title": "Sí"},
-      {"title": "No"}
-    ]
-  ],
-  "multiple_choice": false,
+  "yes_no": true,
   "can_comment": true,
   "comment_title": "¿Cúal?",
   "category": "Antecedentes odontológicos"
 }
 {
+  "_id": 51,
   "statement": "¿Fuma diariamente?",
-  "choices": [
-    [
-      {"title": "Sí"},
-      {"title": "No"}
-    ]
-  ],
-  "multiple_choice": false,
+  "yes_no": true,
   "category": "Antecedentes odontológicos"
 }
 {
+  "_id": 52,
   "statement": "¿Toma diariamente ...",
   "choices": [
     [
@@ -598,6 +419,7 @@
   "category": "Antecedentes odontológicos"
 }
 {
+  "_id": 53,
   "statement": "Infusiones",
   "choices": [
     [
@@ -610,32 +432,23 @@
   "category": "Antecedentes odontológicos"
 }
 {
+  "_id": 54,
   "statement": "¿Antes de acostarse toma y/o come algo?",
-  "choices": [
-    [
-      {"title": "Sí"},
-      {"title": "No"}
-    ]
-  ],
-  "multiple_choice": false,
+  "yes_no": true,
   "can_comment": true,
   "comment_title": "¿Qué?",
   "category": "Antecedentes odontológicos"
 }
 {
+  "_id": 55,
   "statement": "¿Si se despierta durante la noche, toma y/o come algo?",
-  "choices": [
-    [
-      {"title": "Sí"},
-      {"title": "No"}
-    ]
-  ],
-  "multiple_choice": false,
+  "yes_no": true,
   "can_comment": true,
   "comment_title": "¿Qué?",
   "category": "Antecedentes odontológicos"
 }
 {
+  "_id": 56,
   "statement": "¿Cuántas veces por día se cepilla?",
   "choices": [
     [
@@ -650,6 +463,7 @@
   "category": "Higiene bucal"
 }
 {
+  "_id": 57,
   "statement": "¿Cuándo se cepilla?",
   "choices": [
     [
@@ -666,6 +480,7 @@
   "category": "Higiene bucal"
 }
 {
+  "_id": 58,
   "statement": "Usa cepillo",
   "choices": [
     [
@@ -687,6 +502,7 @@
   "category": "Higiene bucal"
 }
 {
+  "_id": 59,
   "statement": "Interdentales",
   "choices": [
     [
@@ -702,6 +518,7 @@
   "category": "Higiene bucal"
 }
 {
+  "_id": 60,
   "statement": "Usa dentífrico",
   "choices": [
     [
@@ -717,6 +534,7 @@
   "category": "Higiene bucal"
 }
 {
+  "_id": 61,
   "statement": "Usa enjuagues",
   "choices": [
     [
