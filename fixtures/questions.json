@@ -1,5 +1,5 @@
 {
-  "_id": 1,
+  "_id": ObjectId("000000000000000000000001"),
   "statement":"Alergia a",
   "choices": [
     [
@@ -15,7 +15,7 @@
   "category": "Antecedentes médicos"
 }
 {
-  "_id": 2,
+  "_id": ObjectId("000000000000000000000002"),
   "statement":"Broncoespasmos",
   "yes_no": true,
   "can_comment": false,
@@ -23,7 +23,7 @@
   "category": "Antecedentes médicos"
 }
 {
-  "_id": 3,
+  "_id": ObjectId("000000000000000000000003"),
   "yes_no": true,
   "multiple_choice": false,
   "can_comment": true,
@@ -31,7 +31,7 @@
   "category": "Antecedentes médicos"
 }
 {
-  "_id": 4,
+  "_id": ObjectId("000000000000000000000004"),
   "statement":"Aneia",
   "yes_no": true,
   "can_comment": true,
@@ -39,7 +39,7 @@
   "category": "Antecedentes médicos"
 }
 {
-  "_id": 5,
+  "_id": ObjectId("000000000000000000000005"),
   "statement":"Hepatitis",
   "choices": [
     [
@@ -54,23 +54,23 @@
   "category": "Antecedentes médicos"
 }
 {
-  "_id": 6,
+  "_id": ObjectId("000000000000000000000006"),
   "statement": "Diabetes",
   "yes_no": true,
   "can_comment": true,
   "comment_title": "Antecedentes familiares",
-  "childs": [7],
+  "childs": [ObjectId("000000000000000000000007")],
   "category": "Antecedentes médicos"
 }
 {
-  "_id": 7,
+  "_id": ObjectId("000000000000000000000007"),
   "statement": "Insulino-dependiente",
   "yes_no": true,
   "can_comment": false,
   "category": "Antecedentes médicos"
 }
 {
-  "_id": 8,
+  "_id": ObjectId("000000000000000000000008"),
   "statement": "Anemia",
   "yes_no": true,
   "can_comment": true,
@@ -78,7 +78,7 @@
   "category": "Antecedentes médicos"
 }
 {
-  "_id": 9,
+  "_id": ObjectId("000000000000000000000009"),
   "statement": "Artritis",
   "yes_no": true,
   "can_comment": true,
@@ -86,16 +86,19 @@
   "category": "Antecedentes médicos"
 }
 {
-  "_id": 10,
+  "_id": ObjectId("000000000000000000000010"),
   "statement": "Cáncer",
   "yes_no": true,
   "can_comment": true,
   "comment_title": "Tipo",
-  "childs": [11, 12],
+  "childs": [
+    ObjectId("000000000000000000000011"),
+    ObjectId("000000000000000000000012")
+  ],
   "category": "Antecedentes médicos"
 }
 {
-  "_id": 11,
+  "_id": ObjectId("000000000000000000000011"),
   "statement": "Radiación",
   "yes_no": true,
   "can_comment": true,
@@ -103,7 +106,7 @@
   "category": "Antecedentes médicos"
 }
 {
-  "_id": 12,
+  "_id": ObjectId("000000000000000000000012"),
   "statement": "Quimio",
   "yes_no": true,
   "can_comment": true,
@@ -111,7 +114,7 @@
   "category": "Antecedentes médicos"
 }
 {
-  "_id": 13,
+  "_id": ObjectId("000000000000000000000013"),
   "statement": "Epilepsia",
   "yes_no": true,
   "can_comment": true,
@@ -119,7 +122,7 @@
   "category": "Antecedentes médicos"
 }
 {
-  "_id": 14,
+  "_id": ObjectId("000000000000000000000014"),
   "statement": "Fiebre reumática infantil",
   "yes_no": true,
   "can_comment": true,
@@ -127,37 +130,37 @@
   "category": "Antecedentes médicos"
 }
 {
-  "_id": 15,
+  "_id": ObjectId("000000000000000000000015"),
   "statement": "Enfermedad cardiovascular",
   "yes_no": true,
   "can_comment": true,
   "comment_title": "¿Cuál?",
-  "childs": [16],
+  "childs": [ObjectId("000000000000000000000016")],
   "category": "Antecedentes médicos"
 }
 {
-  "_id": 16,
+  "_id": ObjectId("000000000000000000000016"),
   "statement": "Tratamiento",
   "can_comment": true,
   "category": "Antecedentes médicos"
 }
 {
-  "_id": 17,
+  "_id": ObjectId("000000000000000000000017"),
   "statement": "Enfermedad venérea",
   "yes_no": true,
   "can_comment": true,
   "comment_title": "¿Cuál?",
-  "childs": [18],
+  "childs": [ObjectId("000000000000000000000018")],
   "category": "Antecedentes médicos"
 }
 {
-  "_id": 18,
+  "_id": ObjectId("000000000000000000000018"),
   "statement": "Tratamiento",
   "can_comment": true,
   "category": "Antecedentes médicos"
 }
 {
-  "_id": 19,
+  "_id": ObjectId("000000000000000000000019"),
   "statement": "Hipertensión",
   "yes_no": true,
   "can_comment": true,
@@ -165,44 +168,44 @@
   "category": "Antecedentes médicos"
 }
 {
-  "_id": 20,
+  "_id": ObjectId("000000000000000000000020"),
   "statement": "Enfermedad neurológica",
   "yes_no": true,
   "can_comment": true,
   "comment_title": "¿Cuál?",
-  "childs": [21],
+  "childs": [ObjectId("000000000000000000000021")],
   "category": "Antecedentes médicos"
 }
 {
-  "_id": 21,
+  "_id": ObjectId("000000000000000000000021"),
   "statement": "Tratamiento",
   "can_comment": true,
   "category": "Antecedentes médicos"
 }
 {
-  "_id": 22,
+  "_id": ObjectId("000000000000000000000022"),
   "statement": "Enfermedad renal",
   "yes_no": true,
   "can_comment": true,
   "comment_title": "¿Cuál?",
-  "childs": [23],
+  "childs": [ObjectId("000000000000000000000023")],
   "category": "Antecedentes médicos"
 }
 {
-  "_id": 23,
+  "_id": ObjectId("000000000000000000000023"),
   "statement": "Tratamiento",
   "can_comment": true,
   "category": "Antecedentes médicos"
 }
 {
-  "_id": 24,
+  "_id": ObjectId("000000000000000000000024"),
   "statement": "Tratamiento psicológico",
   "yes_no": true,
   "can_comment": false,
   "category": "Antecedentes médicos"
 }
 {
-  "_id": 25,
+  "_id": ObjectId("000000000000000000000025"),
   "statement": "Tratamiento psiquiátrico",
   "yes_no": true,
   "can_comment": true,
@@ -210,7 +213,7 @@
   "category": "Antecedentes médicos"
 }
 {
-  "_id": 26,
+  "_id": ObjectId("000000000000000000000026"),
   "statement": "SIDA",
   "yes_no": true,
   "can_comment": true,
@@ -218,7 +221,7 @@
   "category": "Antecedentes médicos"
 }
 {
-  "_id": 27,
+  "_id": ObjectId("000000000000000000000027"),
   "statement": "Tiroides",
   "yes_no": true,
   "can_comment": true,
@@ -226,7 +229,7 @@
   "category": "Antecedentes médicos"
 }
 {
-  "_id": 28,
+  "_id": ObjectId("000000000000000000000028"),
   "statement": "Tuberculosis",
   "yes_no": true,
   "can_comment": true,
@@ -234,7 +237,7 @@
   "category": "Antecedentes médicos"
 }
 {
-  "_id": 29,
+  "_id": ObjectId("000000000000000000000029"),
   "statement": "Úlcera gástrica",
   "yes_no": true,
   "can_comment": true,
@@ -242,29 +245,32 @@
   "category": "Antecedentes médicos"
 }
 {
-  "_id": 30,
+  "_id": ObjectId("000000000000000000000030"),
   "statement": "Operaciones",
   "yes_no": true,
   "can_comment": true,
-  "childs": [31, 32],
+  "childs": [
+    ObjectId("000000000000000000000031"),
+    ObjectId("000000000000000000000032")
+  ],
   "category": "Antecedentes médicos"
 }
 {
-  "_id": 31,
+  "_id": ObjectId("000000000000000000000031"),
   "statement": "Anestesia local",
   "yes_no": true,
   "can_comment": false,
   "category": "Antecedentes médicos"
 }
 {
-  "_id": 32,
+  "_id": ObjectId("000000000000000000000032"),
   "statement": "Anestesia total",
   "yes_no": true,
   "can_comment": false,
   "category": "Antecedentes médicos"
 }
 {
-  "_id": 33,
+  "_id": ObjectId("000000000000000000000033"),
   "statement": "Problemas de coagulación",
   "yes_no": true,
   "can_comment": true,
@@ -272,54 +278,54 @@
   "category": "Antecedentes médicos"
 }
 {
-  "_id": 34,
+  "_id": ObjectId("000000000000000000000034"),
   "statement": "Accidentes",
   "yes_no": true,
   "category": "Antecedentes médicos"
 }
 {
-  "_id": 35,
+  "_id": ObjectId("000000000000000000000035"),
   "statement": "Internaciones",
   "yes_no": true,
   "category": "Antecedentes médicos"
 }
 {
-  "_id": 36,
+  "_id": ObjectId("000000000000000000000036"),
   "statement": "¿Actualmente padece alguna enfermedad?",
   "can_comment": true,
   "category": "Antecedentes médicos"
 }
 {
-  "_id": 37,
+  "_id": ObjectId("000000000000000000000037"),
   "statement": "Medicación actual",
   "can_comment": true,
   "category": "Antecedentes médicos"
 }
 {
-  "_id": 38,
+  "_id": ObjectId("000000000000000000000038"),
   "statement": "Anticoagulantes",
   "yes_no": true,
   "category": "Antecedentes médicos"
 }
 {
-  "_id": 39,
+  "_id": ObjectId("000000000000000000000039"),
   "statement": "Tranquilizantes",
   "yes_no": true,
   "category": "Antecedentes médicos"
 }
 {
-  "_id": 40,
+  "_id": ObjectId("000000000000000000000040"),
   "statement": "Anticonceptivos orales",
   "yes_no": true,
   "category": "Antecedentes médicos"
 }
 {
-  "_id": 41,
+  "_id": ObjectId("000000000000000000000041"),
   "statement": "Otros medicamentos",
   "can_comment": true
 }
 {
-  "_id": 42,
+  "_id": ObjectId("000000000000000000000042"),
   "statement": "¿Ha estado o se encuentra bajo tratamiento con bi-fosfonatos o con fijadores de calcio?",
   "yes_no": true,
   "can_comment": true,
@@ -327,31 +333,31 @@
   "category": "Antecedentes médicos"
 }
 {
-  "_id": 43,
+  "_id": ObjectId("000000000000000000000043"),
   "statement": "¿Existe probabilidad que esté embarazada?",
   "yes_no": true,
   "category": "Antecedentes médicos"
 }
 {
-  "_id": 44,
+  "_id": ObjectId("000000000000000000000044"),
   "statement": "Fecha de última consulta",
   "can_comment": true,
   "category": "Antecedentes odontológicos"
 }
 {
-  "_id": 45,
+  "_id": ObjectId("000000000000000000000045"),
   "statement": "¿Terminó el tratamiento?",
   "yes_no": true,
   "category": "Antecedentes odontológicos"
 }
 {
-  "_id": 46,
+  "_id": ObjectId("000000000000000000000046"),
   "statement": "¿Concurre periódicamente?",
   "yes_no": true,
   "category": "Antecedentes odontológicos"
 }
 {
-  "_id": 47,
+  "_id": ObjectId("000000000000000000000047"),
   "statement": "¿Qué tratamiento le realizaron?",
   "choices": [
     [
@@ -368,7 +374,7 @@
   "category": "Antecedentes odontológicos"
 }
 {
-  "_id": 48,
+  "_id": ObjectId("000000000000000000000048"),
   "statement": "¿Qué experiencia tuvo?",
   "choices": [
     [
@@ -383,7 +389,7 @@
   "category": "Antecedentes odontológicos"
 }
 {
-  "_id": 49,
+  "_id": ObjectId("000000000000000000000049"),
   "statement": "¿Tiene miedo?",
   "yes_no": true,
   "can_comment": true,
@@ -391,7 +397,7 @@
   "category": "Antecedentes odontológicos"
 }
 {
-  "_id": 50,
+  "_id": ObjectId("000000000000000000000050"),
   "statement": "¿Recibió información sobre prevención?",
   "yes_no": true,
   "can_comment": true,
@@ -399,13 +405,13 @@
   "category": "Antecedentes odontológicos"
 }
 {
-  "_id": 51,
+  "_id": ObjectId("000000000000000000000051"),
   "statement": "¿Fuma diariamente?",
   "yes_no": true,
   "category": "Antecedentes odontológicos"
 }
 {
-  "_id": 52,
+  "_id": ObjectId("000000000000000000000052"),
   "statement": "¿Toma diariamente ...",
   "choices": [
     [
@@ -419,7 +425,7 @@
   "category": "Antecedentes odontológicos"
 }
 {
-  "_id": 53,
+  "_id": ObjectId("000000000000000000000053"),
   "statement": "Infusiones",
   "choices": [
     [
@@ -432,7 +438,7 @@
   "category": "Antecedentes odontológicos"
 }
 {
-  "_id": 54,
+  "_id": ObjectId("000000000000000000000054"),
   "statement": "¿Antes de acostarse toma y/o come algo?",
   "yes_no": true,
   "can_comment": true,
@@ -440,7 +446,7 @@
   "category": "Antecedentes odontológicos"
 }
 {
-  "_id": 55,
+  "_id": ObjectId("000000000000000000000055"),
   "statement": "¿Si se despierta durante la noche, toma y/o come algo?",
   "yes_no": true,
   "can_comment": true,
@@ -448,7 +454,7 @@
   "category": "Antecedentes odontológicos"
 }
 {
-  "_id": 56,
+  "_id": ObjectId("000000000000000000000056"),
   "statement": "¿Cuántas veces por día se cepilla?",
   "choices": [
     [
@@ -463,7 +469,7 @@
   "category": "Higiene bucal"
 }
 {
-  "_id": 57,
+  "_id": ObjectId("000000000000000000000057"),
   "statement": "¿Cuándo se cepilla?",
   "choices": [
     [
@@ -480,7 +486,7 @@
   "category": "Higiene bucal"
 }
 {
-  "_id": 58,
+  "_id": ObjectId("000000000000000000000058"),
   "statement": "Usa cepillo",
   "choices": [
     [
@@ -502,7 +508,7 @@
   "category": "Higiene bucal"
 }
 {
-  "_id": 59,
+  "_id": ObjectId("000000000000000000000059"),
   "statement": "Interdentales",
   "choices": [
     [
@@ -518,7 +524,7 @@
   "category": "Higiene bucal"
 }
 {
-  "_id": 60,
+  "_id": ObjectId("000000000000000000000060"),
   "statement": "Usa dentífrico",
   "choices": [
     [
@@ -534,7 +540,7 @@
   "category": "Higiene bucal"
 }
 {
-  "_id": 61,
+  "_id": ObjectId("000000000000000000000061"),
   "statement": "Usa enjuagues",
   "choices": [
     [
