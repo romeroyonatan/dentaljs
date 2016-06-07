@@ -10,7 +10,7 @@ Question = new mongoose.Schema
   can_comment: Boolean
   comment_title: String # text that will showed before comment input
   help_text: String
+  category: String
   depends: type: Schema.Types.ObjectId, ref: 'Question'
-  category: type: Schema.Types.ObjectId, ref: 'QuestionCategory'
 
 module.exports = mongoose.model 'Question', Question
