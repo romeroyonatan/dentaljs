@@ -12,6 +12,7 @@
 #= require odontogram_edit/odontogram_edit
 #= require odontogram_list/odontogram_list
 #= require odontogram_detail/odontogram_detail
+#= require history_edit/history_edit
 
 angular.module 'dentaljs', [
   'ngRoute',
@@ -28,6 +29,7 @@ angular.module 'dentaljs', [
   'dentaljs.odontogram_edit',
   'dentaljs.odontogram_list',
   'dentaljs.odontogram_detail',
+  'dentaljs.history_edit',
 ]
 
 .config ['$routeProvider', ($routeProvider) ->

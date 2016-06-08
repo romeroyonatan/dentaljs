@@ -1,0 +1,63 @@
+extends ../layouts/patient
+include ../mixins/form
+
+prepend nav
+  -var section = 'history'
+  
+//- -----------------------------------------------------------------------
+//- Breadcrumb
+block breadcrumb
+  ol.breadcrumb
+    li: a(href="/"): i.fa.fa-home
+    li: a(href="#/patients") Lista de pacientes
+    li: a(href="#/patients/{{patient.slug}}"
+          ng-bind="patient.first_name + ' ' + patient.last_name")
+    li.active: a(href="#/patients/{{patient.slug}}/history/edit") Historia Clínica
+    li.active Editar
+    
+block content
+  //- -----------------------------------------------------------------------
+  //- Title
+  h2 Historia clínica
+  
+  ol
+    li(ng-repeat="question in questions")
+      strong(ng-bind="question.statement")
+      span.text-muted(ng-bind="' ' + question.help_text")
+      //- Yes/No type
+      .row(ng-show="question.yes_no")
+        .col-md-12
+          label.radio-inline
+            input(type="radio" ng-value="true" ng-model="question.answer.choices")
+            | Sí
+          label.radio-inline
+            input(type="radio" ng-value="false" ng-model="question.answer.choices")
+            | No
+      //- Non-grouped choice
+      .row(ng-show="question.choices.length == 1")
+        //- Single choice
+        .col-md-12(ng-hide="question.multiple_choice")
+          label.radio-inline(ng-repeat="choice in question.choices[0]")
+            input(type="radio" 
+                  ng-value="choice"
+                  ng-model="question.answer.choices[0]")
+            | {{ choice.title }}
+        //- Multiple choice
+        .col-md-12(ng-show="question.multiple_choice")
+          label.checkbox-inline(ng-repeat="choice in question.choices[0]")
+            input(type="checkbox" ng-value="choice" ng-model="choice.selected")
+            | {{ choice.title }}
+      //- Grouped choice
+      .row(ng-show="question.choices.length > 1")
+        .col-md-12(ng-repeat="choices in question.choices")
+          label.radio-inline(ng-repeat="choice in choices")
+            input(type="radio" ng-value="choice" 
+                  ng-model="question.selected[$parent.$index]")
+            | {{ choice.title }}
+      //- Comments 
+      .row
+        .col-md-12(ng-show="question.can_comment")
+          .input-group
+            span.input-group-addon(ng-bind="question.comment_title" 
+                                   ng-show="question.comment_title")
+            input(type="text" ng-model="question.answer.comment")
