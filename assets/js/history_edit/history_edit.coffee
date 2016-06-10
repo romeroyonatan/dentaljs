@@ -161,5 +161,7 @@ angular.module('dentaljs.history_edit', ['ngRoute'])
 
         # push new answer in array
         $scope.answers.push answer if answer.is_new and question.is_aswered
+        
+      # resolve promise
       resolve $scope.answers.filter (answer)-> answer.question.is_aswered
 ]
