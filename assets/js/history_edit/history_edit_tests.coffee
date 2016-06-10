@@ -30,11 +30,12 @@ describe 'dentaljs.history_edit module', ->
           choices: yes
       }
     ]
-    answers = $scope.build $scope.questions
-    expect(answers?).toBe true
-    expect(answers[0].choices).toBe yes
-    expect(answers[0].question._id).toEqual 'foo'
-    expect(answers[0].comment?).toBe no
+    promise = $scope.build $scope.questions
+    promise.then (answers) ->
+      expect(answers?).toBe true
+      expect(answers[0].choices).toBe yes
+      expect(answers[0].question._id).toEqual 'foo'
+      expect(answers[0].comment?).toBe no
 
   it 'should process yes-no answers with comment', ->
     $scope.questions = [
@@ -48,11 +49,12 @@ describe 'dentaljs.history_edit module', ->
           comment: 'bar'
       }
     ]
-    answers = $scope.build $scope.questions
-    expect(answers?).toBe true
-    expect(answers[0].choices).toBe no
-    expect(answers[0].question._id).toEqual 'foo'
-    expect(answers[0].comment).toEqual 'bar'
+    promise = $scope.build $scope.questions
+    promise.then (answers) ->
+      expect(answers?).toBe true
+      expect(answers[0].choices).toBe no
+      expect(answers[0].question._id).toEqual 'foo'
+      expect(answers[0].comment).toEqual 'bar'
 
   # Single-choice question's tests
   # --------------------------------------------------------------------------
@@ -69,11 +71,12 @@ describe 'dentaljs.history_edit module', ->
           comment: 'bar'
       }
     ]
-    answers = $scope.build $scope.questions
-    expect(answers?).toBe true
-    expect(answers[0].question._id).toEqual 'foo'
-    expect(answers[0].choices).toEqual 'x'
-    expect(answers[0].comment?).toBe no
+    promise = $scope.build $scope.questions
+    promise.then (answers) ->
+      expect(answers?).toBe true
+      expect(answers[0].question._id).toEqual 'foo'
+      expect(answers[0].choices).toEqual 'x'
+      expect(answers[0].comment?).toBe no
 
   it 'should process single-choice answers with comments', ->
     $scope.questions = [
@@ -88,11 +91,12 @@ describe 'dentaljs.history_edit module', ->
           comment: 'bar'
       }
     ]
-    answers = $scope.build $scope.questions
-    expect(answers?).toBe true
-    expect(answers[0].question._id).toEqual 'foo'
-    expect(answers[0].choices).toEqual 'y'
-    expect(answers[0].comment).toEqual 'bar'
+    promise = $scope.build $scope.questions
+    promise.then (answers) ->
+      expect(answers?).toBe true
+      expect(answers[0].question._id).toEqual 'foo'
+      expect(answers[0].choices).toEqual 'y'
+      expect(answers[0].comment).toEqual 'bar'
 
   # Multiple-choice question's tests
   # --------------------------------------------------------------------------
@@ -112,13 +116,14 @@ describe 'dentaljs.history_edit module', ->
           choices: [{title:'y'}]
       }
     ]
-    answers = $scope.build $scope.questions
-    expect(answers?).toBe true
-    expect(answers[0].question._id).toEqual 'foo'
-    expect(answers[0].choices.indexOf 'x').toEqual -1
-    expect(answers[0].choices.indexOf 'y').toBeGreaterThan -1
-    expect(answers[0].choices.indexOf 'z').toBeGreaterThan -1
-    expect(answers[0].comment?).toBe false
+    promise = $scope.build $scope.questions
+    promise.then (answers) ->
+      expect(answers?).toBe true
+      expect(answers[0].question._id).toEqual 'foo'
+      expect(answers[0].choices.indexOf 'x').toEqual -1
+      expect(answers[0].choices.indexOf 'y').toBeGreaterThan -1
+      expect(answers[0].choices.indexOf 'z').toBeGreaterThan -1
+      expect(answers[0].comment?).toBe false
 
   it 'should process multiple-choice answers with comments', ->
     $scope.questions = [
@@ -137,13 +142,14 @@ describe 'dentaljs.history_edit module', ->
           comment: 'bar'
       }
     ]
-    answers = $scope.build $scope.questions
-    expect(answers?).toBe true
-    expect(answers[0].question._id).toEqual 'foo'
-    expect(answers[0].choices.indexOf 'x').toBeGreaterThan -1
-    expect(answers[0].choices.indexOf 'y').toEqual -1
-    expect(answers[0].choices.indexOf 'z').toBeGreaterThan -1
-    expect(answers[0].comment).toEqual 'bar'
+    promise = $scope.build $scope.questions
+    promise.then (answers) ->
+      expect(answers?).toBe true
+      expect(answers[0].question._id).toEqual 'foo'
+      expect(answers[0].choices.indexOf 'x').toBeGreaterThan -1
+      expect(answers[0].choices.indexOf 'y').toEqual -1
+      expect(answers[0].choices.indexOf 'z').toBeGreaterThan -1
+      expect(answers[0].comment).toEqual 'bar'
 
   it 'should process multiple-choice answers all selected', ->
     $scope.questions = [
@@ -161,11 +167,12 @@ describe 'dentaljs.history_edit module', ->
           choices: [{title:'y'}]
       }
     ]
-    answers = $scope.build $scope.questions
-    expect(answers?).toBe true
-    expect(answers[0].choices.indexOf 'x').toBeGreaterThan -1
-    expect(answers[0].choices.indexOf 'y').toBeGreaterThan -1
-    expect(answers[0].choices.indexOf 'z').toBeGreaterThan -1
+    promise = $scope.build $scope.questions
+    promise.then (answers) ->
+      expect(answers?).toBe true
+      expect(answers[0].choices.indexOf 'x').toBeGreaterThan -1
+      expect(answers[0].choices.indexOf 'y').toBeGreaterThan -1
+      expect(answers[0].choices.indexOf 'z').toBeGreaterThan -1
 
   # Grouped-choice question's tests
   # --------------------------------------------------------------------------
@@ -182,13 +189,14 @@ describe 'dentaljs.history_edit module', ->
         selected: ['z', 'a']
       }
     ]
-    answers = $scope.build $scope.questions
-    expect(answers?).toBe true
-    expect(answers[0].question._id).toEqual 'foo'
-    expect(answers[0].choices.indexOf 'a').toBeGreaterThan -1
-    expect(answers[0].choices.indexOf 'b').toEqual -1
-    expect(answers[0].choices.indexOf 'z').toBeGreaterThan -1
-    expect(answers[0].comment?).toBe false
+    promise = $scope.build $scope.questions
+    promise.then (answers) ->
+      expect(answers?).toBe true
+      expect(answers[0].question._id).toEqual 'foo'
+      expect(answers[0].choices.indexOf 'a').toBeGreaterThan -1
+      expect(answers[0].choices.indexOf 'b').toEqual -1
+      expect(answers[0].choices.indexOf 'z').toBeGreaterThan -1
+      expect(answers[0].comment?).toBe false
 
   xit 'should process grouped-choice answers with comments', ->
     $scope.questions = [
@@ -205,12 +213,13 @@ describe 'dentaljs.history_edit module', ->
           comment: 'bar'
       }
     ]
-    answers = $scope.build $scope.questions
-    expect(answers?).toBe true
-    expect(answers[0].question._id).toEqual 'foo'
-    expect(answers[0].choices.indexOf 'a').toBeGreaterThan -1
-    expect(answers[0].choices.indexOf 'z').toBeGreaterThan -1
-    expect(answers[0].comment).toEqual 'bar'
+    promise = $scope.build $scope.questions
+    promise.then (answers) ->
+      expect(answers?).toBe true
+      expect(answers[0].question._id).toEqual 'foo'
+      expect(answers[0].choices.indexOf 'a').toBeGreaterThan -1
+      expect(answers[0].choices.indexOf 'z').toBeGreaterThan -1
+      expect(answers[0].comment).toEqual 'bar'
 
   # Open question's tests
   # --------------------------------------------------------------------------
@@ -224,10 +233,11 @@ describe 'dentaljs.history_edit module', ->
           comment: 'bar'
       }
     ]
-    answers = $scope.build $scope.questions
-    expect(answers?).toBe true
-    expect(answers[0].question._id).toEqual 'foo'
-    expect(answers[0].comment).toEqual 'bar'
+    promise = $scope.build $scope.questions
+    promise.then (answers) ->
+      expect(answers?).toBe true
+      expect(answers[0].question._id).toEqual 'foo'
+      expect(answers[0].comment).toEqual 'bar'
 
   # Other tests
   # --------------------------------------------------------------------------
@@ -247,11 +257,12 @@ describe 'dentaljs.history_edit module', ->
           comment: 'bar'
       }
     ]
-    answers = $scope.build $scope.questions
-    expect(answers?).toBe true
-    expect(answers.length).toEqual 1
-    expect(answers[0].question._id).toEqual 'foo'
-    expect(answers[0].comment).toEqual 'bar'
+    promise = $scope.build $scope.questions
+    promise.then (answers) ->
+      expect(answers?).toBe true
+      expect(answers.length).toEqual 1
+      expect(answers[0].question._id).toEqual 'foo'
+      expect(answers[0].comment).toEqual 'bar'
 
   it 'should ignore not answered responses', ->
     $scope.questions = [
@@ -270,7 +281,6 @@ describe 'dentaljs.history_edit module', ->
         _id: 'single-choice'
         statement: 'foo'
         choices: [[{title:'x'}, {title:'y'}, {title:'z'}]]
-        multiple_choice: no
         can_comment: yes
       },
       { # * multiple-choice question
@@ -290,8 +300,8 @@ describe 'dentaljs.history_edit module', ->
         can_comment: yes
       },
     ]
-    answers = $scope.build $scope.questions
-    expect(answers.length).toEqual 0
+    promise = $scope.build $scope.questions
+    promise.then (answers) -> expect(answers.length).toEqual 0
 
   it 'should ignore existing and not answered responses', ->
     $scope.answers = [
@@ -313,5 +323,5 @@ describe 'dentaljs.history_edit module', ->
         can_comment: yes
       },
     ]
-    answers = $scope.build $scope.questions
-    expect(answers.length).toEqual 0
+    promise = $scope.build $scope.questions
+    promise.then (answers) -> expect(answers.length).toEqual 0

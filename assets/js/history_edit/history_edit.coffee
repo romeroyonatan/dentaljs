@@ -7,8 +7,8 @@ angular.module('dentaljs.history_edit', ['ngRoute'])
 ]
 
 .controller 'HistoryEditCtrl', [
-  "$scope", "$routeParams", "$location", "Person"
-  ($scope, $routeParams, $location, Person) ->
+  "$scope", "$routeParams", "$location", "$q", "Person"
+  ($scope, $routeParams, $location, $q, Person) ->
     $scope.patient = Person.get slug: $routeParams.slug
     $scope.answers = []
 
@@ -119,7 +119,7 @@ angular.module('dentaljs.history_edit', ['ngRoute'])
     # $scope.build (questions)
     # --------------------------------------------------------------------------
     # Build an answer's array from questions
-    $scope.build = (questions) ->
+    $scope.build = (questions) -> $q (resolve, reject) ->
       questions.forEach (question) ->
         # find answer if its was answered previously
         answer = $scope.answers.find (answer) ->
@@ -137,28 +137,29 @@ angular.module('dentaljs.history_edit', ['ngRoute'])
             is_new: yes
 
         # ### process answer by its type
-        if question.yes_no
+        question.is_aswered =
           # * Yes/No
-          question.is_aswered = yes_no question, answer
+          if question.yes_no
+            yes_no question, answer
 
-        else if question.choices?.length == 1
-          # * Multiple Choice
-          if question.multiple_choice
-            question.is_aswered = multiple_choice question, answer
+          else if question.choices?.length == 1
+            # * Multiple Choice
+            if question.multiple_choice
+              multiple_choice question, answer
 
-          # * Single Choice
-          else
-            question.is_aswered = single_choice question, answer
+            # * Single Choice
+            else
+              single_choice question, answer
 
-        else if question.choices?.length > 1
           # * Grouped choice
-          question.is_aswered = grouped_choice question, answer
+          else if question.choices?.length > 1
+            grouped_choice question, answer
 
-        else
-          # * Open questiions
-          question.is_aswered = open_question question, answer
+          # * Open questions
+          else
+            open_question question, answer
 
         # push new answer in array
         $scope.answers.push answer if answer.is_new and question.is_aswered
-      return $scope.answers.filter (answer)-> answer.question.is_aswered is yes
+      resolve $scope.answers.filter (answer)-> answer.question.is_aswered
 ]
