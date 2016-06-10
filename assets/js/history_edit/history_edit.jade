@@ -24,7 +24,9 @@ block content
     li(ng-repeat="question in questions")
       strong(ng-bind="question.statement")
       span.text-muted(ng-bind="' ' + question.help_text")
+      
       //- Yes/No type
+      //- ---------------------------------------------------------------------
       .row(ng-show="question.yes_no")
         .col-md-12
           label.radio-inline
@@ -33,28 +35,38 @@ block content
           label.radio-inline
             input(type="radio" ng-value="false" ng-model="question.answer.choices")
             | No
+            
       //- Non-grouped choice
+      //- ---------------------------------------------------------------------
       .row(ng-show="question.choices.length == 1")
+        
         //- Single choice
+        //- ---------------------------------------------------------------------
         .col-md-12(ng-hide="question.multiple_choice")
           label.radio-inline(ng-repeat="choice in question.choices[0]")
             input(type="radio" 
                   ng-value="choice"
-                  ng-model="question.answer.choices[0]")
+                  ng-model="question.answer.choices")
             | {{ choice.title }}
+            
         //- Multiple choice
+        //- ---------------------------------------------------------------------
         .col-md-12(ng-show="question.multiple_choice")
           label.checkbox-inline(ng-repeat="choice in question.choices[0]")
             input(type="checkbox" ng-value="choice" ng-model="choice.selected")
             | {{ choice.title }}
+            
       //- Grouped choice
+      //- ---------------------------------------------------------------------
       .row(ng-show="question.choices.length > 1")
         .col-md-12(ng-repeat="choices in question.choices")
           label.radio-inline(ng-repeat="choice in choices")
             input(type="radio" ng-value="choice" 
                   ng-model="question.selected[$parent.$index]")
             | {{ choice.title }}
+            
       //- Comments 
+      //- ---------------------------------------------------------------------
       .row
         .col-md-12(ng-show="question.can_comment")
           .input-group
