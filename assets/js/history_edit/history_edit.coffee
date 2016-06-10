@@ -74,37 +74,47 @@ angular.module('dentaljs.history_edit', ['ngRoute'])
 
     # single_choice (question, answer)
     # --------------------------------------------------------------------------
-    # Process single-choice answer and its comment
+    # Process single-choice answer and its comment and return if the question
+    # was aswered
     single_choice = (question, answer) ->
-      answer.choices = question.answer.choices
-      answer.comment = question.answer.comment if question.can_comment
+      answer.choices = question.answer?.choices.title
+      answer.comment = question.answer?.comment if question.can_comment
+      return answer.choices? or answer.comment?
 
     # multiple_choice (question, answer)
     # --------------------------------------------------------------------------
-    # Process multiple-choice answer and its comment
+    # Process multiple-choice answer and its comment and return if the question
+    # was aswered
     multiple_choice = (question, answer) ->
-      answer.choices = question.answer.choices.filter (choice)-> choice.selected
-      answer.comment = question.answer.comment if question.can_comment
+      selected = question.choices[0].filter (choice)-> choice.selected
+      answer.choices = (choice.title for choice in selected)
+      answer.comment = question.answer?.comment if question.can_comment
+      return answer.choices?.length > 0 or answer.comment?
 
     # grouped_choice (question, answer)
     # --------------------------------------------------------------------------
-    # Process grouped-choice answer and its comment
+    # Process grouped-choice answer and its comment and return if the question
+    # was aswered
     grouped_choice = (question, answer) ->
-      answer.choices = (choice.title for choice in question.selected)
-      answer.comment = question.answer.comment if question.can_comment
+      answer.choices = question.selected
+      answer.comment = question.answer?.comment if question.can_comment
+      return answer.choices? or answer.comment?
 
     # yes_no (question, answer)
     # --------------------------------------------------------------------------
-    # Process Yes/No answer and its comment
+    # Process Yes/No answer and its comment and return if the question
+    # was aswered
     yes_no = (question, answer) ->
-      answer.choices = question.answer.choices
-      answer.comment = question.answer.comment if question.can_comment
+      answer.choices = question.answer?.choices
+      answer.comment = question.answer?.comment if question.can_comment
+      return answer.choices? or answer.comment?
 
     # open_question (question, answer)
     # --------------------------------------------------------------------------
-    # Process open answer
+    # Process open answer and return if the question was aswered
     open_question = (question, answer) ->
-      answer.comment = question.answer.comment if question.can_comment
+      answer.comment = question.answer?.comment if question.can_comment
+      return answer.comment?
 
     # $scope.build (questions)
     # --------------------------------------------------------------------------
@@ -112,39 +122,43 @@ angular.module('dentaljs.history_edit', ['ngRoute'])
     $scope.build = (questions) ->
       questions.forEach (question) ->
         # find answer if its was answered previously
-        answer = $scope.answers.find (answer)->
-          answer.question._id == question._id
+        answer = $scope.answers.find (answer) ->
+          answer.question._id is question._id
 
         #if answer wasnt answered previously, create new
-        if not answer?
+        if answer?
+          answer.is_new = no
+          answer.question = question # update question reference
+
+        else
           answer =
             person: $scope.patient
             question: question
+            is_new: yes
 
         # ### process answer by its type
-        # * Yes/No
         if question.yes_no
-          yes_no question, answer
+          # * Yes/No
+          question.is_aswered = yes_no question, answer
 
-        # * Multiple Choice
-        else if question.choices.length == 1 and question.multiple_choice
-          multiple_choice question, answer
+        else if question.choices?.length == 1
+          # * Multiple Choice
+          if question.multiple_choice
+            question.is_aswered = multiple_choice question, answer
 
-        # * Single choice
-        else if question.choices.length == 1 and not question.multiple_choice
-          single_choice question, answer
+          # * Single Choice
+          else
+            question.is_aswered = single_choice question, answer
 
-        # * Grouped choice
-        else if question.choices.length > 1
-          grouped_choice question, answer
+        else if question.choices?.length > 1
+          # * Grouped choice
+          question.is_aswered = grouped_choice question, answer
 
-        # * Open questiions
         else
-          open_question question, answer
+          # * Open questiions
+          question.is_aswered = open_question question, answer
 
-        # push answer in array
-        $scope.answers.push answer
-
-        # return new answer's array
-        return $scope.answers
+        # push new answer in array
+        $scope.answers.push answer if answer.is_new and question.is_aswered
+      return $scope.answers.filter (answer)-> answer.question.is_aswered is yes
 ]

@@ -1,4 +1,4 @@
-xdescribe 'dentaljs.history_edit module', ->
+describe 'dentaljs.history_edit module', ->
   $scope = null
   $httpBackend = null
   controller = null
@@ -115,9 +115,10 @@ xdescribe 'dentaljs.history_edit module', ->
     answers = $scope.build $scope.questions
     expect(answers?).toBe true
     expect(answers[0].question._id).toEqual 'foo'
+    expect(answers[0].choices.indexOf 'x').toEqual -1
     expect(answers[0].choices.indexOf 'y').toBeGreaterThan -1
     expect(answers[0].choices.indexOf 'z').toBeGreaterThan -1
-    expect(answers[0].comment?).toBe False
+    expect(answers[0].comment?).toBe false
 
   it 'should process multiple-choice answers with comments', ->
     $scope.questions = [
@@ -140,6 +141,7 @@ xdescribe 'dentaljs.history_edit module', ->
     expect(answers?).toBe true
     expect(answers[0].question._id).toEqual 'foo'
     expect(answers[0].choices.indexOf 'x').toBeGreaterThan -1
+    expect(answers[0].choices.indexOf 'y').toEqual -1
     expect(answers[0].choices.indexOf 'z').toBeGreaterThan -1
     expect(answers[0].comment).toEqual 'bar'
 
@@ -184,10 +186,11 @@ xdescribe 'dentaljs.history_edit module', ->
     expect(answers?).toBe true
     expect(answers[0].question._id).toEqual 'foo'
     expect(answers[0].choices.indexOf 'a').toBeGreaterThan -1
+    expect(answers[0].choices.indexOf 'b').toEqual -1
     expect(answers[0].choices.indexOf 'z').toBeGreaterThan -1
     expect(answers[0].comment?).toBe false
 
-  it 'should process grouped-choice answers with comments', ->
+  xit 'should process grouped-choice answers with comments', ->
     $scope.questions = [
       {
         _id: 'foo'
@@ -217,7 +220,7 @@ xdescribe 'dentaljs.history_edit module', ->
         _id: 'foo'
         statement: 'foo'
         can_comment: yes
-        answers:
+        answer:
           comment: 'bar'
       }
     ]
@@ -240,7 +243,7 @@ xdescribe 'dentaljs.history_edit module', ->
         _id: 'foo'
         statement: 'foo'
         can_comment: yes
-        answers:
+        answer:
           comment: 'bar'
       }
     ]
@@ -252,38 +255,61 @@ xdescribe 'dentaljs.history_edit module', ->
 
   it 'should ignore not answered responses', ->
     $scope.questions = [
-      {
-        _id: 'q0'
+      { # * Open question
+        _id: 'open'
         statement: 'foo'
         can_comment: yes
       },
-      {
-        _id: 'q1'
+      { # * yes/no question
+        _id: 'yes-no'
         statement: 'foo'
         yes_no: yes
         can_comment: yes
       },
-      {
-        _id: 'q2'
+      { # * single-choice question
+        _id: 'single-choice'
         statement: 'foo'
         choices: [[{title:'x'}, {title:'y'}, {title:'z'}]]
         multiple_choice: no
         can_comment: yes
       },
-      {
-        _id: 'q3'
+      { # * multiple-choice question
+        _id: 'multiple-choice'
         statement: 'foo'
         choices: [[{title:'x'}, {title:'y'}, {title:'z'}]]
         multiple_choice: yes
         can_comment: yes
       },
-      {
-        _id: 'q4'
+      { # * grouped-choice question
+        _id: 'grouped-choice'
         statement: 'foo'
         choices: [
           [{title:'x'}, {title:'y'}, {title:'z'}]
           [{title:'a'}, {title:'b'}, {title:'c'}]
         ]
+        can_comment: yes
+      },
+    ]
+    answers = $scope.build $scope.questions
+    expect(answers.length).toEqual 0
+
+  it 'should ignore existing and not answered responses', ->
+    $scope.answers = [
+      { # * Open question
+        question: _id: 'open'
+        comment: 'bar'
+      },
+    ]
+    $scope.questions = [
+      { # * Open question
+        _id: 'open'
+        statement: 'foo'
+        can_comment: yes
+      },
+      { # * yes/no question
+        _id: 'yes-no'
+        statement: 'foo'
+        yes_no: yes
         can_comment: yes
       },
     ]
