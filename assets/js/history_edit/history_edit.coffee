@@ -7,70 +7,13 @@ angular.module('dentaljs.history_edit', ['ngRoute'])
 ]
 
 .controller 'HistoryEditCtrl', [
-  "$scope", "$routeParams", "$location", "$q", "Person"
-  ($scope, $routeParams, $location, $q, Person) ->
+  "$scope", "$routeParams", "$location", "$q", "$http", "Person"
+  ($scope, $routeParams, $location, $q, $http, Person) ->
     $scope.patient = Person.get slug: $routeParams.slug
     $scope.answers = []
 
-    $scope.questions = [
-      {
-        statement: "Pregunta abierta"
-        can_comment: yes
-        help_text: "Ponga lo que quiera"
-      }
-      {
-        statement: "Pregunta si-no"
-        yes_no: yes
-        can_comment: yes
-        comment_title: "¿Qué mas desea agregar?"
-        help_text: "seleccione si o no"
-      }
-      {
-        statement: "Pregunta single choice"
-        choices: [
-          [
-            {title: "A"},
-            {title: "B"},
-            {title: "C"},
-          ]
-        ]
-        can_comment: no
-        help_text: "Seleccione solo una opcion"
-      }
-      {
-        statement: "Pregunta multiple choice"
-        choices: [
-          [
-            {title: "x"},
-            {title: "y"},
-            {title: "z"},
-          ]
-        ]
-        multiple_choice: yes
-        can_comment: yes
-        comment_title: "Otro"
-        help_text: "Seleccione muchas opciones"
-      }
-      {
-        statement: "Pregunta grouped choice"
-        choices: [
-          [
-            {title: "x"},
-            {title: "y"},
-            {title: "z"},
-          ]
-          [
-            {title: "a"},
-            {title: "b"},
-            {title: "c"},
-          ]
-        ]
-        selected: [] # XXX Ojo agregue esto
-        can_comment: yes
-        comment_title: "Otro"
-        help_text: "Seleccione opciones agrupadas"
-      }
-    ]
+    $scope.questions = []
+    $http.get("/questions").then (res)-> $scope.questions = res.data
 
     # single_choice (question, answer)
     # --------------------------------------------------------------------------
@@ -160,4 +103,10 @@ angular.module('dentaljs.history_edit', ['ngRoute'])
 
       # resolve promise
       resolve $scope.answers.filter is_aswered
+
+    $scope.send = ->
+      $scope.build($scope.questions).then (answers)->
+        $http.post("/questions/" + $scope.patient._id, answers: answers)
+        .then ->
+          $location.reload()
 ]
