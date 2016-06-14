@@ -24,6 +24,7 @@
 }
 {
   "_id": ObjectId("000000000000000000000003"),
+  "statement":"Asma",
   "yes_no": true,
   "multiple_choice": false,
   "can_comment": true,
@@ -142,7 +143,8 @@
   "_id": ObjectId("000000000000000000000016"),
   "statement": "Tratamiento",
   "can_comment": true,
-  "category": "Antecedentes médicos"
+  "category": "Antecedentes médicos",
+  "help_text": "Enfermedad cardiovascular"
 }
 {
   "_id": ObjectId("000000000000000000000017"),
@@ -157,7 +159,8 @@
   "_id": ObjectId("000000000000000000000018"),
   "statement": "Tratamiento",
   "can_comment": true,
-  "category": "Antecedentes médicos"
+  "category": "Antecedentes médicos",
+  "help_text": "Enfermedad venérea"
 }
 {
   "_id": ObjectId("000000000000000000000019"),
@@ -180,7 +183,8 @@
   "_id": ObjectId("000000000000000000000021"),
   "statement": "Tratamiento",
   "can_comment": true,
-  "category": "Antecedentes médicos"
+  "category": "Antecedentes médicos",
+  "help_text": "Enfermedad neurológica"
 }
 {
   "_id": ObjectId("000000000000000000000022"),
@@ -195,7 +199,8 @@
   "_id": ObjectId("000000000000000000000023"),
   "statement": "Tratamiento",
   "can_comment": true,
-  "category": "Antecedentes médicos"
+  "category": "Antecedentes médicos",
+  "help_text": "Enfermedad renal"
 }
 {
   "_id": ObjectId("000000000000000000000024"),

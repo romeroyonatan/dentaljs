@@ -6,7 +6,7 @@ mongoose = require 'mongoose'
 Answer = new mongoose.Schema
   person: type: mongoose.Schema.Types.ObjectId, ref: 'Person', required: yes
   question: type: mongoose.Schema.Types.ObjectId, ref: 'Question', required: yes
-  choices: [String]
+  choices: []
   comment: String
   date: type: Date, required: yes
 

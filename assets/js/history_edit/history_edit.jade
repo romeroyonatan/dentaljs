@@ -21,7 +21,7 @@ block content
   h2 Historia clínica
   
   ol
-    li(ng-repeat="question in questions")
+    li(ng-repeat="question in questions|orderBy:'_id'")
       strong(ng-bind="question.statement")
       span.text-muted(ng-bind="' ' + question.help_text")
       
@@ -74,4 +74,4 @@ block content
                                    ng-show="question.comment_title")
             input(type="text" ng-model="question.answer.comment")
             
-    button.btn.btn-default(ng-click="send()") Guardar
+  button.btn.btn-default(ng-click="send()") Guardar
