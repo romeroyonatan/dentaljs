@@ -1,0 +1,54 @@
+extends ../layouts/patient
+include ../mixins/form
+
+prepend nav
+  -var section = 'history'
+  
+//- -----------------------------------------------------------------------
+//- Breadcrumb
+block breadcrumb
+  ol.breadcrumb
+    li: a(href="/"): i.fa.fa-home
+    li: a(href="#/patients") Lista de pacientes
+    li: a(href="#/patients/{{patient.slug}}"
+          ng-bind="patient.first_name + ' ' + patient.last_name")
+    li.active Historia Clínica
+    
+block content
+  //- -----------------------------------------------------------------------
+  //- Title
+  h2 Historia clínica
+  
+  //- ------------------------------------------------------------------------
+  //- Toolbar
+  .btn-toolbar(role="toolbar")
+      a.btn.btn-default(ng-href="#/patients/{{patient.slug}}/history/edit"
+                        ng-hide="answers.length")
+        |  Nueva
+      a.btn.btn-default(ng-href="#/patients/{{patient.slug}}/history/edit"
+                        ng-show="answers.length")
+        |  Editar
+  
+  ol
+    li(ng-repeat="answer in answers|orderBy:'question._id'")
+      //- Statement
+      strong(ng-bind="answer.question.statement")
+      //- Yes-No
+      span.text-muted(
+        ng-show="answer.choices.length == 1 && answer.choices[0] === true"
+      )  Sí
+      span.text-muted(
+        ng-show="answer.choices.length == 1 && answer.choices[0] === false"
+      )  No
+      //- Single choice
+      span.text-muted(
+        ng-bind="' ' + answer.choices"
+        ng-show="answer.choices.length == 1 && \
+        answer.choices[0] !== true &&\
+        answer.choices[0] !== false"
+      )
+      //- Multiple choice
+      ul(ng-show="answer.choices.length > 1")
+        li(ng-repeat="choice in answer.choices" ng-bind="choice")
+      //- Comment
+      p(ng-bind="answer.comment")

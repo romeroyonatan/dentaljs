@@ -29,3 +29,13 @@ module.exports =
     Promise.all(promises)
     .then -> res.end()
     .catch (err)-> next err
+
+  # aswers
+  # --------------------------------------------------------------------------
+  # Get person's answers
+  answers: (req, res, next) ->
+    Answer.find(person: req.params.person)
+          .populate("question", "statement")
+          .exec (err, list)->
+            return next err if err
+            res.send list

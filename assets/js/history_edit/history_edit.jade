@@ -12,7 +12,7 @@ block breadcrumb
     li: a(href="#/patients") Lista de pacientes
     li: a(href="#/patients/{{patient.slug}}"
           ng-bind="patient.first_name + ' ' + patient.last_name")
-    li.active: a(href="#/patients/{{patient.slug}}/history/edit") Historia Clínica
+    li: a(href="#/patients/{{patient.slug}}/history") Historia Clínica
     li.active Editar
     
 block content

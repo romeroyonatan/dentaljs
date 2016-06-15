@@ -59,7 +59,8 @@ angular.module('dentaljs.history_edit', ['ngRoute'])
     open_question = (question, answer) ->
       answer.comment = question.answer?.comment if question.can_comment
 
-    is_aswered = (answer) -> answer.choices?.length > 0 or answer.comment?
+    is_aswered = (answer) ->
+      answer.choices is false or answer.choices?.length > 0 or answer.comment?
 
     # $scope.build (questions)
     # ------------------------------------------------------------------------
@@ -112,7 +113,9 @@ angular.module('dentaljs.history_edit', ['ngRoute'])
     $scope.send = ->
       $scope.build($scope.questions).then (answers)->
         $http.post("/questions/" + $scope.patient._id, answers: answers)
-        .then -> toastr.success "Historia clínica actualizada con éxito"
+        .then ->
+          toastr.success "Historia clínica actualizada con éxito"
+          $location.path "/patients/#{$routeParams.slug}/history"
         .catch (err) -> toastr.error "Hubo un error al intentar actualizar la
                                       historia clínica"
 
