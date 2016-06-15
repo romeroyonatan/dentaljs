@@ -96,5 +96,5 @@ module.exports =
       Accounting.count category: category._id, (err, count) ->
         return next err if err
         obj = category.toObject()
-        obj.childs_count = count
+        #obj.childs_count = count
         res.send obj
