@@ -8,6 +8,6 @@ Answer = new mongoose.Schema
   question: type: mongoose.Schema.Types.ObjectId, ref: 'Question', required: yes
   choices: []
   comment: String
-  date: type: Date, required: yes
+  date: type: Date, required: yes, default: Date.now
 
 module.exports = mongoose.model 'Answer', Answer

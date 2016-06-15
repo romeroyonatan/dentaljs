@@ -30,9 +30,11 @@ block content
         |  Editar
   
   ol
-    li(ng-repeat="answer in answers|orderBy:'question._id'")
+    li(ng-repeat="answer in answers|orderBy:'question._id'" 
+       title="{{ answer.date|date }}")
       //- Statement
       strong(ng-bind="answer.question.statement")
+      
       //- Yes-No
       span.text-muted(
         ng-show="answer.choices.length == 1 && answer.choices[0] === true"
@@ -40,6 +42,7 @@ block content
       span.text-muted(
         ng-show="answer.choices.length == 1 && answer.choices[0] === false"
       )  No
+      
       //- Single choice
       span.text-muted(
         ng-bind="' ' + answer.choices"
@@ -47,8 +50,12 @@ block content
         answer.choices[0] !== true &&\
         answer.choices[0] !== false"
       )
+      
       //- Multiple choice
       ul(ng-show="answer.choices.length > 1")
-        li(ng-repeat="choice in answer.choices" ng-bind="choice")
+        li(ng-repeat="choice in answer.choices track by $index" 
+           ng-show="choice"
+           ng-bind="choice")
+           
       //- Comment
       p(ng-bind="answer.comment")
