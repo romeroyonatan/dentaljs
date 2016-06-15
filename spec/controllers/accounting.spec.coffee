@@ -164,7 +164,7 @@ describe 'Accounting controller tests without mock', ->
       # call controller
       controller.detail req, res, (err) -> done.fail err
 
-  it "Should retrieve details of an accounting category", (done)->
+  xit "Should retrieve details of an accounting category", (done)->
     # create category
     AccountingCategory.create description: "foo", (err, category) ->
       # create accounting
