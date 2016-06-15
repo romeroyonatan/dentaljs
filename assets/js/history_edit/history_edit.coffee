@@ -20,7 +20,7 @@ angular.module('dentaljs.history_edit', ['ngRoute'])
           question.selected = []
 
     # single_choice (question, answer)
-    # --------------------------------------------------------------------------
+    # ------------------------------------------------------------------------
     # Process single-choice answer and its comment and return if the question
     # was aswered
     single_choice = (question, answer) ->
@@ -28,7 +28,7 @@ angular.module('dentaljs.history_edit', ['ngRoute'])
       answer.comment = question.answer?.comment if question.can_comment
 
     # multiple_choice (question, answer)
-    # --------------------------------------------------------------------------
+    # ------------------------------------------------------------------------
     # Process multiple-choice answer and its comment and return if the question
     # was aswered
     multiple_choice = (question, answer) ->
@@ -37,15 +37,16 @@ angular.module('dentaljs.history_edit', ['ngRoute'])
       answer.comment = question.answer?.comment if question.can_comment
 
     # grouped_choice (question, answer)
-    # --------------------------------------------------------------------------
+    # ------------------------------------------------------------------------
     # Process grouped-choice answer and its comment and return if the question
     # was aswered
     grouped_choice = (question, answer) ->
-      answer.choices = (item?.title for item in question.selected)
+      if question.selected?
+        answer.choices = (item?.title for item in question.selected)
       answer.comment = question.answer?.comment if question.can_comment
 
     # yes_no (question, answer)
-    # --------------------------------------------------------------------------
+    # ------------------------------------------------------------------------
     # Process Yes/No answer and its comment and return if the question
     # was aswered
     yes_no = (question, answer) ->
@@ -53,7 +54,7 @@ angular.module('dentaljs.history_edit', ['ngRoute'])
       answer.comment = question.answer?.comment if question.can_comment
 
     # open_question (question, answer)
-    # --------------------------------------------------------------------------
+    # ------------------------------------------------------------------------
     # Process open answer and return if the question was aswered
     open_question = (question, answer) ->
       answer.comment = question.answer?.comment if question.can_comment
@@ -61,7 +62,7 @@ angular.module('dentaljs.history_edit', ['ngRoute'])
     is_aswered = (answer) -> answer.choices?.length > 0 or answer.comment?
 
     # $scope.build (questions)
-    # --------------------------------------------------------------------------
+    # ------------------------------------------------------------------------
     # Build an answer's array from questions
     $scope.build = (questions) -> $q (resolve, reject) ->
       questions.forEach (question) ->
