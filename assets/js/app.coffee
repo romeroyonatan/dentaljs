@@ -17,6 +17,7 @@
 angular.module 'dentaljs', [
   'ngRoute',
   'ngAnimate',
+  'pasvaz.bindonce',
   'dentaljs.services',
   'dentaljs.patient_list',
   'dentaljs.patient_form',

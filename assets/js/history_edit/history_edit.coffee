@@ -11,13 +11,28 @@ angular.module('dentaljs.history_edit', ['ngRoute'])
   ($scope, $routeParams, $location, $q, $http, Person) ->
     $scope.patient = Person.get slug: $routeParams.slug
     $scope.answers = []
+    $scope.loading = yes
 
+    # Get questions' list
     $scope.questions = []
     $http.get("/questions").then (res)->
       $scope.questions = res.data
       $q (resolve, reject) ->
         for question in $scope.questions when question.choices?.length > 1
           question.selected = []
+
+      # Get answers' list
+      $http.get("/questions/" + $scope.patient._id).then (res)->
+        $q (resolve, reject) ->
+          for answer in res.data
+            # find question
+            question = $scope.questions.find (q) ->
+              q._id is answer.question._id
+            # load answer
+            question.answer =
+              comment: answer.comment
+              choices: answer.choices
+      $scope.loading = no
 
     # single_choice (question, answer)
     # ------------------------------------------------------------------------
