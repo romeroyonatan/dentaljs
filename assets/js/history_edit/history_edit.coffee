@@ -13,7 +13,11 @@ angular.module('dentaljs.history_edit', ['ngRoute'])
     $scope.answers = []
 
     $scope.questions = []
-    $http.get("/questions").then (res)-> $scope.questions = res.data
+    $http.get("/questions").then (res)->
+      $scope.questions = res.data
+      $q (resolve, reject) ->
+        for question in $scope.questions when question.choices?.length > 1
+          question.selected = []
 
     # single_choice (question, answer)
     # --------------------------------------------------------------------------
@@ -37,7 +41,7 @@ angular.module('dentaljs.history_edit', ['ngRoute'])
     # Process grouped-choice answer and its comment and return if the question
     # was aswered
     grouped_choice = (question, answer) ->
-      answer.choices = question.selected
+      answer.choices = (item?.title for item in question.selected)
       answer.comment = question.answer?.comment if question.can_comment
 
     # yes_no (question, answer)
@@ -54,7 +58,7 @@ angular.module('dentaljs.history_edit', ['ngRoute'])
     open_question = (question, answer) ->
       answer.comment = question.answer?.comment if question.can_comment
 
-    is_aswered = (answer) -> answer.choices? or answer.comment?
+    is_aswered = (answer) -> answer.choices?.length > 0 or answer.comment?
 
     # $scope.build (questions)
     # --------------------------------------------------------------------------
@@ -109,6 +113,6 @@ angular.module('dentaljs.history_edit', ['ngRoute'])
         $http.post("/questions/" + $scope.patient._id, answers: answers)
         .then -> toastr.success "Historia clínica actualizada con éxito"
         .catch (err) -> toastr.error "Hubo un error al intentar actualizar la
-        historia clínica"
+                                      historia clínica"
 
 ]
