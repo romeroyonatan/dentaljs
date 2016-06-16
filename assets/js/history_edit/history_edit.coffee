@@ -53,13 +53,30 @@ angular.module('dentaljs.history_edit', ['ngRoute'])
     # Load answers saved in database
     $scope.loadAnswers = (questions, answers) -> $q (resolve) ->
       # Get answers' list
-      for answer in answers
+      answers.forEach (answer) ->
         # find question
         question = questions?.find (q)-> q._id is answer.question._id
-        # load answer
-        question.answer =
-          comment: answer.comment
-          choices: answer.choices
+        # load comment
+        question.answer = comment: answer.comment
+        # yes no
+        if question.yes_no
+          question.answer.choices = answer.choices[0]
+        # single-choice
+        else if !question.multiple_choice and question.choices?.length == 1
+          selected = answer.choices[0]
+          question.answer.choices = question.choices[0].find (c)->
+            c.title is selected
+        # multiple-choice
+        else if question.multiple_choice and question.choices?.length == 1
+          answer.choices.forEach (selected) ->
+            choice = question.choices[0].find (c) -> c.title is selected
+            choice?.selected = yes
+        # grouped-choice
+        else if question.choices?.length > 1
+          question.selected = []
+          answer.choices.forEach (selected, index) ->
+            choice = question.choices[index].find (c) -> c.title is selected
+            question.selected[index] = choice if choice?
       resolve()
 
     # single_choice (question, answer)

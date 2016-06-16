@@ -373,7 +373,7 @@ describe 'dentaljs.history_edit module', ->
     answers = [
       {
         question: _id: 'yes-no'
-        choices: yes
+        choices: [yes]
         comment: 'bar'
       },
     ]
@@ -392,18 +392,61 @@ describe 'dentaljs.history_edit module', ->
   it 'should load single-choice answers', (done)->
     answers = [
       {
-        question: _id: 'yes-no'
+        question: _id: 'single-choice'
         choices: 'a'
       },
     ]
     questions = [
-      _id: 'yes-no'
+      _id: 'single-choice'
       statement: 'foo'
       choices: [[ {title:'a'}, {title:'b'}, {title:'c'} ]]
       multiple_choice: no
     ]
     $scope.loadAnswers(questions, answers).then ->
       expect(questions[0].answer.choices.title).toBe 'a'
+      done()
+    $httpBackend.flush()
+
+  it 'should load multiple-choice answers', (done)->
+    answers = [
+      {
+        question: _id: 'multiple-choice'
+        choices: ['a', 'd']
+      },
+    ]
+    questions = [
+      _id: 'multiple-choice'
+      statement: 'foo'
+      choices: [[ {title:'a'}, {title:'b'}, {title:'c'}, {title:'d'} ]]
+      multiple_choice: yes
+    ]
+    $scope.loadAnswers(questions, answers).then ->
+      choices = questions[0].choices[0]
+      expect(choices[0].selected).toBe true
+      expect(choices[3].selected).toBe true
+      done()
+    $httpBackend.flush()
+
+  it 'should load grouped-choice answers', (done)->
+    answers = [
+      {
+        question: _id: 'grouped-choice'
+        choices: ['a', 'z']
+      },
+    ]
+    questions = [
+      _id: 'grouped-choice'
+      statement: 'foo'
+      choices: [
+        [ {title:'a'}, {title:'b'}, {title:'c'}, {title:'d'} ]
+        [ {title:'x'}, {title:'y'}, {title:'z'}, {title:'w'} ]
+      ]
+      multiple_choice: no
+    ]
+    $scope.loadAnswers(questions, answers).then ->
+      selected = questions[0].selected
+      expect(selected[0].title).toEqual 'a'
+      expect(selected[1].title).toEqual 'z'
       done()
     $httpBackend.flush()
 
