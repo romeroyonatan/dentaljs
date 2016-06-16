@@ -38,13 +38,16 @@ angular.module('dentaljs.history_edit', ['ngRoute'])
         $scope.questions = res.data
         for question in $scope.questions
           question.type = switch
-            when question.yes_no then TYPE.YES_NO
-            when question.choices?.length > 1 then TYPE.GROUPED_CHOICE
+            when question.yes_no
+              TYPE.YES_NO
+            when question.choices?.length > 1
+              TYPE.GROUPED_CHOICE
             when question.choices?.length == 1 and question.multiple_choice
               TYPE.MULTIPLE_CHOICE
             when question.choices?.length == 1 and !question.multiple_choice
               TYPE.SINGLE_CHOICE
-            when question.choices?.length > 1 then TYPE.GROUPED_CHOICE
+            when question.choices?.length > 1
+              TYPE.GROUPED_CHOICE
             else TYPE.OPEN
         resolve()
 
@@ -170,7 +173,10 @@ angular.module('dentaljs.history_edit', ['ngRoute'])
       # resolve promise
       resolve $scope.answers.filter is_aswered
 
-    $scope.send = ->
+    # $scope.save
+    # ------------------------------------------------------------------------
+    # Save answers in database
+    $scope.save = ->
       $scope.build($scope.questions).then (answers)->
         $http.post("/questions/" + $scope.patient._id, answers: answers)
         .then ->
