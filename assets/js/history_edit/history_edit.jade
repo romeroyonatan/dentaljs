@@ -30,18 +30,20 @@ block content
       .row(bo-if="question.yes_no")
         .col-md-12
           label.radio-inline
-            input(type="radio" ng-value="true" ng-model="question.answer.choices")
+            input(type="radio" ng-value="true" 
+                  ng-model="question.answer.choices")
             | Sí
           label.radio-inline
-            input(type="radio" ng-value="false" ng-model="question.answer.choices")
-            | No
+            input(type="radio" ng-value="false" 
+                  ng-model="question.answer.choices")
+            | No      
             
       //- Non-grouped choice
       //- ---------------------------------------------------------------------
       .row(bo-if="question.choices.length == 1")
         
         //- Single choice
-        //- ---------------------------------------------------------------------
+        //- -------------------------------------------------------------------
         .col-md-12(bo-if="!question.multiple_choice")
           label.radio-inline(ng-repeat="choice in question.choices[0]" 
                              bindonce="choice")
@@ -51,7 +53,7 @@ block content
             span(bo-text="choice.title")
             
         //- Multiple choice
-        //- ---------------------------------------------------------------------
+        //- -------------------------------------------------------------------
         .col-md-12(bo-if="question.multiple_choice")
           label.checkbox-inline(ng-repeat="choice in question.choices[0]" 
                                 bindonce="choice")

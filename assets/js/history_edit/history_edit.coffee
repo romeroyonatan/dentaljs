@@ -9,30 +9,58 @@ angular.module('dentaljs.history_edit', ['ngRoute'])
 .controller 'HistoryEditCtrl', [
   "$scope", "$routeParams", "$location", "$q", "$http", "Person"
   ($scope, $routeParams, $location, $q, $http, Person) ->
-    $scope.patient = Person.get slug: $routeParams.slug
+    TYPE =
+      OPEN: 0
+      YES_NO: 1
+      SINGLE_CHOICE: 2
+      MULTIPLE_CHOICE: 3
+      GROUPED_CHOICE: 4
+
     $scope.answers = []
+    $scope.questions = []
     $scope.loading = yes
 
-    # Get questions' list
-    $scope.questions = []
-    $http.get("/questions").then (res)->
-      $scope.questions = res.data
-      $q (resolve, reject) ->
-        for question in $scope.questions when question.choices?.length > 1
-          question.selected = []
+    $scope.patient = Person.get slug: $routeParams.slug, ->
+      # Get questions' list
+      $scope.loadQuestions()
+      .then ->
+        $http.get("/questions/"+ $scope.patient._id).then (res)->
+          $scope.answers = res.data
+          $scope.loadAnswers $scope.questions, $scope.answers
+      .then ->
+        $scope.loading = no
 
+    # loadQuestions
+    # ------------------------------------------------------------------------
+    # Load questions saved in database
+    $scope.loadQuestions = ->
+      $http.get("/questions").then (res)-> $q (resolve)->
+        $scope.questions = res.data
+        for question in $scope.questions
+          question.type = switch
+            when question.yes_no then TYPE.YES_NO
+            when question.choices?.length > 1 then TYPE.GROUPED_CHOICE
+            when question.choices?.length == 1 and question.multiple_choice
+              TYPE.MULTIPLE_CHOICE
+            when question.choices?.length == 1 and !question.multiple_choice
+              TYPE.SINGLE_CHOICE
+            when question.choices?.length > 1 then TYPE.GROUPED_CHOICE
+            else TYPE.OPEN
+        resolve()
+
+    # loadAnswers
+    # ------------------------------------------------------------------------
+    # Load answers saved in database
+    $scope.loadAnswers = (questions, answers) -> $q (resolve) ->
       # Get answers' list
-      $http.get("/questions/" + $scope.patient._id).then (res)->
-        $q (resolve, reject) ->
-          for answer in res.data
-            # find question
-            question = $scope.questions.find (q) ->
-              q._id is answer.question._id
-            # load answer
-            question.answer =
-              comment: answer.comment
-              choices: answer.choices
-      $scope.loading = no
+      for answer in answers
+        # find question
+        question = questions?.find (q)-> q._id is answer.question._id
+        # load answer
+        question.answer =
+          comment: answer.comment
+          choices: answer.choices
+      resolve()
 
     # single_choice (question, answer)
     # ------------------------------------------------------------------------

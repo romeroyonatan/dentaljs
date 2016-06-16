@@ -58,6 +58,6 @@ block content
            ng-bind="choice")
            
       //- Comment
-      span.text-muted(ng-show="answer.comment")
+      div.text-muted(ng-show="answer.comment")
         | {{answer.question.comment_title}}:&nbsp;
         q(ng-bind="answer.comment")
