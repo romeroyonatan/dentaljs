@@ -50,6 +50,8 @@ angular.module('dentaljs.history_edit', ['ngRoute'])
             when question.choices?.length > 1
               TYPE.GROUPED_CHOICE
             else TYPE.OPEN
+          # initialize selected array when question is grouped choice
+          question.selected = [] if question.type is TYPE.GROUPED_CHOICE
         resolve()
 
     # loadAnswers
