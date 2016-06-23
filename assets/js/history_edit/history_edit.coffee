@@ -36,6 +36,7 @@ angular.module('dentaljs.history_edit', ['ngRoute'])
     $scope.loadQuestions = ->
       $http.get("/questions").then (res)-> $q (resolve)->
         $scope.questions = res.data
+        # determine the type of question based on its attributes
         for question in $scope.questions
           question.type = switch
             when question.yes_no
@@ -61,25 +62,22 @@ angular.module('dentaljs.history_edit', ['ngRoute'])
         question = questions?.find (q)-> q._id is answer.question._id
         # load comment
         question.answer = comment: answer.comment
-        # yes no
-        if question.yes_no
-          question.answer.choices = answer.choices[0]
-        # single-choice
-        else if !question.multiple_choice and question.choices?.length == 1
-          selected = answer.choices[0]
-          question.answer.choices = question.choices[0].find (c)->
-            c.title is selected
-        # multiple-choice
-        else if question.multiple_choice and question.choices?.length == 1
-          answer.choices.forEach (selected) ->
-            choice = question.choices[0].find (c) -> c.title is selected
-            choice?.selected = yes
-        # grouped-choice
-        else if question.choices?.length > 1
-          question.selected = []
-          answer.choices.forEach (selected, index) ->
-            choice = question.choices[index].find (c) -> c.title is selected
-            question.selected[index] = choice if choice?
+        switch question.type
+          when TYPE.YES_NO
+            question.answer.choices = answer.choices[0]
+          when TYPE.SINGLE_CHOICE
+            selected = answer.choices[0]
+            question.answer.choices = question.choices[0].find (c)->
+              c.title is selected
+          when TYPE.MULTIPLE_CHOICE
+            answer.choices.forEach (selected) ->
+              choice = question.choices[0].find (c) -> c.title is selected
+              choice?.selected = yes
+          when TYPE.GROUPED_CHOICE
+            question.selected = []
+            answer.choices.forEach (selected, index) ->
+              choice = question.choices[index].find (c) -> c.title is selected
+              question.selected[index] = choice if choice?
       resolve()
 
     # single_choice (question, answer)
@@ -146,26 +144,12 @@ angular.module('dentaljs.history_edit', ['ngRoute'])
             is_new: yes
 
         # ### process answer by its type
-        # * Yes/No
-        if question.yes_no
-          yes_no question, answer
-
-        else if question.choices?.length == 1
-          # * Multiple Choice
-          if question.multiple_choice
-            multiple_choice question, answer
-
-          # * Single Choice
-          else
-            single_choice question, answer
-
-        # * Grouped choice
-        else if question.choices?.length > 1
-          grouped_choice question, answer
-
-        # * Open questions
-        else
-          open_question question, answer
+        switch question.type
+          when TYPE.YES_NO then yes_no question, answer
+          when TYPE.SINGLE_CHOICE then single_choice question, answer
+          when TYPE.MULTIPLE_CHOICE then multiple_choice question, answer
+          when TYPE.GROUPED_CHOICE then grouped_choice question, answer
+          when TYPE.OPEN then open_question question, answer
 
         # push new answer in array
         $scope.answers.push answer if answer.is_new
