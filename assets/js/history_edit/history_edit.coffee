@@ -55,7 +55,6 @@ angular.module('dentaljs.history_edit', ['ngRoute'])
           question.selected = [] if question.type is TYPE.GROUPED_CHOICE
           # set category
           setCategory question if question.category?
-        console.log $scope.categories
         resolve()
 
 
@@ -63,9 +62,10 @@ angular.module('dentaljs.history_edit', ['ngRoute'])
     # ------------------------------------------------------------------------
     # Separate question in categories
     setCategory = (question) ->
-      if not $scope.categories[question.category]?
-        $scope.categories[question.category] = questions: []
-      $scope.categories[question.category].questions.push question
+      category = question.category
+      if not $scope.categories[category]?
+        $scope.categories[category] = questions: []
+      $scope.categories[category].questions.push question
 
 
     # loadAnswers

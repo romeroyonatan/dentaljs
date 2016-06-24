@@ -35,7 +35,7 @@ module.exports =
   # Get person's answers
   answers: (req, res, next) ->
     Answer.find(person: req.params.person)
-          .populate("question", "statement comment_title")
+          .populate("question", "statement comment_title category")
           .exec (err, list)->
             return next err if err
             res.send list

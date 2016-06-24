@@ -29,35 +29,37 @@ block content
                         ng-show="answers.length")
         |  Editar
   
-  ol
-    li(ng-repeat="answer in answers|orderBy:'question._id'" 
-       title="{{ answer.date|date }}")
-      //- Statement
-      strong(ng-bind="answer.question.statement")
-      
-      //- Yes-No
-      span.text-info(
-        ng-show="answer.choices.length == 1 && answer.choices[0] === true"
-      )  Sí
-      span.text-info(
-        ng-show="answer.choices.length == 1 && answer.choices[0] === false"
-      )  No
-      
-      //- Single choice
-      span.text-info(
-        ng-bind="' ' + answer.choices"
-        ng-show="answer.choices.length == 1 && \
-                 answer.choices[0] !== true &&\
-                 answer.choices[0] !== false"
-      )
-      
-      //- Multiple choice
-      ul(ng-show="answer.choices.length > 1")
-        li.text-info(ng-repeat="choice in answer.choices track by $index" 
-           ng-show="choice"
-           ng-bind="choice")
-           
-      //- Comment
-      div.text-info(ng-show="answer.comment")
-        strong(ng-bind="answer.question.comment_title + ' '")
-        q(ng-bind="answer.comment")
+  .col-md-12(ng-repeat="(title, category) in categories")
+    h3(ng-bind="title")
+    ol
+      li(ng-repeat="answer in category.answers|orderBy:'question._id'" 
+         title="{{ answer.date|date }}")
+        //- Statement
+        strong(ng-bind="answer.question.statement")
+        
+        //- Yes-No
+        span.text-info(
+          ng-show="answer.choices.length == 1 && answer.choices[0] === true"
+        )  Sí
+        span.text-info(
+          ng-show="answer.choices.length == 1 && answer.choices[0] === false"
+        )  No
+        
+        //- Single choice
+        span.text-info(
+          ng-bind="' ' + answer.choices"
+          ng-show="answer.choices.length == 1 && \
+                   answer.choices[0] !== true &&\
+                   answer.choices[0] !== false"
+        )
+        
+        //- Multiple choice
+        ul(ng-show="answer.choices.length > 1")
+          li.text-info(ng-repeat="choice in answer.choices track by $index" 
+             ng-show="choice"
+             ng-bind="choice")
+             
+        //- Comment
+        div.text-info(ng-show="answer.comment")
+          strong(ng-bind="answer.question.comment_title + ' '")
+          q(ng-bind="answer.comment")
