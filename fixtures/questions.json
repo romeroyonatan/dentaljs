@@ -327,7 +327,8 @@
 {
   "_id": ObjectId("000000000000000000000041"),
   "statement": "Otros medicamentos",
-  "can_comment": true
+  "can_comment": true,
+  "category": "Antecedentes médicos"
 }
 {
   "_id": ObjectId("000000000000000000000042"),

@@ -18,6 +18,7 @@ angular.module('dentaljs.history_edit', ['ngRoute'])
 
     $scope.answers = []
     $scope.questions = []
+    $scope.categories = {}
     $scope.loading = yes
 
     $scope.patient = Person.get slug: $routeParams.slug, ->
@@ -36,8 +37,8 @@ angular.module('dentaljs.history_edit', ['ngRoute'])
     $scope.loadQuestions = ->
       $http.get("/questions").then (res)-> $q (resolve)->
         $scope.questions = res.data
-        # determine the type of question based on its attributes
         for question in $scope.questions
+          # determine the type of question based on its attributes
           question.type = switch
             when question.yes_no
               TYPE.YES_NO
@@ -52,7 +53,20 @@ angular.module('dentaljs.history_edit', ['ngRoute'])
             else TYPE.OPEN
           # initialize selected array when question is grouped choice
           question.selected = [] if question.type is TYPE.GROUPED_CHOICE
+          # set category
+          setCategory question if question.category?
+        console.log $scope.categories
         resolve()
+
+
+    # setCategory
+    # ------------------------------------------------------------------------
+    # Separate question in categories
+    setCategory = (question) ->
+      if not $scope.categories[question.category]?
+        $scope.categories[question.category] = questions: []
+      $scope.categories[question.category].questions.push question
+
 
     # loadAnswers
     # ------------------------------------------------------------------------
