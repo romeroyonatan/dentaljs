@@ -4,7 +4,8 @@ block breadcrumb
   ol.breadcrumb
     li: a(href="/"): i.fa.fa-home
     li: a(ng-href="#/patients") Costos
-    li.active(ng-if="!patient._id") Gastos mensuales
+    li: a(ng-href="#/patients") Gastos mensuales
+    li.active(ng-bind="month|uppercase")
   
 block content
   h1 Gastos mensuales
@@ -20,16 +21,16 @@ block content
                                       for="{{categoria}}-{{$index}}")  
               .input-group.col-sm-8.col-md-7
                 .input-group-addon $
-                input.form-control(type=text ng-model="item.value" 
-                                  id="{{categoria}}-{{$index}}")  
+                input.form-control(type="number" ng-model="item.price" 
+                                   id="{{categoria}}-{{$index}}")  
     .col-md-2.bg-primary
       h3 Total
       dl
         dt Total
-        dd $ 0.00
+        dd(ng-bind="getTotal()|currency")
   .row
     .col-md-12
       .btn-group(role="group" aria-label="...")
-        button.btn.btn-success(ng-click="save(patient)" 
+        button.btn.btn-success(ng-click="save()" 
                                ng-disabled="!form.$valid") Guardar
         button.btn.btn-danger(ng-click="cancel()") Cancelar
