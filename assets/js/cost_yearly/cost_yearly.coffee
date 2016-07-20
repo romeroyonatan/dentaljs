@@ -38,5 +38,18 @@ angular.module('dentaljs.cost_yearly', ['ngRoute'])
       total += month.total
     return total
 
+  ###
+  getAvg
+  --------------------------------------------------------------------------
+  Obtiene el promedio de todos los meses con gastos cargados al sistema
+  ###
+  $scope.getAvg = ->
+    total = 0
+    lenght = 0
+    for month in $scope.months when month.total > 0
+      total += month.total
+      lenght++
+    return if lenght > 1 then total / lenght else 0
+
   loadTotalMonth()
 ]

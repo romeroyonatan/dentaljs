@@ -1,10 +1,15 @@
 extends layout
 block content
+  - date = new Date()
+  - url_costos = "#/costos/" + date.getFullYear()
   nav.navbar.navbar-default
     .container-fluid
       .navbar-header
         a.navbar-brand(href="#")= title
         p.navbar-text Odontólogo
+      ul.nav.navbar-nav.navbar-right
+        li: a(href="#/patients") Pacientes
+        li: a(href=url_costos) Costos
   .container.view-container
     .view-frame(ng-view)
     .footer: p Version #{version}

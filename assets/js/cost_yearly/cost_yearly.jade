@@ -3,8 +3,7 @@ include ../mixins/form
 block breadcrumb
   ol.breadcrumb
     li: a(href="/"): i.fa.fa-home
-    li: a(ng-href="#/patients") Costos
-    li: a(ng-href="#/patients") Gastos mensuales
+    li: a(ng-href="#/costos") Costos
     li.active.text-capitalize(ng-bind="year")
   
 block content
@@ -25,8 +24,9 @@ block content
             td(ng-bind="month.total|currency")
         tfoot
           tr
-            td Total 
+            td Total
             td(ng-bind="getTotal()|currency")
           tr
-            td Promedio mensual 
-            td(ng-bind="(getTotal()/12)|currency")
+            td Promedio mensual
+            td(ng-bind="getAvg()|currency"
+               title="Promedio de todos los meses en los que se hayan cargado datos al sistema")

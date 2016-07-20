@@ -4,8 +4,9 @@ block breadcrumb
   ol.breadcrumb
     li: a(href="/"): i.fa.fa-home
     li: a(ng-href="#/patients") Costos
-    li: a(ng-href="#/patients") Gastos mensuales
-    li.active.text-capitalize(ng-bind="month.format('MMMM YYYY')")
+    li: a(ng-href="#/costos/{{month.format('YYYY')}}" 
+          ng-bind="month.format('YYYY')")
+    li.active.text-capitalize(ng-bind="month.format('MMMM')")
   
 block content
   h1 
@@ -25,9 +26,9 @@ block content
                 input.form-control(type="number" ng-model="item.price" 
                                    id="{{category}}-{{$index}}")  
     .col-md-2.bg-primary
-      h3 Total
+      h3 Este mes...
       dl
-        dt Total
+        dt Costo fijo total
         dd(ng-bind="getTotal()|currency")
         dt Usted tiene un gasto fijo diario de
         dd(ng-bind="getDayly()|currency")
@@ -35,7 +36,6 @@ block content
         dd(ng-bind="getHourly()|currency")
   .row
     .col-md-12
-      .btn-group(role="group" aria-label="...")
-        button.btn.btn-success(ng-click="save()" 
-                               ng-disabled="!form.$valid") Guardar
-        button.btn.btn-danger(ng-click="cancel()") Cancelar
+      a.btn.btn-default(ng-href="#/costos/{{month.format('YYYY')}}") Volver
+      button.btn.btn-success(ng-click="save()" 
+                             ng-disabled="!form.$valid") Guardar

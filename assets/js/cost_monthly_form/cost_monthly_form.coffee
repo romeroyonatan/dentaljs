@@ -7,10 +7,11 @@ angular.module('dentaljs.cost_monthly_form', ['ngRoute'])
 ]
 
 .controller 'CostMonthlyFormCtrl', ["$scope", "$http", "$routeParams",
-($scope, $http, $routeParams) ->
+"$location", ($scope, $http, $routeParams, $location) ->
   $scope.month = moment(year: $routeParams.year, month: $routeParams.month - 1)
   $scope.categories = []
   _categories = {}
+  next = '/costos/' + $routeParams.year
 
   ###
   # loadCategories
@@ -82,7 +83,9 @@ angular.module('dentaljs.cost_monthly_form', ['ngRoute'])
       if _categories[id].ref?
         obj._id = _categories[id].ref
       items.push obj
-    $http.post '/costs/month', items
+    $http.post('/costs/month', items).then ->
+      toastr.success "Se han guardado los cambios"
+      $location.path next
 
   loadCategories().then loadData()
 ]
