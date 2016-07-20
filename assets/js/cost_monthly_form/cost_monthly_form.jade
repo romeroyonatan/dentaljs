@@ -5,29 +5,34 @@ block breadcrumb
     li: a(href="/"): i.fa.fa-home
     li: a(ng-href="#/patients") Costos
     li: a(ng-href="#/patients") Gastos mensuales
-    li.active(ng-bind="month|uppercase")
+    li.active.text-capitalize(ng-bind="month.format('MMMM YYYY')")
   
 block content
-  h1 Gastos mensuales
-  h2(ng-bind="month|uppercase")
+  h1 
+    | Gastos mensuales  
+    small.text-capitalize(ng-bind="month.format('MMMM YYYY')")
   .row
     .col-md-10
       form.form-horizontal(novalidate name="form")
-        formset.col-md-12(ng-repeat="(categoria, items) in categorias")
-          legend(ng-bind="categoria")
-          .form-group.col-md-6(ng-repeat="item in items")
+        formset.col-md-12(ng-repeat="category in categories")
+          legend(ng-bind="category.name")
+          .form-group.col-md-6(ng-repeat="item in category.items")
             .row
               label.col-sm-3.col-md-4(ng-bind="item.name"
-                                      for="{{categoria}}-{{$index}}")  
+                                      for="{{category}}-{{$index}}")  
               .input-group.col-sm-8.col-md-7
                 .input-group-addon $
                 input.form-control(type="number" ng-model="item.price" 
-                                   id="{{categoria}}-{{$index}}")  
+                                   id="{{category}}-{{$index}}")  
     .col-md-2.bg-primary
       h3 Total
       dl
         dt Total
         dd(ng-bind="getTotal()|currency")
+        dt Usted tiene un gasto fijo diario de
+        dd(ng-bind="getDayly()|currency")
+        dt Su consultorio gasta por hora (aunque no esté trabajando)
+        dd(ng-bind="getHourly()|currency")
   .row
     .col-md-12
       .btn-group(role="group" aria-label="...")

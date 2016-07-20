@@ -6,92 +6,66 @@ angular.module('dentaljs.cost_monthly_form', ['ngRoute'])
     controller: 'CostMonthlyFormCtrl'
 ]
 
-.controller 'CostMonthlyFormCtrl', ["$scope", "$location", "$routeParams",
-($scope, $location, $routeParams) ->
-  year = $routeParams.year
-  month = $routeParams.month
-  console.log "mes %d, año %d", month, year
-  $scope.month = moment("#{year}#{month}01").format('MMMM YYYY')
-  loaded = [
-    {
-      _id: 200
-      category: 7
-      price: 200
-    }
-    {
-      _id: 201
-      category: 1
-      price: 500
-    }
-  ]
-  $scope.categorias = {
-    "Servicios": [
-      {
-        _id: 1,
-        name: "Electricidad",
-      },
-      {
-        _id: 2,
-        name: "Gas",
-      },
-      {
-        _id: 3,
-        name: "Agua",
-      },
-      {
-        _id: 4,
-        name: "Internet",
-      },
-    ],
-    "Impuestos": [
-      {
-        _id: 5,
-        name: "Impuesto municipal",
-      },
-      {
-        _id: 6,
-        name: "Impuesto provincial",
-      },
-      {
-        _id: 7,
-        name: "Impuesto nacional",
-      },
-    ],
-    "Asesoramiento": [
-      {
-        _id: 8,
-        name: "Asesoramiento legal",
-      },
-      {
-        _id: 9,
-        name: "Asesoramiento contable",
-      },
-    ],
-  }
-
-  # armo hash table de categorias para acelerar busquedas
-  _categorias = {}
-  for i of $scope.categorias
-    for item in $scope.categorias[i]
-      _categorias[item._id] = item
-
-  # Carga valores guardados anteriormente
-  loaded.forEach (cost) ->
-    cat = _categorias[cost.category]
-    if cat?
-      cat.ref = cost._id
-      cat.price = cost.price
+.controller 'CostMonthlyFormCtrl', ["$scope", "$http", "$routeParams",
+($scope, $http, $routeParams) ->
+  $scope.month = moment("#{$routeParams.year}#{$routeParams.month}01")
+  $scope.categories = []
+  _categories = {}
 
   ###
+  # loadCategories
+  # --------------------------------------------------------------------------
+  # Carga categories de gastos
+  ###
+  loadCategories = ->
+    $http.get('/costs/categories/month').then (res) ->
+      $scope.categories = res.data
+      # armo hash table de categories para acelerar busquedas
+      $scope.categories.forEach (category) ->
+        category.items.forEach (item) ->
+          _categories[item._id] = item
+
+  ###
+  # loadData
+  # --------------------------------------------------------------------------
+  # Carga valores guardados anteriormente
+  ###
+  loadData = ->
+    $http.get("/costs/month/#{$routeParams.year}/#{$routeParams.month}")
+    .then (res) ->
+      res.data.forEach (cost) ->
+        cat = _categories[cost.category]
+        if cat?
+          cat.ref = cost._id
+          cat.price = cost.price
+  ###
+
   # getTotal
   # --------------------------------------------------------------------------
   # Obtiene la sumatoria de gastos del mes.
   ###
   $scope.getTotal = ->
     total = 0
-    for id of _categorias
-      total += parseFloat(_categorias[id].price) if _categorias[id].price?
+    for id of _categories
+      if _categories[id].price? and /^\d+$/.test _categories[id].price
+        total += parseFloat(_categories[id].price)
     return total
+
+  ###
+  # getDayly
+  # --------------------------------------------------------------------------
+  # Obtiene el promedio de gasto por día
+  ###
+  $scope.getDayly = ->
+    return $scope.getTotal() / 30
+
+  ###
+  # getHourly
+  # --------------------------------------------------------------------------
+  # Obtiene el promedio de gasto por hora
+  ###
+  $scope.getHourly = ->
+    return $scope.getDayly() / 24
 
   ###
   # save
@@ -100,12 +74,15 @@ angular.module('dentaljs.cost_monthly_form', ['ngRoute'])
   ###
   $scope.save = ->
     items = []
-    for id of _categorias when _categorias[id].price?
+    for id of _categories when _categories[id].price?
       obj =
-        category: _categorias[id]._id
-        date: new Date()
-        price: _categorias[id].price
-      obj._id = _categorias[id].ref if _categorias[id].ref?
+        category: _categories[id]._id
+        date: $scope.month.toDate()
+        price: _categories[id].price
+      if _categories[id].ref?
+        obj._id = _categories[id].ref
       items.push obj
-    console.log items
+    $http.post '/costs/month', items
+
+  loadCategories().then loadData()
 ]

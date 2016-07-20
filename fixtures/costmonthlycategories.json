@@ -1,0 +1,202 @@
+{
+  "name": "Servicios",
+  "items": [
+    {
+      "_id": ObjectId("000000000000000000000001"),
+      "name": "Agua corriente"
+    },
+    {
+      "_id": ObjectId("000000000000000000000002"),
+      "name": "Gas"
+    },
+    {
+      "_id": ObjectId("000000000000000000000003"),
+      "name": "Luz"
+    },
+    {
+      "_id": ObjectId("000000000000000000000004"),
+      "name": "Teléfono fijo"
+    },
+    {
+      "_id": ObjectId("000000000000000000000005"),
+      "name": "Telefóno móvil"
+    },
+    {
+      "_id": ObjectId("000000000000000000000006"),
+      "name": "Internet"
+    }
+  ]
+}
+{
+  "name": "Impuestos del inmueble",
+  "items": [
+    {
+      "_id": ObjectId("000000000000000000000007"),
+      "name": "Impuesto municipal"
+    },
+    {
+      "_id": ObjectId("000000000000000000000008"),
+      "name": "Impuesto provincial"
+    },
+    {
+      "_id": ObjectId("000000000000000000000009"),
+      "name": "Impuesto nacional"
+    }
+  ]
+}
+{
+  "name": "Asesoramiento",
+  "items": [
+    {
+      "_id": ObjectId("000000000000000000000010"),
+      "name": "Contable"
+    },
+    {
+      "_id": ObjectId("000000000000000000000011"),
+      "name": "Legal"
+    }
+  ]
+}
+{
+  "name": "Personal",
+  "items": [
+    {
+      "_id": ObjectId("000000000000000000000012"),
+      "name": "Recepcionista - sueldo de bolsillo"
+    },
+    {
+      "_id": ObjectId("000000000000000000000013"),
+      "name": "Recepcionista - Aportes jubilatorios, seguridad social, etc"
+    },
+    {
+      "_id": ObjectId("000000000000000000000014"),
+      "name": "Recepcionista - Horas extras S.A.C"
+    },
+    {
+      "_id": ObjectId("000000000000000000000015"),
+      "name": "Recepcionista - Costo por despido"
+    },
+    {
+      "_id": ObjectId("000000000000000000000016"),
+      "name": "Asistente dental - sueldo de bolsillo"
+    },
+    {
+      "_id": ObjectId("000000000000000000000017"),
+      "name": "Asistente dental - Aportes jubilatorios, seguridad social, etc"
+    },
+    {
+      "_id": ObjectId("000000000000000000000018"),
+      "name": "Asistente dental - Horas extras S.A.C"
+    },
+    {
+      "_id": ObjectId("000000000000000000000019"),
+      "name": "Asistente dental - Costo por despido"
+    },
+    {
+      "_id": ObjectId("000000000000000000000020"),
+      "name": "Maestranza - sueldo de bolsillo"
+    },
+    {
+      "_id": ObjectId("000000000000000000000021"),
+      "name": "Maestranza - Aportes jubilatorios, seguridad social, etc"
+    },
+    {
+      "_id": ObjectId("000000000000000000000022"),
+      "name": "Maestranza - Costo por despido"
+    }
+  ]
+}
+{
+  "name": "Ejercicio profesional odontólogo titular",
+  "items": [
+    {
+      "_id": ObjectId("000000000000000000000023"),
+      "name": "Matrícula anual profesional (provincias)"
+    },
+    {
+      "_id": ObjectId("000000000000000000000024"),
+      "name": "Seguridad social (Ap. prev., Obra social)"
+    },
+    {
+      "_id": ObjectId("000000000000000000000025"),
+      "name": "Seguro responsabilidad civil"
+    }
+  ]
+}
+{
+  "name": "Gastos generales",
+  "items": [
+    {
+      "_id": ObjectId("000000000000000000000026"),
+      "name": "Artículos de limpieza"
+    },
+    {
+      "_id": ObjectId("000000000000000000000027"),
+      "name": "Chaquetillas - ambos"
+    },
+    {
+      "_id": ObjectId("000000000000000000000029"),
+      "name": "Comisiones - mensajería"
+    },
+    {
+      "_id": ObjectId("000000000000000000000030"),
+      "name": "Compresas - toallas"
+    },
+    {
+      "_id": ObjectId("000000000000000000000031"),
+      "name": "Contribuciones (rifas, donaciones, etc.)"
+    },
+    {
+      "_id": ObjectId("000000000000000000000032"),
+      "name": "Correspondencia"
+    },
+    {
+      "_id": ObjectId("000000000000000000000033"),
+      "name": "Cuotas societarias"
+    },
+    {
+      "_id": ObjectId("000000000000000000000033"),
+      "name": "Cursos"
+    },
+    {
+      "_id": ObjectId("000000000000000000000034"),
+      "name": "Edificio: amortización o alquiler"
+    },
+    {
+      "_id": ObjectId("000000000000000000000035"),
+      "name": "Edificio: mantenimiento"
+    },
+    {
+      "_id": ObjectId("000000000000000000000036"),
+      "name": "Gastos generales"
+    },
+    {
+      "_id": ObjectId("000000000000000000000037"),
+      "name": "Mantenimiento de equipos"
+    },
+    {
+      "_id": ObjectId("000000000000000000000038"),
+      "name": "Marketing - publicidad"
+    },
+    {
+      "_id": ObjectId("000000000000000000000039"),
+      "name": "Materiales de bioseguridad"
+    },
+    {
+      "_id": ObjectId("000000000000000000000040"),
+      "name": "Papelería e imprenta"
+    },
+    {
+      "_id": ObjectId("000000000000000000000041"),
+      "name": "Prestamos bancarios por la profesión"
+    },
+    {
+      "_id": ObjectId("000000000000000000000042"),
+      "name": "Refrigerio"
+    },
+    {
+      "_id": ObjectId("000000000000000000000043"),
+      "name": "Seguro incendio - robo"
+    }
+  ]
+}

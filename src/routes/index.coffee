@@ -5,6 +5,7 @@ odontograms = require './odontogram'
 images = require './image'
 folders = require './folder'
 questions = require './questionary'
+costs = require './costs'
 exec = require('child_process').exec
 
 router = express.Router()
@@ -25,6 +26,7 @@ router.use '/odontograms', odontograms
 router.use '/images', images
 router.use '/folders', folders
 router.use '/questions', questions
+router.use '/costs', costs
 
 # simple session authorization
 checkAuth = (req, res, next) ->
