@@ -1,14 +1,14 @@
 angular.module('dentaljs.cost_monthly_form', ['ngRoute'])
 
 .config ['$routeProvider', ($routeProvider) ->
-  $routeProvider.when '/costos/mes/:month/:year',
+  $routeProvider.when '/costos/:year/:month',
     templateUrl: '/partials/cost_monthly_form/cost_monthly_form.html'
     controller: 'CostMonthlyFormCtrl'
 ]
 
 .controller 'CostMonthlyFormCtrl', ["$scope", "$http", "$routeParams",
 ($scope, $http, $routeParams) ->
-  $scope.month = moment("#{$routeParams.year}#{$routeParams.month}01")
+  $scope.month = moment(year: $routeParams.year, month: $routeParams.month - 1)
   $scope.categories = []
   _categories = {}
 

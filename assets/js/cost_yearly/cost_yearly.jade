@@ -1,0 +1,32 @@
+include ../mixins/form
+
+block breadcrumb
+  ol.breadcrumb
+    li: a(href="/"): i.fa.fa-home
+    li: a(ng-href="#/patients") Costos
+    li: a(ng-href="#/patients") Gastos mensuales
+    li.active.text-capitalize(ng-bind="year")
+  
+block content
+  h1 
+    | Gastos mensuales  
+    small.text-capitalize(ng-bind="year")
+  .row
+    .col-md-4
+      table.table.table-striped.table-hover
+        thead
+          tr
+            th Mes
+            th Total
+        tbody
+          tr(ng-repeat="month in months")
+            td: a(ng-href="#/costos/{{year}}/{{month.number}}" 
+                  ng-bind="month.name")
+            td(ng-bind="month.total|currency")
+        tfoot
+          tr
+            td Total 
+            td(ng-bind="getTotal()|currency")
+          tr
+            td Promedio mensual 
+            td(ng-bind="(getTotal()/12)|currency")
