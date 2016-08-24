@@ -11,3 +11,4 @@ docs/
 *.sw[po]
 *.pyc
 *.orig
+backup
