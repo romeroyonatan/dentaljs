@@ -3,7 +3,7 @@
 # This module implements methods for costs's management
 CostMonthlyCategory = require('../models/cost_monthly_category')
                       .CostMonthlyCategory
-CostMonthlyItem = require('../models/cost_monthly_item')
+CostMonthlyItem = require('../models/monthly_cost')
 
 module.exports =
   # monthlyCostCategories
