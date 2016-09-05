@@ -2,7 +2,7 @@ extends layout
 block content
   - date = new Date()
   - url_costos = "#/costos/" + date.getFullYear()
-  nav.navbar.navbar-default
+  nav.navbar.navbar-default.hidden-print
     .container-fluid
       .navbar-header
         a.navbar-brand(href="#")= title
@@ -12,4 +12,4 @@ block content
         li: a(href=url_costos) Costos
   .container.view-container
     .view-frame(ng-view)
-    .footer: p Version #{version}
+    .footer.hidden-print: p Version #{version}

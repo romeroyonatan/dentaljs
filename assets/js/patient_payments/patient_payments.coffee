@@ -115,6 +115,11 @@ angular.module('dentaljs.patient_payments',
       .result.then (account) ->
         $scope.new account
         $route.reload()
+
+    #  print()
+    # ------------------------------------------------------------------------
+    # show print prompt
+    $scope.print = () -> window.print()
 ]
 
 .controller 'ModalUpdateCtrl', ['$scope', '$uibModalInstance', '$http',
