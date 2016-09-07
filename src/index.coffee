@@ -64,6 +64,7 @@ if app.get('env') == 'development'
 # no stacktraces leaked to user
 app.use (err, req, res, next) ->
   res.status err.status or 500
+  console.error err
   res.render 'error',
     message: err.message
     error: {}
