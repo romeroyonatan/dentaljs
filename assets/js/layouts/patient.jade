@@ -13,7 +13,7 @@ h1
   span.badge(ng-repeat="tag in patient.tags" ng-bind="tag")
 
 block nav
-  ul.nav.nav-tabs
+  ul.nav.nav-tabs.hidden-print
     +nav_item('Datos del paciente', "#/patients/{{patient.slug}}",
               section == 'detail')
     +nav_item('Odontograma', "#/patients/{{patient.slug}}/odontograms",

@@ -4,7 +4,7 @@
 mixin breadcrumb(...items)
   - var length = items.length;
   - var idx = 0;
-  ol.breadcrumb
+  ol.breadcrumb.hidden-print
     li: a(href="/"): i.fa.fa-home
     each item in items
       - idx++;
