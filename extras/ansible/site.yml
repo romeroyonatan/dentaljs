@@ -1,0 +1,13 @@
+- hosts: all
+  tasks:
+
+    - name: Descargar la ultima version del software
+      git: repo=https://github.com/romeroyonatan/dentaljs.git
+           dest={{ srcpath }} 
+           version={{ version|default("HEAD") }}
+
+    - name: Hacer backup
+      command: gulp backup chdir={{ srcpath }}
+
+    - name: Desplegar version
+      command: gulp deploy chdir={{ srcpath }}

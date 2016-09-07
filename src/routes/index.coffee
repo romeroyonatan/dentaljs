@@ -11,7 +11,7 @@ exec = require('child_process').exec
 router = express.Router()
 
 # get build's version
-version = "0.4.0"
+version = "1.0.0"
 if not version?
   exec 'git describe --tags', (err, stdout) -> version = stdout
 
