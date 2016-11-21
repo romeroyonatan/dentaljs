@@ -4,6 +4,8 @@
 CostMonthlyCategory = require('../models/cost_monthly_category')
                       .CostMonthlyCategory
 CostMonthlyItem = require('../models/monthly_cost')
+Product = require('../models/product')
+ProductPrice = require('../models/product_price')
 
 module.exports =
   # monthlyCostCategories
@@ -54,3 +56,28 @@ module.exports =
       list.forEach (item) ->
         sum += item.price
       res.send total: sum
+
+  # productList
+  # --------------------------------------------------------------------------
+  # List created product
+  productList: (req, res, next) ->
+    Product.find().then (list) -> res.send(list)
+                  .catch (err) -> next(err)
+
+  # productCreate
+  # --------------------------------------------------------------------------
+  # Create new product
+  productCreate: (req, res, next) ->
+    Product.create(req.body)
+    .then (item) -> res.status(201).send(item)
+    .catch (err) -> next err
+
+  # loadPrices
+  # --------------------------------------------------------------------------
+  # Load new price list
+  loadPrices: (req, res, next) ->
+    # create new prices
+    promises = (ProductPrice.create price for price in req.body)
+    Promise.all(promises)
+            .then (obj) -> res.status(201).send(obj)
+            .catch (err) -> next err

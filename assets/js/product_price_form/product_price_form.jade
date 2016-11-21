@@ -1,0 +1,22 @@
+block content
+  h1 Cargar precios
+  form(novalidate name="form")
+    .row(ng-repeat='product in products')
+      .col-md-3
+        label(for='id_price_{{ product._id }}' ng-bind='product.name')
+      .col-md-3
+        .input-group
+          span.input-group-addon $
+          input.form-control(placeholder="Precio" type="number" min="0" 
+                             ng-model="product.price.price"
+                             id='id_price_{{ product._id }}')
+      .col-md-3
+        input.form-control(placeholder="Fuente" ng-model="product.price.source")
+      
+  .row
+    .col-md-12
+      .pull-right
+        .btn-group(role="group" aria-label="...")
+          button.btn.btn-success(ng-click="save()" 
+                                 ng-disabled="!form.$valid") Guardar
+          button.btn.btn-danger(ng-click="cancel()") Cancelar

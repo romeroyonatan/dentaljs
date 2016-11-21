@@ -1,0 +1,16 @@
+include ../mixins/form
+
+block content
+  h1 Nuevo producto
+  form(novalidate name="form")
+    +form-input('Nombre', 'product.name', 'Nombre', 'required')
+    +form-input('Tasa de rendimiento', 'product.performance_rate',
+                'Cantidad de usos por envase', 'required')(type='number')
+      
+  .row
+    .col-md-12
+      .pull-right
+        .btn-group(role="group" aria-label="...")
+          button.btn.btn-success(ng-click="save(product)" 
+                                 ng-disabled="!form.$valid") Guardar
+          button.btn.btn-danger(ng-click="cancel()") Cancelar

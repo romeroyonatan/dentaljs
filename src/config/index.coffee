@@ -19,7 +19,7 @@ exports.setEnvironment = (env) ->
       exports.DEBUG_WARN = true
       exports.DEBUG_ERROR = true
       exports.DEBUG_CLIENT = true
-      exports.MONGO_DB = 'mongodb://localhost/dentaljs-dev'
+      exports.MONGO_DB = 'mongodb://172.19.0.2/dentaljs-dev'
       exports.MEDIA_PATH = '/media/'
       exports.MEDIA_ROOT = process.cwd() + '/media/'
 
@@ -28,7 +28,7 @@ exports.setEnvironment = (env) ->
       exports.DEBUG_WARN = true
       exports.DEBUG_ERROR = true
       exports.DEBUG_CLIENT = true
-      exports.MONGO_DB = 'mongodb://localhost/test'
+      exports.MONGO_DB = 'mongodb://172.19.0.2/test'
       exports.MEDIA_PATH = '/media/'
       exports.MEDIA_ROOT = '/tmp/dentaljs/media/'
 

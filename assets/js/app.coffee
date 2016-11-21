@@ -15,6 +15,8 @@
 #= require history_edit/history_edit
 #= require cost_monthly_form/cost_monthly_form
 #= require cost_yearly/cost_yearly
+#= require product_form/product_form
+#= require product_price_form/product_price_form
 
 angular.module 'dentaljs', [
   'ngRoute',
@@ -35,6 +37,8 @@ angular.module 'dentaljs', [
   'dentaljs.history_edit',
   'dentaljs.cost_monthly_form',
   'dentaljs.cost_yearly',
+  'dentaljs.product_form',
+  'dentaljs.product_price_form',
 ]
 
 .config ['$routeProvider', ($routeProvider) ->
