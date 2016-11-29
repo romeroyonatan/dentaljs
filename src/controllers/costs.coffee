@@ -72,6 +72,14 @@ module.exports = {
     .then (item) -> res.status(201).send(item)
     .catch (err) -> next err
 
+  # productUpdate
+  # --------------------------------------------------------------------------
+  # Update a product
+  productUpdate: (req, res, next) ->
+    Product.findByIdAndUpdate(req.params.id, req.body)
+    .then (item) -> res.send(item)
+    .catch (err) -> next err
+
   # productDetail
   # --------------------------------------------------------------------------
   # Get details of a product
@@ -97,9 +105,10 @@ module.exports = {
   productPricesCreate: (req, res, next) ->
     # create new prices
     promises = (ProductPrice.create price for price in req.body)
-    Promise.all(promises)
-           .then (obj) -> res.status(201).send(obj)
-           .catch (err) -> next err
+    Promise
+      .all(promises)
+      .then (obj) -> res.status(201).send(obj)
+      .catch (err) -> next err
 
   # directCostReport
   # --------------------------------------------------------------------------

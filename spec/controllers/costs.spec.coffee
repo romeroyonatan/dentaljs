@@ -182,3 +182,22 @@ describe 'Costs test suite', ->
     req = params: id: "_____inexistent_id______"
     controller.productDetail(req, {}, next)
     # -------------------------------------------------------------------
+
+  it 'should update a product', (done) ->
+    res =
+      send: (product) ->
+        Product.findById(product._id).then (product) ->
+          expect(product.name).toEqual "foo-bar"
+          expect(product.performance_rate).toEqual 99
+          done()
+        .catch done.fail
+
+    # -------------------------------------------------------------------
+    # llamada a controlador
+    req =
+      params: id: products[0]._id
+      body:
+        name: 'foo-bar'
+        performance_rate: 99
+    controller.productUpdate(req, res, done.fail)
+    # -------------------------------------------------------------------
