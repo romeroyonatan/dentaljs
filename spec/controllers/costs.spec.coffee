@@ -157,3 +157,28 @@ describe 'Costs test suite', ->
       # -------------------------------------------------------------------
     # control de errores
     .catch done.fail
+
+  it 'should retrieve product details', (done) ->
+    res =
+      send: (product) ->
+        expect(product.name).toEqual products[0].name
+        expect(product.performance_rate).toEqual products[0].performance_rate
+        expect(product.prices[0].price).toEqual prices[0].price
+        done()
+
+    # -------------------------------------------------------------------
+    # llamada a controlador
+    req = params: id: products[0]._id
+    controller.productDetail(req, res, done.fail)
+    # -------------------------------------------------------------------
+
+  it 'should return 404 when product does not exists', (done) ->
+    next = (err) ->
+        expect(err.status).toBe 404
+        done()
+
+    # -------------------------------------------------------------------
+    # llamada a controlador
+    req = params: id: "_____inexistent_id______"
+    controller.productDetail(req, {}, next)
+    # -------------------------------------------------------------------

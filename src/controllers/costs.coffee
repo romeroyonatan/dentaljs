@@ -72,6 +72,22 @@ module.exports = {
     .then (item) -> res.status(201).send(item)
     .catch (err) -> next err
 
+  # productDetail
+  # --------------------------------------------------------------------------
+  # Get details of a product
+  productDetail: (req, res, next) ->
+    Product
+      .findById(req.params.id)
+      .then (product) ->
+        if product?
+          # obtengo lista de precios cargadas para ese producto
+          ProductPrice.find(product: product).then (prices) ->
+            # combino resultado de ambas consultas en un solo objeto
+            object = Object.assign {}, product.toObject(), prices: prices
+            res.send(object)
+        else
+          next status: 404, message: "Product #{req.params.id} not found"
+    .catch (err) -> next err
 
   # productPricesCreate
   # --------------------------------------------------------------------------
