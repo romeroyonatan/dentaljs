@@ -72,12 +72,15 @@ module.exports =
     .then (item) -> res.status(201).send(item)
     .catch (err) -> next err
 
+
   # loadPrices
   # --------------------------------------------------------------------------
-  # Load new price list
-  loadPrices: (req, res, next) ->
+  # Create new price list.
+  #
+  # This method expect a list of product's prices in request body
+  productPricesCreate: (req, res, next) ->
     # create new prices
     promises = (ProductPrice.create price for price in req.body)
     Promise.all(promises)
-            .then (obj) -> res.status(201).send(obj)
-            .catch (err) -> next err
+           .then (obj) -> res.status(201).send(obj)
+           .catch (err) -> next err
