@@ -84,3 +84,25 @@ module.exports =
     Promise.all(promises)
            .then (obj) -> res.status(201).send(obj)
            .catch (err) -> next err
+
+  # directCostReport
+  # --------------------------------------------------------------------------
+  # Retrieve a report which shows the last price, the performance rate and
+  # use-price for each product
+  directCostReport: (req, res, next) ->
+    result = []
+    promises = []
+    Product.find().then (products) ->
+      products.forEach (product) ->
+        promises.push(
+          ProductPrice
+          .findOne(product:product, "-product -_id")
+          .sort('date')
+          .exec()
+          .then (price) ->
+            object = Object.assign {}, price.toObject(), product.toObject()
+            object.use_price = object.price / object.performance_rate
+            result.push object
+        )
+      Promise.all(promises).then ->
+        res.send(result)
