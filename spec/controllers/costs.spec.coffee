@@ -19,9 +19,9 @@ describe 'Costs test suite', ->
       # creo un precio para cada producto
       .then ->
         price_list = [
-          {product: products[0], price: 99.99}
-          {product: products[1], price: 44.44}
-          {product: products[2], price: 100}
+          {product: products[0], price: 99.99, source: 'ebay'}
+          {product: products[1], price: 44.44, source: 'alamaula'}
+          {product: products[2], price: 100, source: 'mercadolibre'}
         ]
         ProductPrice.create(price_list).then (_prices) -> prices = _prices
       .then done
@@ -164,6 +164,7 @@ describe 'Costs test suite', ->
         expect(product.name).toEqual products[0].name
         expect(product.performance_rate).toEqual products[0].performance_rate
         expect(product.prices[0].price).toEqual prices[0].price
+        expect(product.prices[0].source).toEqual prices[0].source
         done()
 
     # -------------------------------------------------------------------
@@ -176,7 +177,6 @@ describe 'Costs test suite', ->
     next = (err) ->
         expect(err.status).toBe 404
         done()
-
     # -------------------------------------------------------------------
     # llamada a controlador
     req = params: id: "_____inexistent_id______"
