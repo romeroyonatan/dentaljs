@@ -7,7 +7,7 @@ CostMonthlyItem = require('../models/monthly_cost')
 Product = require('../models/product')
 ProductPrice = require('../models/product_price')
 
-module.exports =
+module.exports = {
   # monthlyCostCategories
   # --------------------------------------------------------------------------
   # Get a list of monthly costs categories
@@ -73,7 +73,7 @@ module.exports =
     .catch (err) -> next err
 
 
-  # loadPrices
+  # productPricesCreate
   # --------------------------------------------------------------------------
   # Create new price list.
   #
@@ -97,7 +97,7 @@ module.exports =
         promises.push(
           ProductPrice
           .findOne(product:product, "-product -_id")
-          .sort('date')
+          .sort('-date')
           .exec()
           .then (price) ->
             object = Object.assign {}, price.toObject(), product.toObject()
@@ -106,3 +106,4 @@ module.exports =
         )
       Promise.all(promises).then ->
         res.send(result)
+}
