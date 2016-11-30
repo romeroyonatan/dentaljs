@@ -8,8 +8,7 @@ angular.module('dentaljs.direct_cost_report', ['ngRoute'])
 
 .controller 'DirectCostReport', ["$scope", "$http", ($scope, $http) ->
   $scope.products = []
-  $http
-    .get ('/costs/direct')
+  $http.get('/costs/direct')
     .then (response) ->
       $scope.products = response.data
     .catch -> toastr.error "Hubo un error al traer los datos"

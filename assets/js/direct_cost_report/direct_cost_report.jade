@@ -1,5 +1,13 @@
 block content  
   h1 Reporte de costos directos
+  
+  ul.nav.nav-tabs
+    - var now = new Date()  
+    - var year = now.getFullYear()
+    li: a(href="#/costos/#{year}") Gastos mensuales
+    li.active: a(href="#/products") Costos directos
+  
+  hr
 
   .btn-group
     a.btn.btn-default(href="#/products/price")

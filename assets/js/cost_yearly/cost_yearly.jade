@@ -10,6 +10,15 @@ block content
   h1 
     | Gastos mensuales  
     small.text-capitalize(ng-bind="year")
+    
+  ul.nav.nav-tabs
+    - var now = new Date()  
+    - var year = now.getFullYear()
+    li.active: a(href="#/costos/#{year}") Gastos mensuales
+    li: a(href="#/products") Costos directos
+  
+  hr
+  
   .row
     .col-md-4
       table.table.table-striped.table-hover
