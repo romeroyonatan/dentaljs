@@ -1,5 +1,13 @@
 include ../mixins/form
 
+block breadcrumb
+  ol.breadcrumb
+    li: a(href="/"): i.fa.fa-home
+    li: a(ng-href="#/products") Costos directos
+    li(ng-if="product._id"): a(ng-href="#/products/{{product._id}}" ng-bind="product.name|uppercase")
+    li.active(ng-if="product._id") Editar
+    li.active(ng-if="!product._id") Nuevo producto
+
 block content
   h1 Nuevo producto
   form(novalidate name="form")

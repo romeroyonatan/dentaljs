@@ -80,6 +80,14 @@ module.exports = {
     .then (item) -> res.send(item)
     .catch (err) -> next err
 
+  # productDelete
+  # --------------------------------------------------------------------------
+  # Remove a product
+  productDelete: (req, res, next) ->
+    Product.findByIdAndRemove(req.params.id)
+    .then () -> res.status(204).end()
+    .catch (err) -> next err
+
   # productDetail
   # --------------------------------------------------------------------------
   # Get details of a product
@@ -125,8 +133,11 @@ module.exports = {
           .sort('-date')
           .exec()
           .then (price) ->
-            object = Object.assign {}, price.toObject(), product.toObject()
-            object.use_price = object.price / object.performance_rate
+            if price?
+              object = Object.assign {}, price.toObject(), product.toObject()
+              object.use_price = object.price / object.performance_rate
+            else
+              object = product.toObject()
             result.push object
         )
       Promise.all(promises).then ->

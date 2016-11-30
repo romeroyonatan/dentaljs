@@ -1,0 +1,37 @@
+include ../mixins/form
+
+block breadcrumb
+  ol.breadcrumb
+    li: a(href="/"): i.fa.fa-home
+    li: a(ng-href="#/products") Costos directos
+    li.active(ng-bind="product.name|uppercase")
+    
+block content
+  h1 {{ product.name }}
+  p Tasa de rendimiento: {{ product.performance_rate }}
+    
+  .btn-group
+    button.btn.btn-danger(ng-click="delete()")
+      i.fa.fa-remove
+      |  Eliminar producto
+    a.btn.btn-default(ng-href="#/products/{{product._id}}/edit")
+      i.fa.fa-pencil
+      |  Editar producto
+    a.btn.btn-default(ng-href="#/products/price")
+      i.fa.fa-dollar
+      |  Cargar lista de precios
+  
+  .table-responsive  
+    table.table.table-striped
+      thead
+        tr
+          th Fecha
+          th Precio
+          th Precio por fracción
+          th Fuente
+      tbody
+        tr(ng-repeat="price in product.prices|orderBy:'-date'")
+          td {{ price.date|date }}
+          td {{ price.price|currency }}
+          td {{ (price.price/product.performance_rate)|currency }}
+          td {{ price.source }}

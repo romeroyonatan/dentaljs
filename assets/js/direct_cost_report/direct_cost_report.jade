@@ -1,0 +1,29 @@
+block content  
+  h1 Reporte de costos directos
+
+  .btn-group
+    a.btn.btn-default(href="#/products/price")
+      i.fa.fa-dollar
+      |  Cargar lista de precios
+    a.btn.btn-default(href="#/products/new")
+      i.fa.fa-plus
+      |  Crear nuevo producto
+  //- Product list
+  //- ------------------------------------------------------------------------
+  table.table.table-striped
+    thead
+      tr
+        th Producto
+        th Precio por envase
+        th Tasa de rendimiento
+        th Precio por fraccion
+        th Última actualización
+    tbody
+      tr(ng-repeat="product in products|orderBy:'name'|filter:search")
+        td
+          a(ng-href="#/products/{{product._id}}")
+            strong(ng-bind='product.name')
+        td {{ product.price|currency }}          
+        td {{ product.performance_rate }}          
+        td {{ product.use_price|currency }}          
+        td {{ product.date|date }}          

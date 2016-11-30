@@ -158,6 +158,29 @@ describe 'Costs test suite', ->
     # control de errores
     .catch done.fail
 
+  it 'should get a direct costs without prices', (done) ->
+    ProductPrice.remove {}
+    .then () ->
+      res = send: (list) ->
+        for i in [0..2]
+          # busco cada producto declarado en product list en la respuesta
+          # del controller
+          search = list.filter (p) -> p.name == products[i].name
+          product = search[0]
+          # verifico que el precio sea null
+          expect(product.price).not.toBeDefined()
+          # verifico que la tasa de rendimiento sea null
+          expect(product.use_price).not.toBeDefined()
+        # todo ok
+        done()
+
+      # -------------------------------------------------------------------
+      # llamada a controlador
+      controller.directCostReport({}, res, done.fail)
+      # -------------------------------------------------------------------
+    # control de errores
+    .catch done.fail
+
   it 'should retrieve product details', (done) ->
     res =
       send: (product) ->
@@ -175,8 +198,8 @@ describe 'Costs test suite', ->
 
   it 'should return 404 when product does not exists', (done) ->
     next = (err) ->
-        expect(err.status).toBe 404
-        done()
+      expect(err.status).toBe 404
+      done()
     # -------------------------------------------------------------------
     # llamada a controlador
     req = params: id: "_____inexistent_id______"
@@ -200,4 +223,21 @@ describe 'Costs test suite', ->
         name: 'foo-bar'
         performance_rate: 99
     controller.productUpdate(req, res, done.fail)
+    # -------------------------------------------------------------------
+
+  it 'should delete a product', (done) ->
+    res =
+      status: (status_code) ->
+        expect(status_code).toBe 204
+        return this
+      end: ->
+        Product.findById(products[0]._id).then (product) ->
+          expect(product).toBeNull()
+          done()
+        .catch done.fail
+
+    # -------------------------------------------------------------------
+    # llamada a controlador
+    req = params: id: products[0]._id
+    controller.productDelete(req, res, done.fail)
     # -------------------------------------------------------------------

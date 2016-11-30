@@ -16,12 +16,13 @@ angular.module('dentaljs.product_price_form', ['ngRoute'])
           product: product._id,
           price: product.price.price,
           source: product.price.source
-      prices = prices.filter (elem) -> elem
-      $http.post("/costs/direct/prices", prices)
-      .then ->
-        toastr.success "Los cambios se han guardado correctamente"
-      .catch ->
-        toastr.error "Ha habido un error al guardar los cambios"
+      # get only defined prices
+      prices = prices.filter (price) -> price?
+      $http
+        .post("/costs/direct/prices", prices)
+        .then -> toastr.success "Los cambios se han guardado correctamente"
+        .then -> $location.path "/products"
+        .catch -> toastr.error "Ha habido un error al guardar los cambios"
 
     # Cancel button
     $scope.cancel = () ->

@@ -1,5 +1,15 @@
+block breadcrumb
+  ol.breadcrumb
+    li: a(href="/"): i.fa.fa-home
+    li: a(ng-href="#/products") Costos directos
+    li.active(ng-if="!product._id") Nueva lista de precios
+
 block content
   h1 Cargar precios
+  p.
+    No es necesario cargar todos los campos. Sólo cargue aquellos productos
+    que haya comprado recientemente.
+  
   form(novalidate name="form")
     .row(ng-repeat='product in products')
       .col-md-3
@@ -19,4 +29,4 @@ block content
         .btn-group(role="group" aria-label="...")
           button.btn.btn-success(ng-click="save()" 
                                  ng-disabled="!form.$valid") Guardar
-          button.btn.btn-danger(ng-click="cancel()") Cancelar
+          a.btn.btn-danger(ng-href="#/products") Cancelar

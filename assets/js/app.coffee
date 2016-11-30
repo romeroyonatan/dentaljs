@@ -17,6 +17,8 @@
 #= require cost_yearly/cost_yearly
 #= require product_form/product_form
 #= require product_price_form/product_price_form
+#= require product_detail/product_detail
+#= require direct_cost_report/direct_cost_report
 
 angular.module 'dentaljs', [
   'ngRoute',
@@ -39,6 +41,8 @@ angular.module 'dentaljs', [
   'dentaljs.cost_yearly',
   'dentaljs.product_form',
   'dentaljs.product_price_form',
+  'dentaljs.product_detail',
+  'dentaljs.direct_cost_report',
 ]
 
 .config ['$routeProvider', ($routeProvider) ->
