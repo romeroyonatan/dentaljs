@@ -24,6 +24,19 @@ angular.module('dentaljs.product_price_form', ['ngRoute'])
         .then -> $location.path "/products"
         .catch -> toastr.error "Ha habido un error al guardar los cambios"
 
+    # Save product button
+    $scope.saveProduct = (product) ->
+      product = new Product product
+      # agrego a la lista para dar sensacion de velocidad
+      $scope.products.push(product)
+      product.$save()
+        # muestra mensaje de exito
+        .then -> toastr.success "Se ha creado un producto nuevo"
+        # limpia formulario
+        .then -> $scope.product = {}
+        # en caso de no poder guardarlo, lo elimina de la lista
+        .catch -> $scope.products.pop()
+
     # Cancel button
     $scope.cancel = () ->
 ]

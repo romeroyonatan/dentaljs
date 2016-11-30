@@ -11,7 +11,7 @@ block content
     que haya comprado recientemente.
   
   form(novalidate name="form")
-    .row(ng-repeat='product in products')
+    .row(ng-repeat='product in products|orderBy:"name"')
       .col-md-3
         label(for='id_price_{{ product._id }}' ng-bind='product.name')
       .col-md-3
@@ -28,5 +28,35 @@ block content
       .pull-right
         .btn-group(role="group" aria-label="...")
           button.btn.btn-success(ng-click="save()" 
-                                 ng-disabled="!form.$valid") Guardar
-          a.btn.btn-danger(ng-href="#/products") Cancelar
+                                 ng-disabled="!form.$valid")
+            .fa.fa-floppy-o
+            |  Guardar
+          a.btn.btn-danger(ng-href="#/products")
+            .fa.fa-remove
+            |  Cancelar
+    
+  hr
+  
+  .row
+    .col-md-12
+      .well
+        h3 Nuevo producto
+          small  Agrega nuevo producto a la lista
+        form.form-inline
+          .form-group
+            label(for="id_name") Nombre*
+            input.form-control(id="id_name"
+                               ng-model="product.name" 
+                               placeholder="Ácido fosfórico" 
+                               required="required")
+          .form-group
+            label(for="id_performance_rate") Tasa de rendimiento
+            input.form-control(id="id_performance_rate"
+                               ng-model="product.performance_rate" 
+                               title="Cantidad de usos por envase"
+                               placeholder="90" 
+                               type="number")
+          button.btn.btn-default(ng-click="saveProduct(product)" 
+                                 ng-disabled="!product.name")
+            .fa.fa-plus
+            |  Crear producto
