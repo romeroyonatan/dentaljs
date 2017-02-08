@@ -1,0 +1,39 @@
+|Hola #{name.toUpperCase()},
+| 
+
+if total == 0
+  | 
+  |Tu estado de cuenta al día de la fecha es $#{total}
+  | 
+
+else if total > 0
+  | 
+  |Al día de la fecha tiene un saldo a favor de $#{total}
+  | 
+
+else
+  | 
+  |Al día de la fecha usted debe $#{-total}
+  | 
+
+| 
+|Detalles:
+|------------------------------------------------------------
+each item in items
+  | 
+  |Fecha: #{item.date}
+  |Descripcion: #{item.description}
+  |Haber: $#{item.assets}
+  |Debe: $#{item.debit}
+  |Saldo: $#{item.total} 
+  | 
+
+
+| 
+|Que tenga buen día.
+
+|Alejandro Lezcano
+|Odontólogo
+
+| 
+|Por favor no responda este email ya que es generado automáticamente.
