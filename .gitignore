@@ -12,3 +12,4 @@ docs/
 *.pyc
 *.orig
 backup
+.env
