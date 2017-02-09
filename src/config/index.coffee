@@ -10,6 +10,10 @@
 # It must finish with slash /
 # * MEDIA_ROOT: Absolute path in filesystem where media files will be stored.
 # It must finish with slash /
+# * EMAIL_HOST smtp server address
+# * EMAIL_USER smtp user
+# * EMAIL_PASSWORD smtp password
+# * EMAIL_FROM 'from' field of generated emails
 
 exports.setEnvironment = (env) ->
   console.log "set app environment: #{env}"
@@ -22,6 +26,10 @@ exports.setEnvironment = (env) ->
       exports.MONGO_DB = 'mongodb://localhost/dentaljs-dev'
       exports.MEDIA_PATH = '/media/'
       exports.MEDIA_ROOT = process.cwd() + '/media/'
+      exports.EMAIL_HOST = process.env.EMAIL_HOST or 'localhost'
+      exports.EMAIL_USER = process.env.EMAIL_USER
+      exports.EMAIL_PASSWORD = process.env.EMAIL_PASSWORD
+      exports.EMAIL_FROM = process.env.EMAIL_FROM
 
     when "testing"
       exports.DEBUG_LOG = true
@@ -31,6 +39,10 @@ exports.setEnvironment = (env) ->
       exports.MONGO_DB = 'mongodb://localhost/test'
       exports.MEDIA_PATH = '/media/'
       exports.MEDIA_ROOT = '/tmp/dentaljs/media/'
+      exports.EMAIL_HOST = process.env.EMAIL_HOST or 'localhost'
+      exports.EMAIL_USER = process.env.EMAIL_USER
+      exports.EMAIL_PASSWORD = process.env.EMAIL_PASSWORD
+      exports.EMAIL_FROM = process.env.EMAIL_FROM
 
     when "production"
       exports.DEBUG_LOG = true
@@ -40,5 +52,9 @@ exports.setEnvironment = (env) ->
       exports.MONGO_DB = 'mongodb://db/dentaljs'
       exports.MEDIA_PATH = '/media/'
       exports.MEDIA_ROOT = '/media/'
+      exports.EMAIL_HOST = process.env.EMAIL_HOST or 'localhost'
+      exports.EMAIL_USER = process.env.EMAIL_USER
+      exports.EMAIL_PASSWORD = process.env.EMAIL_PASSWORD
+      exports.EMAIL_FROM = process.env.EMAIL_FROM
     else
       console.log "environment #{env} not found"

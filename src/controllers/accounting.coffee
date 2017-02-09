@@ -3,6 +3,7 @@
 # This module implements CRUD methods for accounting's collection
 Accounting = require '../models/accounting'
 AccountingCategory = require '../models/accounting_category'
+email = require '../utils/email'
 mongoose = require 'mongoose'
 
 module.exports =
@@ -25,7 +26,12 @@ module.exports =
     Accounting.create req.body, (err, object) ->
       return next err if err
       res.status 201
+      # send mail to patient
+      email.send_current_account object.person
+
       return res.send object if not object.parent
+
+      # update parent child list
       Accounting.findOne _id: object.parent, (err, parent) ->
         return next err if err
         if parent
