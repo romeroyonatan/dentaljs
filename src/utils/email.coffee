@@ -12,14 +12,17 @@ module.exports =
   # send_current_account
   # -------------------------------------------------------------------------
   # Send a email to person indicating their checking account
-  send_current_account: (person) ->
+  send_current_account: (person_id, cb) ->
+    console.log 'finding person', person_id
     # find accounting for person
-    Person.findById person, (err, person) ->
-      console.err err if err
+    Person.findById person_id, (err, person) ->
+      console.error err if err
 
       # Return if person wasnt found
-      console.log "Person", person, "not found"
-      return false if not person
+      if not person?
+        console.log "Person", person_id, "not found"
+        cb false if cb?
+        return false
 
       # dont send email if person hasnt email
       if person.email
@@ -48,7 +51,7 @@ module.exports =
               user: config.EMAIL_USER
               password: config.EMAIL_PASSWORD
               tls: yes
-
+            console.log 'server', server
             console.log 'Try to send email to', person.email
             # send email
             server.send
@@ -61,3 +64,9 @@ module.exports =
               console.error err if err
               console.log 'Email sended to', person.email if not err
               console.log message
+
+            # call callback Function
+            cb?()
+      else
+        console.log "Person", person.first_name, person.last_name,
+                    "hasnt email"
