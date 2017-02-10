@@ -17,6 +17,10 @@ module.exports =
     Person.findById person, (err, person) ->
       console.err err if err
 
+      # Return if person wasnt found
+      console.log "Person", person, "not found"
+      return false if not person
+
       # dont send email if person hasnt email
       if person.email
         Accounting.find(person:person)
