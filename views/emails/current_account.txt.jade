@@ -21,7 +21,7 @@ else
 |------------------------------------------------------------
 each item in items
   | 
-  |Fecha: #{item.date}
+  |Fecha:  #{item.date.getDay()}/#{item.date.getMonth() + 1}/#{item.date.getFullYear()}
   |Descripcion: #{item.description}
   |Haber: $#{item.assets}
   |Debe: $#{item.debit}
