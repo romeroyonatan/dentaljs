@@ -12,8 +12,8 @@ exec = require('child_process').exec
 router = express.Router()
 
 # get build's version
-version = process.environ.VERSION
-if not version?
+version = process.env.VERSION
+if not version
   exec 'git describe --tags', (err, stdout) -> version = stdout
 
 ### GET home page. ###
