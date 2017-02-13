@@ -2,6 +2,7 @@ FROM mhart/alpine-node:base
 
 ENV NODE_ENV "production"
 ENV PORT 8080
+ENV VERSION 3.0.0
 
 # set working dir
 WORKDIR /src
