@@ -72,6 +72,9 @@ angular.module('dentaljs.patient_payments',
       accounting.$save().then ->
         add(accounting)
         toastr.success "Registro creado con éxito"
+        # Send current accounting via mail
+        $scope.send_mail()
+
 
     #  delete()
     # ------------------------------------------------------------------------
@@ -119,7 +122,17 @@ angular.module('dentaljs.patient_payments',
     #  print()
     # ------------------------------------------------------------------------
     # show print prompt
-    $scope.print = () -> window.print()
+    $scope.print = -> window.print()
+
+    #  send_mail()
+    # ------------------------------------------------------------------------
+    # send balance via email
+    $scope.send_mail = ->
+      $http.post("/emails/current_account/" + $scope.patient._id)
+      .then (res) ->
+        toastr.success '✉ El correo se ha enviado correctamente'
+      .catch -> toastr.error "No se pudo enviar el email. Intente de nuevo mas
+                              tarde"
 ]
 
 .controller 'ModalUpdateCtrl', ['$scope', '$uibModalInstance', '$http',

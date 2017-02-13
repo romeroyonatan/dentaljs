@@ -26,9 +26,6 @@ module.exports =
     Accounting.create req.body, (err, object) ->
       return next err if err
       res.status 201
-      # send mail to patient
-      email.send_current_account object.person
-
       return res.send object if not object.parent
 
       # update parent child list

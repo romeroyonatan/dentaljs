@@ -4,6 +4,7 @@ accouting = require './accounting'
 odontograms = require './odontogram'
 images = require './image'
 folders = require './folder'
+emails = require './emails'
 questions = require './questionary'
 costs = require './costs'
 exec = require('child_process').exec
@@ -27,6 +28,7 @@ router.use '/images', images
 router.use '/folders', folders
 router.use '/questions', questions
 router.use '/costs', costs
+router.use '/emails', emails
 
 # simple session authorization
 checkAuth = (req, res, next) ->

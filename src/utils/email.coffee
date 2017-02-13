@@ -21,7 +21,7 @@ module.exports =
       # Return if person wasnt found
       if not person?
         console.log "Person", person_id, "not found"
-        cb false if cb?
+        cb "Person #{person_id} not found" if cb?
         return false
 
       # dont send email if person hasnt email
@@ -65,8 +65,8 @@ module.exports =
               console.log 'Email sended to', person.email if not err
               console.log message
 
-            # call callback Function
-            cb?()
+              # call callback Function
+              cb?(err)
       else
         console.log "Person", person.first_name, person.last_name,
                     "hasnt email"
