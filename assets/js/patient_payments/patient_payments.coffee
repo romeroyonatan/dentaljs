@@ -128,11 +128,14 @@ angular.module('dentaljs.patient_payments',
     # ------------------------------------------------------------------------
     # send balance via email
     $scope.send_mail = ->
+      $scope.sending_mail = true
       $http.post("/emails/current_account/" + $scope.patient._id)
       .then (res) ->
         toastr.success '✉ El correo se ha enviado correctamente'
-      .catch -> toastr.error "No se pudo enviar el email. Intente de nuevo mas
-                              tarde"
+        $scope.sending_mail = false
+      .catch ->
+        toastr.error "No se pudo enviar el email. Intente de nuevo mas tarde"
+        $scope.sending_mail = false
 ]
 
 .controller 'ModalUpdateCtrl', ['$scope', '$uibModalInstance', '$http',
