@@ -135,7 +135,7 @@ angular.module('dentaljs.patient_payments',
         .then (res) ->
           # Email enviado con exito
           $scope.sending_mail = false
-          toastr.success '✉ El correo se ha enviado correctamente'
+          toastr.success 'El correo se ha enviado correctamente'
         .catch ->
           # Error al enviar el email
           $scope.sending_mail = false
