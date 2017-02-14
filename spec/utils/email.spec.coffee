@@ -26,13 +26,14 @@ describe 'email utils tests', ->
   it 'should dont send email if person doesnt exists', (done) ->
     email.send_current_account 'inexistent______________', (sended) ->
       expect(mock_server.send).not.toHaveBeenCalled()
-      expect(sended).toBe(false)
+      expect(sended).toBeDefined()
       done()
 
-  xit 'should send email if person has email', (done) ->
+  it 'should send email if person has email', (done) ->
     Person.create name: 'foo', email:'email@example.com', (err, person)->
       done err if err
       console.log person._id
-      email.send_current_account person._id, () ->
+      email.send_current_account person._id, (err) ->
+        return done err if err
         expect(mock_server.send).toHaveBeenCalled()
         done()

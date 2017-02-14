@@ -77,6 +77,21 @@ describe 'dentaljs.patient_payments module', ->
       done()
     $httpBackend.flush()
 
+  it 'it should send email when create new account', (done)->
+    # create mock account
+    $scope.patient = _id: 'foo'
+    account =
+      description: "Test"
+      debit: 200
+      _id: 'abcxyz'
+    $httpBackend.whenGET('/accounting?person=foo').respond "[]"
+    $httpBackend.whenGET('/accounting/balance/foo').respond "0"
+    $httpBackend.whenPOST('/accounting/abcxyz').respond 200
+    $httpBackend.expectPOST('/emails/current_account/foo').respond 200
+    # create accounting
+    $scope.new(account).then done
+    $httpBackend.flush()
+
   it 'it should remove an existing account with another existing accounts',
   (done)->
     # create mock account
