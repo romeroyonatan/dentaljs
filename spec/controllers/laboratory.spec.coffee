@@ -65,11 +65,21 @@ describe 'Laboratories test suite', ->
           send: (item)->
             expect(item._id).toEqual worker._id
             expect(item.name).toEqual worker.name
-            expect(item.tasks).toEqual []
             done()
         req =
           params: slug: worker.slug
         controller.get_worker req, res, done.fail
+      .catch done.fail
+
+    it 'should list of laboratory workers', (done) ->
+      LaboratoryWorker.create(name:'foo')
+      .then (worker)->
+        res =
+          send: (list)->
+            expect(list.length).toBe 1
+            expect(list[0]._id).toEqual worker._id
+            done()
+        controller.list_worker {}, res, done.fail
       .catch done.fail
 
   describe 'laboratory task crud tests', ->
@@ -132,3 +142,21 @@ describe 'Laboratories test suite', ->
           req =
             params: id: task._id
           controller.delete_task req, res, done.fail
+      .catch done.fail
+
+    it 'should list laboratory tasks', (done) ->
+      LaboratoryWorker.create(name:'foo').then (worker)->
+        LaboratoryTask.create({
+          name:'foo',
+          debit: 1
+          worker: worker
+        }).then (task) ->
+          res =
+            send: (list) ->
+              expect(list.length).toBe 1
+              expect(list[0]._id).toEqual task._id
+              done()
+          req =
+            params: worker: worker._id
+          controller.list_task req, res, done.fail
+      .catch done.fail

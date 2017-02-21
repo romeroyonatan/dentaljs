@@ -7,6 +7,7 @@ folders = require './folder'
 emails = require './emails'
 questions = require './questionary'
 costs = require './costs'
+laboratory = require './laboratory'
 exec = require('child_process').exec
 
 router = express.Router()
@@ -29,6 +30,7 @@ router.use '/folders', folders
 router.use '/questions', questions
 router.use '/costs', costs
 router.use '/emails', emails
+router.use '/laboratory', emails
 
 # simple session authorization
 checkAuth = (req, res, next) ->

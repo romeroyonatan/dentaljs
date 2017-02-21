@@ -2,6 +2,14 @@ LaboratoryWorker = require '../../.app/models/laboratory_worker'
 LaboratoryTask = require '../../.app/models/laboratory_task'
 
 module.exports =
+  # list_worker
+  # --------------------------------------------------------------------------
+  # Get laboratory workers
+  list_worker: (req, res, next) ->
+    LaboratoryWorker.find()
+    .then (list) -> res.send(list)
+    .catch (err) -> next err
+
   # create_worker
   # --------------------------------------------------------------------------
   # Create new laboratory worker
@@ -37,12 +45,16 @@ module.exports =
     LaboratoryWorker.findOne(slug: req.params.slug)
     .then (worker) ->
       return next(status:404, message: 'Worker not found') if not worker?
-      LaboratoryTask.find(worker:worker._id)
-      .then (tasks) ->
-        worker = worker.toObject()
-        worker.tasks = tasks
-        res.send worker
+      res.send worker
     .catch (err) -> next err
+
+  # list_task
+  # --------------------------------------------------------------------------
+  # List task of a worker
+  list_task: (req, res, next) ->
+    LaboratoryTask.find(worker: req.params.worker)
+    .then (list) -> res.send(list)
+    .catch (err) -> next errk
 
   # create_task
   # --------------------------------------------------------------------------
