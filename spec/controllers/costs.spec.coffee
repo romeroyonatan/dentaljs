@@ -198,7 +198,7 @@ describe 'Costs test suite', ->
 
   it 'should return 404 when product does not exists', (done) ->
     next = (err) ->
-      expect(err.status).toBe 404
+      expect(err).toBeDefined()
       done()
     # -------------------------------------------------------------------
     # llamada a controlador
