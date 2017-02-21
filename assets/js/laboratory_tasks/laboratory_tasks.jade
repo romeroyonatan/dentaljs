@@ -1,0 +1,57 @@
+block content  
+  h1 Laboratorista: {{ worker.name }}
+  
+  ul.nav.nav-tabs
+    - var now = new Date()  
+    - var year = now.getFullYear()
+    li: a(href="#/costos/#{year}") Gastos mensuales
+    li: a(href="#/products") Costos directos
+    li.active: a(href="#/laboratorios") Laboratorios
+  
+  hr
+  ol.breadcrumb
+    li: a(ng-href="#/laboratorios") Laboratorios
+    li.active.text-capitalize(ng-bind="worker.name")
+
+  //- Filter section
+  //- ------------------------------------------------------------------------
+  input.col-xs-12(ng-model="search" placeholder="Teclee para buscar")
+
+  //- Workers list
+  //- ------------------------------------------------------------------------
+  table.table.table-striped
+    thead
+      tr
+        th Fecha
+        th Tarea realizada
+        th Debe
+        th Haber
+        th Saldo
+        th Acciones
+    tbody
+      tr
+        td Ahora
+        td: input.col-xs-12(ng-model='task.name' placeholder= 'Nombre')
+        td: input.col-xs-12(ng-model='task.debit' placeholder= '$0', type='number')
+        td: input.col-xs-12(ng-model='task.assets' placeholder= '$0', type='number')
+        td(ng-bind="(task.assets - task.debit)|currency")
+        td: button.btn.btn-default(ng-disabled='!task.name' ng-click='create_task(task)') 
+          i.fa.fa-plus
+          |  Nueva tarea 
+      tr(ng-repeat="task in tasks|orderBy:'-date'|filter:search")
+        td {{ task.date|date }}
+        td {{ task.name }}
+        td {{ task.debit|currency }}
+        td {{ task.assets|currency }}
+        td {{ task.balance|currency }}
+        td
+          .btn-group
+            button.btn.btn-sm.btn-danger(
+              ng-click="delete(task)"
+              confirm="¿Está seguro que quiere eliminar '{{ task.name }}'?"
+              title="Eliminar"
+            ): i.fa.fa-trash
+    tfoot
+      tr 
+        td(colspan="4") Total
+        td {{ get_total()|currency }}

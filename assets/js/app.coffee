@@ -19,6 +19,8 @@
 #= require product_price_form/product_price_form
 #= require product_detail/product_detail
 #= require direct_cost_report/direct_cost_report
+#= require laboratory_workers/laboratory_workers
+#= require laboratory_tasks/laboratory_tasks
 
 angular.module 'dentaljs', [
   'ngRoute',
@@ -43,6 +45,8 @@ angular.module 'dentaljs', [
   'dentaljs.product_price_form',
   'dentaljs.product_detail',
   'dentaljs.direct_cost_report',
+  'dentaljs.laboratory_workers',
+  'dentaljs.laboratory_tasks',
 ]
 
 .config ['$routeProvider', ($routeProvider) ->

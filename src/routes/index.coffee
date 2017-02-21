@@ -30,7 +30,7 @@ router.use '/folders', folders
 router.use '/questions', questions
 router.use '/costs', costs
 router.use '/emails', emails
-router.use '/laboratory', emails
+router.use '/laboratory', laboratory
 
 # simple session authorization
 checkAuth = (req, res, next) ->

@@ -6,7 +6,7 @@ module.exports =
   # --------------------------------------------------------------------------
   # Get laboratory workers
   list_worker: (req, res, next) ->
-    LaboratoryWorker.find()
+    LaboratoryWorker.find(req.query)
     .then (list) -> res.send(list)
     .catch (err) -> next err
 
@@ -52,7 +52,7 @@ module.exports =
   # --------------------------------------------------------------------------
   # List task of a worker
   list_task: (req, res, next) ->
-    LaboratoryTask.find(worker: req.params.worker)
+    LaboratoryTask.find(req.query)
     .then (list) -> res.send(list)
     .catch (err) -> next errk
 
@@ -85,4 +85,14 @@ module.exports =
     .then (task) ->
       return next(status: 404, message: 'Task not found') if not task?
       res.status(204).end()
+    .catch (err) -> next err
+
+  # get_task
+  # --------------------------------------------------------------------------
+  # Get laboratory task details
+  get_task: (req, res, next) ->
+    LaboratoryTask.findById(req.params.id)
+    .then (task) ->
+      return next(status:404, message: 'Worker not found') if not task?
+      res.send task
     .catch (err) -> next err

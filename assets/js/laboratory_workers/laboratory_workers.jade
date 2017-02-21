@@ -1,0 +1,39 @@
+block content  
+  h1 Laboratorios
+  
+  ul.nav.nav-tabs
+    - var now = new Date()  
+    - var year = now.getFullYear()
+    li: a(href="#/costos/#{year}") Gastos mensuales
+    li: a(href="#/products") Costos directos
+    li.active: a(href="#/laboratorios") Laboratorios
+
+  //- Filter section
+  //- ------------------------------------------------------------------------
+  input.col-xs-12(ng-model="search" placeholder="Teclee para buscar")
+
+  //- Workers list
+  //- ------------------------------------------------------------------------
+  table.table.table-striped
+    thead
+      tr
+        th Nombre
+        th Saldo
+        th Acciones
+    tbody
+      tr
+        td(colspan="2"): input.col-xs-12(ng-model='name' placeholder= 'Nombre')
+        td: button.btn.btn-default(ng-enabled='name' ng-click='create_worker(name)') 
+          i.fa.fa-plus
+          |  Nuevo laboratorista
+      tr(ng-repeat="worker in workers|orderBy:'name'|filter:search")
+        td
+          a(ng-href="#/laboratorios/{{worker.slug}}" ng-bind='worker.name')
+        td(ng-bind='worker.balance|currency')
+        td
+          .btn-group
+            button.btn.btn-sm.btn-danger(
+              ng-click="delete(worker)"
+              confirm="¿Está seguro que quiere eliminar '{{ worker.name }}'?"
+              title="Eliminar"
+            ): i.fa.fa-trash

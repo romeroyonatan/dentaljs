@@ -16,3 +16,11 @@ angular.module 'dentaljs.services', ['ngResource']
   return $resource '/costs/direct/products/:id', {id: "@_id"},
     update: method: 'PUT'
 ]
+.factory 'LaboratoryWorker', ['$resource', ($resource) ->
+  return $resource '/laboratory/workers/:id', {id: "@_id"},
+    update: method: 'PUT'
+]
+.factory 'LaboratoryTask', ['$resource', ($resource) ->
+  return $resource '/laboratory/tasks/:id', {id: "@_id"},
+    update: method: 'PUT'
+]

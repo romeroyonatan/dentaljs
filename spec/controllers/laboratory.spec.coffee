@@ -5,7 +5,7 @@ LaboratoryTask = require '../../.app/models/laboratory_task'
 describe 'Laboratories test suite', ->
   afterEach (done) ->
     LaboratoryTask.remove({})
-    LaboratoryWorker.remove({})
+    .then -> LaboratoryWorker.remove({})
     .then done
 
   describe 'laboratory worker crud tests', ->
@@ -157,6 +157,6 @@ describe 'Laboratories test suite', ->
               expect(list[0]._id).toEqual task._id
               done()
           req =
-            params: worker: worker._id
+            query: worker: worker._id
           controller.list_task req, res, done.fail
       .catch done.fail
