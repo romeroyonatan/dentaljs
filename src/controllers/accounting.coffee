@@ -106,21 +106,25 @@ module.exports =
   # --------------------------------------------------------------------------
   # Get a list of debtors
   debtors: (req, res, next) ->
-    Accounting.find {}, (err, list) ->
-      return next err if err
+    Accounting
+      .find {}
+      .populate 'person'
+      .exec (err, list) ->
+        return next err if err
 
-      # sum accounts by person
-      people = {}
-      list.forEach (item) ->
-        if not people[item.person]?
-          people[item.person] = 0
-        people[item.person] += item.balance
+        # sum accounts by person
+        people = {}
+        list.forEach (item) ->
+          console.log '\n=====item', item
+          if not people[item.person._id]?
+            people[item.person._id] = person: item.person, balance: 0
+          people[item.person._id].balance += item.balance
 
-      # get list of debtors
-      debtors = []
-      for person, balance of people
-        if balance < 0
-          debtors.push person: person, balance: balance
+        # get list of debtors
+        debtors = []
+        for id, item of people
+          if item.balance < 0
+            debtors.push item
 
-      # return debtors
-      res.send debtors
+        # return debtors
+        res.send debtors

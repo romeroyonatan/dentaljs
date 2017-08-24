@@ -2,7 +2,7 @@ mongoose = require 'mongoose'
 
 # Person model
 Accounting = new mongoose.Schema
-  person: mongoose.Schema.Types.ObjectId
+  person: type: mongoose.Schema.Types.ObjectId, ref: 'Person'
   side: String
   piece:
     type: Number

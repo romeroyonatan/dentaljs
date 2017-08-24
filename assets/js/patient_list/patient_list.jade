@@ -2,9 +2,11 @@ block breadcrumb
   ol.breadcrumb
     li: a(href="/"): i.fa.fa-home
     li: a(href="#/patients") Lista de pacientes
-  
-block content  
-  h1 Pacientes
+
+block content
+  .row
+    .col-sm-10: h1 Pacientes
+    .col-sm-2: a.btn.btn-danger(href="#/debtors") Deudores
 
   //- Filter section
   //- ------------------------------------------------------------------------

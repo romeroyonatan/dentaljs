@@ -21,6 +21,7 @@
 #= require direct_cost_report/direct_cost_report
 #= require laboratory_workers/laboratory_workers
 #= require laboratory_tasks/laboratory_tasks
+#= require debtor_list/debtor_list
 
 angular.module 'dentaljs', [
   'ngRoute',
@@ -47,6 +48,7 @@ angular.module 'dentaljs', [
   'dentaljs.direct_cost_report',
   'dentaljs.laboratory_workers',
   'dentaljs.laboratory_tasks',
+  'dentaljs.debtor_list',
 ]
 
 .config ['$routeProvider', ($routeProvider) ->

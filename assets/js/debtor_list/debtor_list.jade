@@ -1,0 +1,26 @@
+block breadcrumb
+  ol.breadcrumb
+    li: a(href="/"): i.fa.fa-home
+    li: a(href="#/patients") Lista de pacientes
+    li.active Deudores
+
+block content
+  h1 Pacientes deudores
+
+  //- Debtors list
+  //- ------------------------------------------------------------------------
+  table.table.table-striped
+    thead
+      tr
+        th Nombre
+        th Cantidad adeudada
+
+    tbody
+      tr.patient-list-item(ng-repeat="debtor in debtors|orderBy:'last_name'")
+        td
+          a(ng-href="#/patients/{{debtor.person.slug}}")
+            strong(ng-bind='debtor.person.last_name|uppercase')
+            span.text-capitalize(ng-bind='" " + debtor.person.first_name+" "')
+            span.badge(ng-repeat="tag in debtor.person.tags" ng-bind="tag")
+        td
+          ul.unstyled(ng-bind="debtor.balance|currency")
