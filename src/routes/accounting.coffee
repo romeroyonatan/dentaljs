@@ -10,6 +10,7 @@ router = express.Router()
 router.get '/balance/:person', controller.balance
 router.get '/categories', controller.categories
 router.get '/categories/:id', controller.category_detail
+router.get '/debtors', controller.debtors
 
 ###
 # REST API
